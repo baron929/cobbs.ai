@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
 // limitations under the License.
 
 // Package audit writes a structured, append-only JSONL activity log - one
-// self-contained event per line - so an external tool can tail OpenAgent's tool
+// self-contained event per line - so an external tool can tail cobbs.ai's tool
 // activity read-only, without reading the database. It is a pure additional
 // sink: a failure here never blocks or fails the operation being audited.
 //
@@ -42,15 +42,22 @@ type Event struct {
 	Type            string `json:"type"`
 	Tool            string `json:"tool,omitempty"`
 	Server          string `json:"server,omitempty"`
+	Subject         string `json:"subject,omitempty"`
+	Owner           string `json:"owner,omitempty"`
+	Store           string `json:"store,omitempty"`
+	Category        string `json:"category,omitempty"`
 	Model           string `json:"model,omitempty"`
 	ArgumentsLength int    `json:"argumentsLength,omitempty"`
+	ArgumentsHash   string `json:"argumentsHash,omitempty"`
 	Outcome         string `json:"outcome,omitempty"`
 	DurationMs      int64  `json:"durationMs,omitempty"`
 	// Effect, Reason and Rule carry the guard verdict once the guard is wired
 	// into the tool path; empty until then.
-	Effect string `json:"effect,omitempty"`
-	Reason string `json:"reason,omitempty"`
-	Rule   string `json:"rule,omitempty"`
+	Effect         string `json:"effect,omitempty"`
+	Reason         string `json:"reason,omitempty"`
+	Rule           string `json:"rule,omitempty"`
+	ApprovalNeeded bool   `json:"approvalNeeded,omitempty"`
+	Approved       bool   `json:"approved,omitempty"`
 }
 
 // queueSize bounds how many events may be waiting to be written. It is generous
@@ -138,11 +145,11 @@ func flush() {
 // auditDir is <dir-of-binary>/audit, mirroring how the SQLite database is placed
 // next to the binary, unless OPENAGENT_AUDIT_DIR overrides it. The binary path
 // is resolved through any symlink first: os.Executable() returns the path used
-// to invoke the process, which is the symlink itself when OpenAgent is started
-// through one (e.g. a package manager's ~/.local/bin/openagent link) rather
+// to invoke the process, which is the symlink itself when cobbs.ai is started
+// through one (e.g. a package manager's ~/.local/bin/cobbs.ai link) rather
 // than the real binary it points at. An external reader has no reason to know
 // about that symlink - it locates the audit directory the same way aiguard's
-// agentmonitor.ResolveOpenAgentAuditDir does, by resolving the binary path it
+// agentmonitor.Resolvecobbs.aiAuditDir does, by resolving the binary path it
 // found first - so this must resolve it too, or the two disagree on where the
 // directory is and every event silently lands somewhere nobody reads.
 func auditDir() string {
@@ -181,7 +188,7 @@ func sanitizeSession(session string) string {
 	}, session)
 	cleaned = strings.Trim(cleaned, "-.")
 	if cleaned == "" {
-		return "openagent"
+		return "cobbs.ai"
 	}
 	return cleaned
 }

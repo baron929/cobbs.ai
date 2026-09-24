@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ import (
 	"github.com/shirou/gopsutil/v3/disk"
 	"github.com/shirou/gopsutil/v3/mem"
 	"github.com/shirou/gopsutil/v3/process"
-	"github.com/the-open-agent/openagent/internal/cli"
+	"github.com/baron929/cobbs.ai/internal/cli"
 )
 
 type SystemInfo struct {
@@ -81,7 +81,7 @@ func getMemoryUsage() (uint64, uint64, error) {
 	return memInfo.RSS, virtualMem.Total, nil
 }
 
-// getDiskUsage gets disk usage for OpenAgent's data directory
+// getDiskUsage gets disk usage for cobbs.ai's data directory
 func getDiskUsage() (uint64, uint64, error) {
 	// Get the root path of the project
 	_, filename, _, _ := runtime.Caller(0)
@@ -117,7 +117,7 @@ func getDiskUsage() (uint64, uint64, error) {
 	return size, diskStat.Total, nil
 }
 
-// getNetworkUsage gets OpenAgent process's own I/O usage
+// getNetworkUsage gets cobbs.ai process's own I/O usage
 func getNetworkUsage() (uint64, uint64, uint64, error) {
 	proc, err := process.NewProcess(int32(os.Getpid()))
 	if err != nil {

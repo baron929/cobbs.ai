@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,9 +18,9 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/the-open-agent/openagent/auth"
-	"github.com/the-open-agent/openagent/conf"
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/auth"
+	"github.com/baron929/cobbs.ai/conf"
+	"github.com/baron929/cobbs.ai/util"
 )
 
 func pickSharedStoreName(owner, base string) (string, error) {

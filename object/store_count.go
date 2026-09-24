@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ func CheckStorePendingReviewEligibility(store *Store, storeName string) (bool, [
 		failedChecks = append(failedChecks, "store:Please set a custom display name for this agent (the default \"New Store\" name is not allowed)")
 	}
 
-	if store.Avatar == "" || strings.Contains(store.Avatar, "openagent.png") || strings.Contains(store.Avatar, "casibase.png") {
+	if store.Avatar == "" || strings.Contains(store.Avatar, "cobbs.ai.png") || strings.Contains(store.Avatar, "casibase.png") {
 		failedChecks = append(failedChecks, "store:Please upload a custom avatar for this agent (the default avatar is not allowed)")
 	}
 

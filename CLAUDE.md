@@ -28,7 +28,7 @@ Backend serves the frontend as embedded static files (`embed.go`); during develo
 
 ### Backend (Go / Beego)
 
-**Module:** `github.com/the-open-agent/openagent`
+**Module:** `github.com/baron929/cobbs.ai`
 
 The backend is a standard [Beego](https://beego.vip/) MVC app. Every entity follows the same three-layer pattern:
 

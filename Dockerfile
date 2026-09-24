@@ -15,28 +15,32 @@ FROM --platform=$BUILDPLATFORM golang:1.25 AS back
 ARG VERSION
 ARG COMMIT
 ARG BUILD_DATE
-WORKDIR /go/src/openagent
+WORKDIR /go/src/cobbs.ai
 COPY . .
 RUN chmod +x ./build.sh
 RUN VERSION="${VERSION}" COMMIT="${COMMIT}" BUILD_DATE="${BUILD_DATE}" ./build.sh
 
 
 FROM alpine:latest AS standard
-LABEL MAINTAINER="https://github.com/the-open-agent/openagent"
+ARG VERSION
+ARG COMMIT
+ARG BUILD_DATE
+LABEL MAINTAINER="https://github.com/baron929/cobbs.ai"
+LABEL org.opencontainers.image.source="https://github.com/baron929/cobbs.ai"
+LABEL org.opencontainers.image.version="${VERSION}"
+LABEL org.opencontainers.image.revision="${COMMIT}"
+LABEL org.opencontainers.image.created="${BUILD_DATE}"
 ARG USER=casibase
 ARG TARGETOS
 ARG TARGETARCH
 ENV BUILDX_ARCH="${TARGETOS:-linux}_${TARGETARCH:-amd64}"
 
 RUN sed -i 's/https/http/' /etc/apk/repositories
-RUN apk add --update sudo
 RUN apk add curl
 RUN apk add nodejs
 RUN apk add ca-certificates && update-ca-certificates
 
 RUN adduser -D $USER -u 1000 \
-    && echo "$USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USER \
-    && chmod 0440 /etc/sudoers.d/$USER \
     && mkdir logs \
     && mkdir files \
     && chown -R $USER:$USER logs \
@@ -44,10 +48,10 @@ RUN adduser -D $USER -u 1000 \
 
 USER 1000
 WORKDIR /
-COPY --from=back --chown=$USER:$USER /go/src/openagent/server_${BUILDX_ARCH} ./server
-COPY --from=back --chown=$USER:$USER /go/src/openagent/data ./data
-COPY --from=back --chown=$USER:$USER /go/src/openagent/conf/app.conf ./conf/app.conf
-COPY --from=back --chown=$USER:$USER /go/src/openagent/skills ./skills
+COPY --from=back --chown=$USER:$USER /go/src/cobbs.ai/server_${BUILDX_ARCH} ./server
+COPY --from=back --chown=$USER:$USER /go/src/cobbs.ai/data ./data
+COPY --from=back --chown=$USER:$USER /go/src/cobbs.ai/conf/app.conf ./conf/app.conf
+COPY --from=back --chown=$USER:$USER /go/src/cobbs.ai/skills ./skills
 COPY --from=front --chown=$USER:$USER /web/build ./web/build
 COPY --from=pptx_worker --chown=$USER:$USER /pptx-worker/worker.bundle.mjs ./pptx-worker/worker.bundle.mjs
 ENV RUNNING_IN_DOCKER=true
@@ -64,7 +68,14 @@ RUN apt update \
 
 
 FROM db AS allinone
-LABEL MAINTAINER="https://github.com/the-open-agent/openagent"
+ARG VERSION
+ARG COMMIT
+ARG BUILD_DATE
+LABEL MAINTAINER="https://github.com/baron929/cobbs.ai"
+LABEL org.opencontainers.image.source="https://github.com/baron929/cobbs.ai"
+LABEL org.opencontainers.image.version="${VERSION}"
+LABEL org.opencontainers.image.revision="${COMMIT}"
+LABEL org.opencontainers.image.created="${BUILD_DATE}"
 ARG TARGETOS
 ARG TARGETARCH
 ENV BUILDX_ARCH="${TARGETOS:-linux}_${TARGETARCH:-amd64}"
@@ -72,11 +83,11 @@ ENV BUILDX_ARCH="${TARGETOS:-linux}_${TARGETARCH:-amd64}"
 RUN apt update && apt install -y ca-certificates nodejs && update-ca-certificates
 
 WORKDIR /
-COPY --from=back /go/src/openagent/server_${BUILDX_ARCH} ./server
-COPY --from=back /go/src/openagent/data ./data
-COPY --from=back /go/src/openagent/docker-entrypoint.sh /docker-entrypoint.sh
-COPY --from=back /go/src/openagent/conf/app.conf ./conf/app.conf
-COPY --from=back /go/src/openagent/skills ./skills
+COPY --from=back /go/src/cobbs.ai/server_${BUILDX_ARCH} ./server
+COPY --from=back /go/src/cobbs.ai/data ./data
+COPY --from=back /go/src/cobbs.ai/docker-entrypoint.sh /docker-entrypoint.sh
+COPY --from=back /go/src/cobbs.ai/conf/app.conf ./conf/app.conf
+COPY --from=back /go/src/cobbs.ai/skills ./skills
 COPY --from=front /web/build ./web/build
 COPY --from=pptx_worker /pptx-worker/worker.bundle.mjs ./pptx-worker/worker.bundle.mjs
 ENV RUNNING_IN_DOCKER=true

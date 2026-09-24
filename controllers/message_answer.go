@@ -1,4 +1,4 @@
-// Copyright 2024 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2024 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,15 +22,15 @@ import (
 	"strings"
 
 	"github.com/beego/beego/context"
-	"github.com/the-open-agent/openagent/carrier"
-	"github.com/the-open-agent/openagent/conf"
-	"github.com/the-open-agent/openagent/embedding"
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/mcp"
-	"github.com/the-open-agent/openagent/model"
-	"github.com/the-open-agent/openagent/object"
-	"github.com/the-open-agent/openagent/util"
-	"github.com/the-open-agent/openagent/video"
+	"github.com/baron929/cobbs.ai/carrier"
+	"github.com/baron929/cobbs.ai/conf"
+	"github.com/baron929/cobbs.ai/embedding"
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/mcp"
+	"github.com/baron929/cobbs.ai/model"
+	"github.com/baron929/cobbs.ai/object"
+	"github.com/baron929/cobbs.ai/util"
+	"github.com/baron929/cobbs.ai/video"
 )
 
 // GetMessageAnswer
@@ -435,6 +435,9 @@ func generateMessageAnswer(id string, responseWriter http.ResponseWriter, host s
 			McpToolSet:   mcpToolSet,
 			ToolMessages: messages,
 			IsVision:     model.IsVisionModel(modelProvider.SubType),
+			Subject:      message.User,
+			Owner:        store.Owner,
+			Store:        store.Name,
 			SessionID:    chat.Name,
 		}
 		modelResult, err = model.QueryTextWithTools(modelProviderObj, question, writer, history, prompt, knowledge, toolSession, lang)

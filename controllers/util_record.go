@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,10 +17,10 @@ package controllers
 import (
 	"fmt"
 
-	"github.com/the-open-agent/openagent/conf"
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/object"
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/conf"
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/object"
+	"github.com/baron929/cobbs.ai/util"
 )
 
 func addRecord(c *ApiController, userName string, requestUri string, lang string) error {

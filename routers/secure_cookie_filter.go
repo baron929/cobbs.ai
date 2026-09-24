@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ func SecureCookieFilter(ctx *context.Context) {
 	// Process each cookie
 	for i, cookie := range cookies {
 		// Only modify session cookies
-		if strings.Contains(cookie, "openagent_session_id=") {
+		if strings.Contains(cookie, "cobbs.ai_session_id=") {
 			// Check if Secure flag is already present
 			if !strings.Contains(cookie, "Secure") && !strings.Contains(cookie, "secure") {
 				// Add Secure flag

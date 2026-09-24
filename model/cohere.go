@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 package model
 
 import (
+	"errors"
 	"context"
 	"fmt"
 	"io"
@@ -22,7 +23,7 @@ import (
 
 	cohere "github.com/cohere-ai/cohere-go/v2"
 	cohereclient "github.com/cohere-ai/cohere-go/v2/client"
-	"github.com/the-open-agent/openagent/i18n"
+	"github.com/baron929/cobbs.ai/i18n"
 )
 
 // https://docs.cohere.com/docs/command-beta#whats-the-context-window-on-the-command-models
@@ -99,15 +100,15 @@ func (p *CohereModelProvider) QueryText(message string, writer io.Writer, chat_h
 
 	// if p.maxTokens > 0, use p.maxTokens, otherwise use model's default Maxtokens
 	maxTokens := getContextLength(p.subType)
-	if strings.HasPrefix(message, "$OpenAgentDryRun$") {
+	if strings.HasPrefix(message, "$cobbs.aiDryRun$") {
 		modelResult, err := getDefaultModelResult(p.subType, message, "")
 		if err != nil {
-			return nil, fmt.Errorf(i18n.Translate(lang, "model:cannot calculate tokens"))
+			return nil, errors.New(i18n.Translate(lang, "model:cannot calculate tokens"))
 		}
 		if maxTokens > modelResult.TotalTokenCount {
 			return modelResult, nil
 		} else {
-			return nil, fmt.Errorf(i18n.Translate(lang, "model:exceed max tokens"))
+			return nil, errors.New(i18n.Translate(lang, "model:exceed max tokens"))
 		}
 	}
 	generation, err := client.Generate(
@@ -123,7 +124,7 @@ func (p *CohereModelProvider) QueryText(message string, writer io.Writer, chat_h
 		return nil, err
 	}
 	if len(generation.Generations) == 0 {
-		return nil, fmt.Errorf(i18n.Translate(lang, "model:no generations returned"))
+		return nil, errors.New(i18n.Translate(lang, "model:no generations returned"))
 	}
 
 	output := generation.Generations[0].Text

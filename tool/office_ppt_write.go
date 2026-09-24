@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import (
 	"strings"
 
 	"github.com/ThinkInAIXYZ/go-mcp/protocol"
-	"github.com/the-open-agent/openagent/embedsupport"
+	"github.com/baron929/cobbs.ai/embedsupport"
 )
 
 type pptxWriteBuiltin struct{}
@@ -144,7 +144,7 @@ func (t *pptxWriteBuiltin) Execute(ctx context.Context, arguments map[string]int
 
 	args.Path = ResolveOutputPath(args.Path)
 
-	scriptFile, err := os.CreateTemp("", "openagent-pptx-build-*.mjs")
+	scriptFile, err := os.CreateTemp("", "cobbs.ai-pptx-build-*.mjs")
 	if err != nil {
 		return officeToolError(fmt.Sprintf("Failed to create build script: %s", err.Error())), nil
 	}
@@ -168,7 +168,7 @@ func (t *pptxWriteBuiltin) Execute(ctx context.Context, arguments map[string]int
 
 	// Pass the job to Node through a temp JSON file so nested data does not
 	// need fragile command-line escaping. The final PPTX is not temporary.
-	specFile, err := os.CreateTemp("", "openagent-pptx-*.json")
+	specFile, err := os.CreateTemp("", "cobbs.ai-pptx-*.json")
 	if err != nil {
 		return officeToolError(fmt.Sprintf("Failed to create worker spec: %s", err.Error())), nil
 	}

@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,9 +21,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/the-open-agent/openagent/conf"
-	"github.com/the-open-agent/openagent/embedsupport"
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/conf"
+	"github.com/baron929/cobbs.ai/embedsupport"
+	"github.com/baron929/cobbs.ai/util"
 )
 
 func InitDb() {
@@ -100,7 +100,7 @@ func initBuiltInStore(modelProviderName string, embeddingProviderName string, tt
 		CreatedTime:          util.GetCurrentTime(),
 		DisplayName:          "Built-in Store",
 		Title:                "AI Assistant",
-		Avatar:               "https://cdn.openagentai.org/img/openagent.png",
+		Avatar:               "https://cdn.cobbs.aiai.org/img/cobbs.ai.png",
 		StorageProvider:      "provider-storage-built-in",
 		StorageSubpath:       "store-built-in",
 		ImageProvider:        imageProviderName,
@@ -114,10 +114,10 @@ func initBuiltInStore(modelProviderName string, embeddingProviderName string, tt
 		MemoryLimit:          10,
 		LimitMinutes:         15,
 		Welcome:              "Hello",
-		WelcomeTitle:         "Hello, this is the OpenAgent AI Assistant",
+		WelcomeTitle:         "Hello, this is the cobbs.ai AI Assistant",
 		WelcomeText:          "I'm here to help answer your questions",
 		FigureEnabled:        true,
-		FigureUrl:            "https://cdn.openagentai.org/img/openagent-figure.png",
+		FigureUrl:            "https://cdn.cobbs.aiai.org/img/cobbs.ai-figure.png",
 		FigureMode:           "Expanded",
 		Prompt:               "You are an expert in your field and you specialize in using your knowledge to answer or solve people's problems.",
 		ExampleQuestions:     []ExampleQuestion{},
@@ -158,7 +158,7 @@ func getDefaultStoragePath() (string, error) {
 	parentDbName := conf.GetConfigString("parentDbName")
 	if parentDbName != "" {
 		dbName := conf.GetConfigString("dbName")
-		return fmt.Sprintf("C:/openagent_data/%s", dbName), nil
+		return fmt.Sprintf("C:/cobbs.ai_data/%s", dbName), nil
 	}
 
 	cwd, err := os.Getwd()
@@ -490,7 +490,7 @@ func initBuiltInTools() {
 				"Search for the latest news about artificial intelligence.",
 				"Find the best restaurants in New York City.",
 				"What are the top programming languages in 2025?",
-				"Search for tutorials on how to use OpenAgent.",
+				"Search for tutorials on how to use cobbs.ai.",
 			},
 		},
 		{
@@ -544,7 +544,7 @@ func initBuiltInTools() {
 			TestContent: `{"tool":"web_fetch","arguments":{"url":"https://example.com"}}`,
 			State:       "Active",
 			PromptExamples: []string{
-				"Fetch and summarize the content of https://openagentai.org.",
+				"Fetch and summarize the content of https://cobbs.aiai.org.",
 				"Get the main text from https://en.wikipedia.org/wiki/Go_(programming_language).",
 				"Retrieve the JSON response from a REST API endpoint.",
 				"Download and read the release notes from a GitHub page.",
@@ -597,13 +597,13 @@ func initBuiltInTools() {
 			Name:        "browser_use",
 			Type:        "browser_use",
 			SubType:     "Default",
-			TestContent: `{"tool":"browser_use_open","arguments":{"url":"https://www.openagentai.org"}}`,
+			TestContent: `{"tool":"browser_use_open","arguments":{"url":"https://www.cobbs.aiai.org"}}`,
 			State:       "Active",
 			PromptExamples: []string{
 				"Play a Michael Jackson song on YouTube.",
-				"Create a paste with \"Hello from OpenAgent\" and give me the link.",
+				"Create a paste with \"Hello from cobbs.ai\" and give me the link.",
 				"Start a 45-minute Pomofocus session for my Work task.",
-				"Generate a QR code for https://www.openagentai.org.",
+				"Generate a QR code for https://www.cobbs.aiai.org.",
 			},
 		},
 	}
@@ -659,12 +659,12 @@ func initBuiltInSite() {
 		CreatedTime:   util.GetCurrentTime(),
 		DisplayName:   "Built-in Site",
 		ThemeColor:    "#404040",
-		HtmlTitle:     "OpenAgent",
-		FaviconUrl:    "https://cdn.openagentai.org/img/openagent.png",
-		LogoUrl:       "https://cdn.openagentai.org/img/openagent-logo_1900x450.png",
+		HtmlTitle:     "cobbs.ai",
+		FaviconUrl:    "https://cdn.cobbs.aiai.org/img/cobbs.ai.png",
+		LogoUrl:       "https://cdn.cobbs.aiai.org/img/cobbs.ai-logo_1900x450.png",
 		NavbarHtml:    "",
-		FooterHtml:    `<a target="_blank" href="https://github.com/the-open-agent/openagent" rel="noreferrer"><img style="padding-bottom: 3px;" height="30" alt="OpenAgent" src="https://cdn.openagentai.org/img/openagent-logo_1900x450.png" /></a>`,
-		StaticBaseUrl: "https://cdn.openagentai.org",
+		FooterHtml:    `<a target="_blank" href="https://github.com/baron929/cobbs.ai" rel="noreferrer"><img style="padding-bottom: 3px;" height="30" alt="cobbs.ai" src="https://cdn.cobbs.aiai.org/img/cobbs.ai-logo_1900x450.png" /></a>`,
+		StaticBaseUrl: "https://cdn.cobbs.aiai.org",
 		NavItems:      builtInNavItems,
 
 		CasdoorEndpoint:     conf.GetConfigString("casdoorEndpoint"),

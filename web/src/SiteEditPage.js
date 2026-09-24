@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -386,7 +386,7 @@ class SiteEditPage extends React.Component {
             )}
             {this.renderSiteField(
               Setting.getLabel(i18next.t("site:Hub DB names"), i18next.t("site:Hub DB names - Tooltip")),
-              <Input value={site.hubDbNames} placeholder={"openagent-db1, openagent-db2"} onChange={e => {
+              <Input value={site.hubDbNames} placeholder={"cobbsai-db1, cobbs.ai-db2"} onChange={e => {
                 this.updateSiteField("hubDbNames", e.target.value);
               }} />,
               16

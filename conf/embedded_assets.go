@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ package conf
 import "strings"
 
 var defaultStaticBaseUrls = []string{
-	"https://cdn.openagentai.org",
+	"https://cdn.cobbs.aiai.org",
 	"https://cdn.casibase.com",
 }
 
@@ -53,7 +53,7 @@ func NormalizeEmbeddedAssetHtml(value string) string {
 	}
 
 	result := value
-	result = strings.ReplaceAll(result, "https://cdn.casibase.com/static/favicon.png", "/img/openagent.png")
+	result = strings.ReplaceAll(result, "https://cdn.casibase.com/static/favicon.png", "/img/cobbs.ai.png")
 	for _, baseUrl := range defaultStaticBaseUrls {
 		result = strings.ReplaceAll(result, baseUrl+"/", "/")
 	}
@@ -66,7 +66,7 @@ func NormalizeEmbeddedAssetUrl(value string) string {
 	}
 
 	if value == "https://cdn.casibase.com/static/favicon.png" {
-		return "/img/openagent.png"
+		return "/img/cobbs.ai.png"
 	}
 
 	for _, baseUrl := range defaultStaticBaseUrls {

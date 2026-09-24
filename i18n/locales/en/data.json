@@ -57,9 +57,6 @@
     "transaction failed to be mined: %v": "transaction failed to be mined: %v",
     "transaction failed with status: %d, reason: %s": "transaction failed with status: %d, reason: %s"
   },
-  "chat": {
-    "Searching experience library": "Searching experience library"
-  },
   "comment": {
     "Comment content cannot be longer than %d characters": "Comment content cannot be longer than %d characters"
   },
@@ -126,11 +123,13 @@
     "exceed max tokens": "exceed max tokens",
     "failed to marshal content: %v": "failed to marshal content: %v",
     "failed to marshal error content: %v": "failed to marshal error content: %v",
+    "failed to marshal tool response": "failed to marshal tool response",
     "failed to marshal tool response: %v": "failed to marshal tool response: %v",
     "failed to parse tool arguments: %v": "failed to parse tool arguments: %v",
     "failed to write response: %v": "failed to write response: %v",
     "no generations returned": "no generations returned",
     "the token count: [%d] exceeds the model: [%s]'s maximum token count: [%d]": "the token count: [%d] exceeds the model: [%s]'s maximum token count: [%d]",
+    "tool arguments must be a JSON object": "tool arguments must be a JSON object",
     "unsupported model: %s": "unsupported model: %s",
     "writer does not implement http.Flusher": "writer does not implement http.Flusher"
   },
@@ -217,7 +216,7 @@
     "You can only set the publish state to Private or Pending Review": "You can only set the publish state to Private or Pending Review",
     "You cannot fork your own agent": "You cannot fork your own agent",
     "You have already forked this agent": "You have already forked this agent",
-    "given that there must be one default store in OpenAgent, you cannot set this store to non-default. You can directly set another store as default": "given that there must be one default store in OpenAgent, you cannot set this store to non-default. You can directly set another store as default"
+    "given that there must be one default store in cobbs.ai, you cannot set this store to non-default. You can directly set another store as default": "given that there must be one default store in cobbs.ai, you cannot set this store to non-default. You can directly set another store as default"
   },
   "stt": {
     "API error: %s": "API error: %s",

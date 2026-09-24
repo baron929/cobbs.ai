@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ import i18next from "i18next";
 // The five categories a bundle can carry, in the order they are applied.
 export const migrationCategories = ["skill", "provider", "server", "agent", "chat"];
 
-// Each category maps onto one OpenAgent entity, and each entity has its own
+// Each category maps onto one cobbs.ai entity, and each entity has its own
 // admin page -- so an imported row can link straight to the thing it created.
 const categoryMeta = {
   skill: {label: "general:Skills", color: "purple", path: name => `/skills/${name}`},

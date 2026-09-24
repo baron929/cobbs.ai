@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,9 +19,9 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/the-open-agent/openagent/carrier"
-	"github.com/the-open-agent/openagent/model"
-	"github.com/the-open-agent/openagent/object"
+	"github.com/baron929/cobbs.ai/carrier"
+	"github.com/baron929/cobbs.ai/model"
+	"github.com/baron929/cobbs.ai/object"
 )
 
 func getCarrier(suggestionCount int, needTitle bool) (string, error) {
@@ -143,7 +143,7 @@ They must:
 **Finally, generate a concise and meaningful title for the original question. No need to answer user question. 
 A meaningful topic title should be able to represent the user's purpose or the overall theme of this conversation.
 Examples of generated title:
-	query: what is openagent? title: introduction to openagent
+	query: what is cobbs.ai? title: introduction to cobbs.ai
 - The title must start with "=====" (five equals signs, no space).
 - You MUST output a title unless the user's message is completely empty.
 - Do NOT include any explanations or extra text—just output the title.`)

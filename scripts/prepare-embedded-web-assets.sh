@@ -36,6 +36,6 @@ mkdir -p "${PUBLIC_DIR}/icon"
 curl -fsSL "${ICONFONT_URL}" -o "${PUBLIC_DIR}/icon/iconfont.js"
 
 sed -i \
-  -e 's#https://cdn.openagentai.org/img/openagent.png#/img/openagent.png#g' \
-  -e 's#https://cdn.openagentai.org/site/openagent/manifest.json#/manifest.json#g' \
+  -e 's#https://cdn.cobbs.aiai.org/img/cobbs.ai.png#/img/cobbs.ai.png#g' \
+  -e 's#https://cdn.cobbs.aiai.org/site/cobbs.ai/manifest.json#/manifest.json#g' \
   "${PUBLIC_DIR}/index.html"

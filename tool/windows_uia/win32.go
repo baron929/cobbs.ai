@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -296,11 +296,12 @@ func sendTextInput(text string) error {
 }
 
 var (
-	kernel32         = windows.NewLazySystemDLL("kernel32.dll")
-	procGlobalAlloc  = kernel32.NewProc("GlobalAlloc")
-	procGlobalLock   = kernel32.NewProc("GlobalLock")
-	procGlobalUnlock = kernel32.NewProc("GlobalUnlock")
-	procGlobalFree   = kernel32.NewProc("GlobalFree")
+	kernel32          = windows.NewLazySystemDLL("kernel32.dll")
+	procGlobalAlloc   = kernel32.NewProc("GlobalAlloc")
+	procGlobalLock    = kernel32.NewProc("GlobalLock")
+	procGlobalUnlock  = kernel32.NewProc("GlobalUnlock")
+	procGlobalFree    = kernel32.NewProc("GlobalFree")
+	procRtlMoveMemory = kernel32.NewProc("RtlMoveMemory")
 )
 
 func setClipboardUnicodeText(text string) error {
@@ -337,11 +338,7 @@ func setClipboardUnicodeText(text string) error {
 		}
 		return fmt.Errorf("GlobalLock failed")
 	}
-	// Copy bytes. Use unsafe.SliceData to avoid the vet unsafeptr warning when
-	// taking a pointer to a slice element.
-	dst := unsafe.Slice((*byte)(unsafe.Pointer(ptr)), sizeBytes)
-	src := unsafe.Slice((*byte)(unsafe.Pointer(unsafe.SliceData(utf16))), sizeBytes)
-	copy(dst, src)
+	_, _, _ = procRtlMoveMemory.Call(ptr, uintptr(unsafe.Pointer(&utf16[0])), sizeBytes)
 	_, _, _ = procGlobalUnlock.Call(hMem)
 
 	// After SetClipboardData succeeds, system owns the memory handle.

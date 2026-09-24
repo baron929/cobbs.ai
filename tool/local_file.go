@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,8 +33,8 @@ import (
 	"unicode/utf8"
 
 	"github.com/ThinkInAIXYZ/go-mcp/protocol"
-	"github.com/the-open-agent/openagent/internal/localocr"
-	"github.com/the-open-agent/openagent/txt"
+	"github.com/baron929/cobbs.ai/internal/localocr"
+	"github.com/baron929/cobbs.ai/txt"
 )
 
 const (
@@ -332,7 +332,7 @@ func (b *localSpecialDirsBuiltin) GetName() string {
 }
 
 func (b *localSpecialDirsBuiltin) GetDescription() string {
-	return `Return common local directories for the operating system user running the OpenAgent backend process.
+	return `Return common local directories for the operating system user running the cobbs.ai backend process.
 - No required parameters.
 - Returns os, username, home, and Desktop/Documents/Downloads paths with existence flags.
 - Use this before scanning when the user says "my Desktop", "my Documents", or "Downloads" without an absolute path.`
@@ -810,7 +810,7 @@ func localFileMoveBackupPath(target string) (string, error) {
 	dir := filepath.Dir(target)
 	base := filepath.Base(target)
 	for i := 0; i < 100; i++ {
-		path := filepath.Join(dir, fmt.Sprintf(".%s.openagent-move-backup-%d-%d", base, time.Now().UnixNano(), i))
+		path := filepath.Join(dir, fmt.Sprintf(".%s.cobbs.ai-move-backup-%d-%d", base, time.Now().UnixNano(), i))
 		if _, err := os.Lstat(path); os.IsNotExist(err) {
 			return path, nil
 		} else if err != nil {

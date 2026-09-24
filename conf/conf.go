@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@ package conf
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"runtime"
 	"strconv"
@@ -43,7 +44,7 @@ func SetEmbeddedWebAssetsEnabled(enabled bool) {
 	embeddedWebAssets = enabled
 }
 
-const FrontendBaseDir = "../openagent"
+const FrontendBaseDir = "../cobbs.ai"
 
 type WebConfig struct {
 	AuthConfig struct {
@@ -108,19 +109,56 @@ func GetConfigString(key string) string {
 	res := beego.AppConfig.String(key)
 	if res == "" {
 		if key == "staticBaseUrl" {
-			res = "https://cdn.openagentai.org"
+			res = "https://cdn.cobbs.aiai.org"
 		} else if key == "logConfig" {
-			res = "{\"filename\": \"logs/openagent.log\", \"maxdays\":99999, \"perm\":\"0770\"}"
+			res = "{\"filename\": \"logs/cobbs.ai.log\", \"maxdays\":99999, \"perm\":\"0770\"}"
 		}
 	}
 
 	if key == "staticBaseUrl" {
-		if strings.HasSuffix(beego.AppConfig.String("casdoorEndpoint"), ".casdoor.net") && res == "https://cdn.openagentai.org" {
+		if strings.HasSuffix(beego.AppConfig.String("casdoorEndpoint"), ".casdoor.net") && res == "https://cdn.cobbs.aiai.org" {
 			res = "https://cdn.casibase.com"
 		}
 	}
 
 	return res
+}
+
+// ValidateProductionConfig checks required settings before production startup
+// initializes the database or serves requests. It reports setting names only.
+func ValidateProductionConfig() error {
+	if strings.ToLower(GetConfigString("runmode")) != "prod" {
+		return nil
+	}
+
+	required := []string{
+		"dataSourceName",
+		"clientId",
+		"clientSecret",
+		"casdoorApplication",
+		"casdoorOrganization",
+	}
+	if GetConfigString("issuer") == "" && GetConfigString("casdoorEndpoint") == "" {
+		required = append(required, "issuer or casdoorEndpoint")
+	}
+
+	missing := make([]string, 0)
+	for _, key := range required {
+		if strings.Contains(key, " or ") {
+			continue
+		}
+		if GetConfigString(key) == "" {
+			missing = append(missing, key)
+		}
+	}
+	if GetConfigString("issuer") == "" && GetConfigString("casdoorEndpoint") == "" {
+		missing = append(missing, "issuer or casdoorEndpoint")
+	}
+	if len(missing) > 0 {
+		return fmt.Errorf("production configuration is missing: %s", strings.Join(missing, ", "))
+	}
+
+	return nil
 }
 
 // GetDefaultColorPrimary returns the default Ant Design primary color.

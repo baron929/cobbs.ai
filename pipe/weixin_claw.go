@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ const (
 
 	weixinClawAppId             = "bot"
 	weixinClawClientVersion     = "131335"
-	weixinClawChannel           = "openagent"
+	weixinClawChannel           = "cobbs.ai"
 	weixinClawMessageText       = 1
 	weixinClawMessageBot        = 2
 	weixinClawMessageFinish     = 2
@@ -325,7 +325,7 @@ func randomWeixinClawUin() string {
 func generateWeixinClawClientId() string {
 	buf := make([]byte, 8)
 	if _, err := rand.Read(buf); err != nil {
-		return fmt.Sprintf("openagent-%d", time.Now().UnixNano())
+		return fmt.Sprintf("cobbs.ai-%d", time.Now().UnixNano())
 	}
-	return fmt.Sprintf("openagent-%x", buf)
+	return fmt.Sprintf("cobbs.ai-%x", buf)
 }

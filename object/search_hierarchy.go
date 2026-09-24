@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,12 +15,13 @@
 package object
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
-	"github.com/the-open-agent/openagent/embedding"
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/model"
+	"github.com/baron929/cobbs.ai/embedding"
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/model"
 )
 
 type HierarchySearchProvider struct {
@@ -65,7 +66,7 @@ func (p *HierarchySearchProvider) Search(relatedStores []string, embeddingProvid
 		return nil, nil, err
 	}
 	if qVector == nil || len(qVector) == 0 {
-		return nil, embeddingResult, fmt.Errorf(i18n.Translate(lang, "object:no qVector found"))
+		return nil, embeddingResult, errors.New(i18n.Translate(lang, "object:no qVector found"))
 	}
 	if embeddingResult != nil {
 		embeddingResult.Data = qVector

@@ -46,7 +46,7 @@ The worker creates the PptxGenJS instance and writes the output file. The script
 ```javascript
 export default async function build(pptx, ctx) {
   pptx.layout = "LAYOUT_WIDE";
-  pptx.author = "OpenAgent";
+  pptx.author = "cobbs.ai";
 
   const slide = pptx.addSlide();
   slide.background = { color: "FFFFFF" };

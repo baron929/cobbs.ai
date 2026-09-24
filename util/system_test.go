@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ package util
 import (
 	"testing"
 
-	"github.com/the-open-agent/openagent/internal/cli"
+	"github.com/baron929/cobbs.ai/internal/cli"
 )
 
 func TestGetVersionInfoFromBuildSkipsDefaultMetadata(t *testing.T) {

@@ -1,4 +1,4 @@
-// Copyright 2024 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2024 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 package model
 
 import (
+	"errors"
 	"context"
 	"encoding/base64"
 	"encoding/json"
@@ -27,7 +28,7 @@ import (
 	"github.com/casibase/dashscopego/qwen"
 	dashscopesdk "github.com/the-open-agent/dashscope-go-sdk"
 	"github.com/the-open-agent/dashscope-go-sdk/wanx"
-	"github.com/the-open-agent/openagent/i18n"
+	"github.com/baron929/cobbs.ai/i18n"
 )
 
 type AlibabacloudModelProvider struct {
@@ -233,7 +234,7 @@ func getAlibabacloudTieredPrice(subType string, promptTokenCount int) ([2]float6
 func (p *AlibabacloudModelProvider) queryWanx(ctx context.Context, question string, writer io.Writer, lang string) (*ModelResult, error) {
 	flusher, ok := writer.(http.Flusher)
 	if !ok {
-		return nil, fmt.Errorf(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
+		return nil, errors.New(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
 	}
 
 	cli := dashscopesdk.NewTongyiClient(p.subType, p.apiKey)
@@ -290,7 +291,7 @@ func (p *AlibabacloudModelProvider) QueryText(question string, writer io.Writer,
 	ctx := context.Background()
 	flusher, ok := writer.(http.Flusher)
 	if !ok {
-		return nil, fmt.Errorf(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
+		return nil, errors.New(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
 	}
 
 	if isWanxModel(p.subType) {
@@ -318,15 +319,15 @@ func (p *AlibabacloudModelProvider) QueryText(question string, writer io.Writer,
 
 	cli := dashscopego.NewTongyiClient(p.subType, p.apiKey)
 
-	if strings.HasPrefix(question, "$OpenAgentDryRun$") {
+	if strings.HasPrefix(question, "$cobbs.aiDryRun$") {
 		modelResult, err := getDefaultModelResult(p.subType, question, "")
 		if err != nil {
-			return nil, fmt.Errorf(i18n.Translate(lang, "model:cannot calculate tokens"))
+			return nil, errors.New(i18n.Translate(lang, "model:cannot calculate tokens"))
 		}
 		if getContextLength(p.subType) > modelResult.TotalTokenCount {
 			return modelResult, nil
 		} else {
-			return nil, fmt.Errorf(i18n.Translate(lang, "model:exceed max tokens"))
+			return nil, errors.New(i18n.Translate(lang, "model:exceed max tokens"))
 		}
 	}
 

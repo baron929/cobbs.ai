@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ function getDefaultLogoURL(provider) {
     return "";
   }
 
-  const defaultStaticBaseUrl = process.env.REACT_APP_EMBED_STATIC_ASSETS === "true" ? "" : "https://cdn.openagentai.org";
+  const defaultStaticBaseUrl = process.env.REACT_APP_EMBED_STATIC_ASSETS === "true" ? "" : "https://cdn.cobbs.aiai.org";
   const pathMatch = logoPath.match(/\/img\/.+$/);
   if (pathMatch) {
     return `${defaultStaticBaseUrl}${pathMatch[0]}`;

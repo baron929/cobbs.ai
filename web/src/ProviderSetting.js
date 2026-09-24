@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -302,31 +302,31 @@ export function getOtherProviderInfo() {
     Tool: {
       time: {
         logo: `${StaticBaseUrl}/img/social_mcp.png`,
-        url: "https://github.com/the-open-agent/openagent",
+        url: "https://github.com/baron929/cobbs.ai",
       },
       web_search: {
         logo: `${StaticBaseUrl}/img/social_mcp.png`,
-        url: "https://github.com/the-open-agent/openagent",
+        url: "https://github.com/baron929/cobbs.ai",
       },
       shell: {
         logo: `${StaticBaseUrl}/img/social_mcp.png`,
-        url: "https://github.com/the-open-agent/openagent",
+        url: "https://github.com/baron929/cobbs.ai",
       },
       local_file: {
         logo: `${StaticBaseUrl}/img/social_mcp.png`,
-        url: "https://github.com/the-open-agent/openagent",
+        url: "https://github.com/baron929/cobbs.ai",
       },
       office: {
         logo: `${StaticBaseUrl}/img/social_mcp.png`,
-        url: "https://github.com/the-open-agent/openagent",
+        url: "https://github.com/baron929/cobbs.ai",
       },
       web_fetch: {
         logo: `${StaticBaseUrl}/img/social_mcp.png`,
-        url: "https://github.com/the-open-agent/openagent",
+        url: "https://github.com/baron929/cobbs.ai",
       },
       web_browser: {
         logo: `${StaticBaseUrl}/img/social_mcp.png`,
-        url: "https://github.com/the-open-agent/openagent",
+        url: "https://github.com/baron929/cobbs.ai",
       },
       gui: {
         logo: `${StaticBaseUrl}/img/social_mcp.png`,
@@ -338,7 +338,7 @@ export function getOtherProviderInfo() {
       },
       browser_use: {
         logo: `${StaticBaseUrl}/img/social_mcp.png`,
-        url: "https://github.com/the-open-agent/openagent",
+        url: "https://github.com/baron929/cobbs.ai",
       },
     },
     "Text-to-Speech": {
@@ -1482,7 +1482,7 @@ export function getPipePlatformMetadata(type) {
     "Facebook Messenger": {desc: "Connect via Facebook Messenger", tokenLabel: "Page Access Token", tokenPlaceholder: "EAAxxxxxxxx...", helpUrl: "https://developers.facebook.com/docs/messenger-platform"},
     "Threads": {desc: "Connect via Meta Threads", tokenLabel: "User Access Token", tokenPlaceholder: "THRDSxxxxxxxx...", helpUrl: "https://developers.facebook.com/docs/threads"},
     "WeChat": {desc: "Connect via WeChat Official Account", tokenLabel: "Access Token", tokenPlaceholder: "your-access-token", helpUrl: "https://developers.weixin.qq.com"},
-    "Weixin Claw": {desc: "Connect via personal Weixin QR login", tokenLabel: "", tokenPlaceholder: "", helpUrl: "https://github.com/the-open-agent/openagent"},
+    "Weixin Claw": {desc: "Connect via personal Weixin QR login", tokenLabel: "", tokenPlaceholder: "", helpUrl: "https://github.com/baron929/cobbs.ai"},
     "Snapchat": {desc: "Connect via Snapchat Kit Bot", tokenLabel: "Access Token", tokenPlaceholder: "your-oauth-access-token", helpUrl: "https://kit.snapchat.com/"},
     "X Direct Messages": {desc: "Connect via X Direct Messages", tokenLabel: "OAuth Token", tokenPlaceholder: "your-oauth-token", helpUrl: "https://developer.x.com"},
   };

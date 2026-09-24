@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -67,7 +67,7 @@ function SourceStep(props) {
           <Space direction="vertical" style={{width: "100%"}}>
             <Radio value="">
               {i18next.t("migration:Auto-detect")}
-              <Text type="secondary" style={{marginLeft: 8}}>{i18next.t("migration:Let OpenAgent recognize the format")}</Text>
+              <Text type="secondary" style={{marginLeft: 8}}>{i18next.t("migration:Let cobbs.ai recognize the format")}</Text>
             </Radio>
             {sources.map(source => (
               <Radio key={source.id} value={source.id}>
@@ -100,7 +100,7 @@ function SourceStep(props) {
               placeholder={selectedSource ? selectedSource.defaultPath : i18next.t("migration:e.g. /home/user/.openclaw")}
             />
             <Text type="secondary" style={{display: "block", marginTop: 8}}>
-              {i18next.t("migration:The directory is read on the machine running OpenAgent, so this only works when the agent was installed there.")}
+              {i18next.t("migration:The directory is read on the machine running cobbs.ai, so this only works when the agent was installed there.")}
             </Text>
           </div>
         ) : (
@@ -134,7 +134,7 @@ function SourceStep(props) {
             children: (
               <div>
                 <Paragraph type="secondary">
-                  {i18next.t("migration:Every section is optional, so a file carrying nothing but chat history works too. Export this from any agent and its configuration lands in OpenAgent.")}
+                  {i18next.t("migration:Every section is optional, so a file carrying nothing but chat history works too. Export this from any agent and its configuration lands in cobbs.ai.")}
                 </Paragraph>
                 <pre style={{margin: 0, overflowX: "auto", fontSize: 12}}>{bundleExample}</pre>
               </div>

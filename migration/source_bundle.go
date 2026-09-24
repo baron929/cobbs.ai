@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
 // limitations under the License.
 
 // The generic adapter: it reads Bundle JSON directly, which is the escape
-// hatch for every agent OpenAgent has no native adapter for yet.
+// hatch for every agent cobbs.ai has no native adapter for yet.
 //
 // Writing a Go adapter needs the source's format documented and its quirks
 // understood. A user who already has an agent we cannot parse can instead run
@@ -67,7 +67,7 @@ func (adapter *bundleAdapter) DefaultPath() string {
 }
 
 func (adapter *bundleAdapter) FileHint() string {
-	return "agent-bundle.json: a JSON file with any of the agents, providers, skills, mcpServers and chats sections, exported from an agent OpenAgent has no adapter for"
+	return "agent-bundle.json: a JSON file with any of the agents, providers, skills, mcpServers and chats sections, exported from an agent cobbs.ai has no adapter for"
 }
 
 // bundleFileName is what a directory is searched for when a path is scanned.
@@ -362,7 +362,7 @@ func (adapter *bundleAdapter) normalizeAgents(bundle *Bundle) {
 }
 
 // normalizeChats gives every chat a name, folds the many spellings of "the
-// assistant said this" onto OpenAgent's "AI" author, and drops empty ones.
+// assistant said this" onto cobbs.ai's "AI" author, and drops empty ones.
 func (adapter *bundleAdapter) normalizeChats(bundle *Bundle) {
 	agentNames := map[string]bool{}
 	for _, agent := range bundle.Agents {
@@ -404,7 +404,7 @@ func (adapter *bundleAdapter) normalizeChats(bundle *Bundle) {
 }
 
 // normalizeBundleAuthor maps whatever the source called the assistant onto
-// "AI", which is the only author string OpenAgent treats as the model.
+// "AI", which is the only author string cobbs.ai treats as the model.
 func normalizeBundleAuthor(author string) string {
 	switch strings.ToLower(strings.TrimSpace(author)) {
 	case "ai", "assistant", "bot", "agent", "model":

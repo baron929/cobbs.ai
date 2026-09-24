@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 // An OpenClaw installation lives in ~/.openclaw:
 //
 //	openclaw.json            JSON5 config: agents, skills, mcp, channels, env
-//	skills/<name>/SKILL.md   skill folders, same format OpenAgent already reads
+//	skills/<name>/SKILL.md   skill folders, same format cobbs.ai already reads
 //	agents/<id>/sessions/    archived transcripts (JSONL)
 //	agents/<id>/agent/*.sqlite   live session state
 //
@@ -37,7 +37,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/the-open-agent/openagent/skillmd"
+	"github.com/baron929/cobbs.ai/skillmd"
 )
 
 func init() {
@@ -70,7 +70,7 @@ func (adapter *openClawAdapter) FileHint() string {
 // Config schema
 // ---------------------------------------------------------------------------
 
-// openClawConfig models the parts of openclaw.json that map onto OpenAgent.
+// openClawConfig models the parts of openclaw.json that map onto cobbs.ai.
 // Unknown sections are kept as raw maps only so the adapter can warn about the
 // ones it cannot migrate rather than dropping them silently.
 type openClawConfig struct {
@@ -287,7 +287,7 @@ func extractZipToTempDir(data []byte) (string, error) {
 		return "", fmt.Errorf("cannot read the uploaded archive: %w", err)
 	}
 
-	dir, err := os.MkdirTemp("", "openagent-migration-")
+	dir, err := os.MkdirTemp("", "cobbs.ai-migration-")
 	if err != nil {
 		return "", err
 	}
@@ -474,11 +474,11 @@ func (adapter *openClawAdapter) Extract(in *Input) (*Bundle, error) {
 // ---------------------------------------------------------------------------
 
 // openClawProviderMapping ties an OpenClaw model-id prefix and the environment
-// variable that holds its key to an OpenAgent provider Type.
+// variable that holds its key to an cobbs.ai provider Type.
 type openClawProviderMapping struct {
 	// key is the canonical vendor key used to dedupe providers.
 	key string
-	// providerType is the OpenAgent Provider.Type.
+	// providerType is the cobbs.ai Provider.Type.
 	providerType string
 	displayName  string
 	// envNames are the environment variables OpenClaw stores the API key in.
@@ -646,7 +646,7 @@ func (adapter *openClawAdapter) extractProviders(config *openClawConfig, bundle 
 		provider := providers[key]
 		if provider.ClientSecret == "" && providerTypes[key] != "Ollama" {
 			bundle.addWarning("provider", provider.DisplayName,
-				"no API key found in the config; set it in OpenAgent after migrating")
+				"no API key found in the config; set it in cobbs.ai after migrating")
 		}
 	}
 
@@ -708,7 +708,7 @@ func (adapter *openClawAdapter) extractMcpServers(config *openClawConfig, bundle
 				transport = "stdio"
 			}
 		}
-		// OpenClaw uses "http" for what OpenAgent calls "streamablehttp".
+		// OpenClaw uses "http" for what cobbs.ai calls "streamablehttp".
 		if transport == "http" {
 			transport = "streamablehttp"
 		}
@@ -842,7 +842,7 @@ func (adapter *openClawAdapter) extractAgents(config *openClawConfig, modelToPro
 		defaultMcpServer = bundle.McpServers[0].Name
 		if len(bundle.McpServers) > 1 {
 			bundle.addWarning("agent", "mcpServer",
-				fmt.Sprintf("an OpenAgent agent references one MCP server; %q was wired up and the other %d were imported but left unattached",
+				fmt.Sprintf("an cobbs.ai agent references one MCP server; %q was wired up and the other %d were imported but left unattached",
 					defaultMcpServer, len(bundle.McpServers)-1))
 		}
 	}
@@ -958,13 +958,13 @@ func (adapter *openClawAdapter) extractChats(config *openClawConfig, root string
 // Warnings
 // ---------------------------------------------------------------------------
 
-// warnAboutUnmappableSections reports the OpenClaw features OpenAgent has no
+// warnAboutUnmappableSections reports the OpenClaw features cobbs.ai has no
 // equivalent for. Surfacing them is the point: a user who relied on a WhatsApp
 // channel needs to know it did not come across.
 func (adapter *openClawAdapter) warnAboutUnmappableSections(config *openClawConfig, bundle *Bundle) {
 	for _, name := range sortedRawKeys(config.Channels) {
 		bundle.addWarning("channel", name,
-			"OpenAgent has no messaging-channel equivalent yet; this channel and its credentials were not migrated")
+			"cobbs.ai has no messaging-channel equivalent yet; this channel and its credentials were not migrated")
 	}
 
 	unmapped := []struct {
@@ -973,10 +973,10 @@ func (adapter *openClawAdapter) warnAboutUnmappableSections(config *openClawConf
 		reason  string
 		enabled bool
 	}{
-		{config.Cron, "cron", "scheduled jobs are not migrated; recreate them in OpenAgent", len(config.Cron) > 0},
+		{config.Cron, "cron", "scheduled jobs are not migrated; recreate them in cobbs.ai", len(config.Cron) > 0},
 		{config.Hooks, "hooks", "webhook ingestion endpoints are not migrated", len(config.Hooks) > 0},
-		{config.Plugins, "plugins", "OpenClaw plugins have no OpenAgent equivalent", len(config.Plugins) > 0},
-		{config.Gateway, "gateway", "gateway port and auth settings are server config in OpenAgent, set them in conf/app.conf", len(config.Gateway) > 0},
+		{config.Plugins, "plugins", "OpenClaw plugins have no cobbs.ai equivalent", len(config.Plugins) > 0},
+		{config.Gateway, "gateway", "gateway port and auth settings are server config in cobbs.ai, set them in conf/app.conf", len(config.Gateway) > 0},
 		{config.Tools, "tools", "tool allow/deny rules are not migrated in this version; set them under Tool Permissions", len(config.Tools) > 0},
 	}
 	for _, section := range unmapped {

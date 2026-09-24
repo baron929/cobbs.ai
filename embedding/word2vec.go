@@ -1,4 +1,4 @@
-// Copyright 2024 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2024 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,11 +18,12 @@ import (
 	"bufio"
 	"context"
 	"encoding/binary"
+	"errors"
 	"fmt"
 	"os"
 	"strings"
 
-	"github.com/the-open-agent/openagent/i18n"
+	"github.com/baron929/cobbs.ai/i18n"
 )
 
 type Word2VecEmbeddingProvider struct {
@@ -93,7 +94,7 @@ func (p *Word2VecEmbeddingProvider) GetPricing() string {
 func (p *Word2VecEmbeddingProvider) QueryVector(text string, ctx context.Context, lang string) ([]float32, *EmbeddingResult, error) {
 	tokens := strings.Fields(text) // Split words by spaces
 	if len(tokens) == 0 {
-		return nil, nil, fmt.Errorf(i18n.Translate(lang, "embedding:input text is empty"))
+		return nil, nil, errors.New(i18n.Translate(lang, "embedding:input text is empty"))
 	}
 
 	vectors := make([][]float32, 0, len(tokens))
@@ -107,7 +108,7 @@ func (p *Word2VecEmbeddingProvider) QueryVector(text string, ctx context.Context
 	}
 
 	if foundCount == 0 {
-		return nil, nil, fmt.Errorf(i18n.Translate(lang, "embedding:none of the tokens were found in the vocabulary"))
+		return nil, nil, errors.New(i18n.Translate(lang, "embedding:none of the tokens were found in the vocabulary"))
 	}
 
 	// Calculate the average vector

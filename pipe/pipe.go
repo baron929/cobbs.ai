@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,8 +19,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/proxy"
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/proxy"
 )
 
 type IncomingMessage struct {

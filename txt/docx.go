@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,11 +15,11 @@
 package txt
 
 import (
-	"fmt"
+	"errors"
 	"strings"
 
 	"github.com/carmel/gooxml/document"
-	"github.com/the-open-agent/openagent/i18n"
+	"github.com/baron929/cobbs.ai/i18n"
 )
 
 func GetTextFromDocx(path string, lang string) (string, error) {
@@ -48,7 +48,7 @@ func GetTextFromDocx(path string, lang string) (string, error) {
 	}
 
 	if len(paragraphs) == 0 {
-		return "", fmt.Errorf(i18n.Translate(lang, "txt:.docx file is empty"))
+		return "", errors.New(i18n.Translate(lang, "txt:.docx file is empty"))
 	}
 
 	text := strings.Join(paragraphs, "")

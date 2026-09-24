@@ -1,6 +1,6 @@
-# Contributing to OpenAgent
+# Contributing to cobbs.ai
 
-Thank you for your interest in contributing to OpenAgent! This document explains how to get involved.
+Thank you for your interest in contributing to cobbs.ai! This document explains how to get involved.
 
 ## Code of Conduct
 
@@ -29,20 +29,20 @@ Please read and follow our [Code of Conduct](CODE_OF_CONDUCT.md) before contribu
 ### 1. Clone and configure
 
 ```bash
-git clone https://github.com/the-open-agent/openagent.git
-cd openagent
+git clone https://github.com/baron929/cobbs.ai.git
+cd cobbs.ai
 cp conf/app.conf.example conf/app.conf   # edit DB and auth settings
 ```
 
 Key fields in `conf/app.conf`:
 
 ```ini
-dataSourceName = root:password@tcp(localhost:3306)/openagent
+dataSourceName = root:<local-development-password>@tcp(localhost:3306)/cobbsai
 casdoorEndpoint = http://localhost:8000
 casdoorClientId = <your-client-id>
 casdoorClientSecret = <your-client-secret>
 casdoorOrganization = built-in
-casdoorApplication = app-openagent
+casdoorApplication = app-cobbsai
 ```
 
 ### 2. Start the auth service
@@ -158,10 +158,10 @@ All checks must pass before a PR can be merged.
 
 ## Reporting Security Vulnerabilities
 
-Please **do not** open a public issue for security vulnerabilities. Report them privately via [GitHub Security Advisories](https://github.com/the-open-agent/openagent/security/advisories/new).
+Please **do not** open a public issue for security vulnerabilities. Report them privately via [GitHub Security Advisories](https://github.com/baron929/cobbs.ai/security/advisories/new).
 
 ## Getting Help
 
-- [GitHub Discussions](https://github.com/the-open-agent/openagent/discussions)
+- [GitHub Discussions](https://github.com/baron929/cobbs.ai/discussions)
 - [Discord](https://discord.gg/5rPsrAzK7S)
-- [GitHub Issues](https://github.com/the-open-agent/openagent/issues)
+- [GitHub Issues](https://github.com/baron929/cobbs.ai/issues)

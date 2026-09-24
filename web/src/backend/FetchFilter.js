@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ const demoModeCallback = (res, isWriteOperation) => {
     if (data && Setting.isResponseDenied(data) && !demoModalVisible) {
       demoModalVisible = true;
 
-      const tryUrl = `https://try.openagentai.org${location.pathname}${location.search}`;
+      const tryUrl = `https://try.cobbs.aiai.org${location.pathname}${location.search}`;
 
       const modal = Modal.info({
         icon: null,

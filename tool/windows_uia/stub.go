@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 package windowsuia
 
-import "github.com/the-open-agent/openagent/tool/builtin_tool"
+import "github.com/baron929/cobbs.ai/tool/builtin_tool"
 
 // BuiltinTools returns nil on non-Windows platforms; Windows UIA is not supported.
 func BuiltinTools() []builtin_tool.BuiltinTool {

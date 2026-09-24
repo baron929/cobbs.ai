@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -211,7 +211,7 @@ function MigrationPage() {
     <div style={{maxWidth: 1200, margin: "0 auto", padding: "24px 16px"}}>
       <div style={{marginBottom: 24}}>
         <Title level={3} style={{marginBottom: 4}}>{i18next.t("general:Migration")}</Title>
-        <Text type="secondary">{i18next.t("migration:Bring an existing agent installation -- its skills, models, MCP servers and chat history -- into OpenAgent.")}</Text>
+        <Text type="secondary">{i18next.t("migration:Bring an existing agent installation -- its skills, models, MCP servers and chat history -- into cobbs.ai.")}</Text>
       </div>
 
       <Tabs

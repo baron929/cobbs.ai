@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -44,28 +44,28 @@ type HistogramVecInfo struct {
 
 var (
 	ApiThroughput = promauto.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "openagent_api_throughput",
+		Name: "cobbs_ai_api_throughput",
 		Help: "The throughput of each api access",
 	}, []string{"path", "method"})
 
 	ApiLatency = promauto.NewHistogramVec(prometheus.HistogramOpts{
-		Name: "openagent_api_latency",
+		Name: "cobbs_ai_api_latency",
 		Help: "API processing latency in milliseconds",
 	}, []string{"path", "method"})
 
 	CpuUsage = promauto.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "openagent_cpu_usage",
-		Help: "openagent cpu usage",
+		Name: "cobbs_ai_cpu_usage",
+		Help: "cobbs.ai cpu usage",
 	}, []string{"cpuNum"})
 
 	MemoryUsage = promauto.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "openagent_memory_usage",
-		Help: "openagent memory usage in Byte",
+		Name: "cobbs_ai_memory_usage",
+		Help: "cobbs.ai memory usage in Byte",
 	}, []string{"type"})
 
 	TotalThroughput = promauto.NewGauge(prometheus.GaugeOpts{
-		Name: "openagent_total_throughput",
-		Help: "The total throughput of openagent",
+		Name: "cobbs_ai_total_throughput",
+		Help: "The total throughput of cobbs.ai",
 	})
 )
 
@@ -86,11 +86,11 @@ func GetPrometheusInfo() (*PrometheusInfo, error) {
 	}
 	for _, metricFamily := range metricFamilies {
 		switch metricFamily.GetName() {
-		case "openagent_api_throughput":
+		case "cobbs_ai_api_throughput":
 			res.ApiThroughput = getGaugeVecInfo(metricFamily)
-		case "openagent_api_latency":
+		case "cobbs_ai_api_latency":
 			res.ApiLatency = getHistogramVecInfo(metricFamily)
-		case "openagent_total_throughput":
+		case "cobbs_ai_total_throughput":
 			res.TotalThroughput = metricFamily.GetMetric()[0].GetGauge().GetValue()
 		}
 	}

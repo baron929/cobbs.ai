@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,11 +16,12 @@ package object
 
 import (
 	"encoding/base64"
+	"errors"
 	"fmt"
 	"mime"
 	"strings"
 
-	"github.com/the-open-agent/openagent/i18n"
+	"github.com/baron929/cobbs.ai/i18n"
 )
 
 func getExtFromMimeType(mimeType string, lang string) (string, error) {
@@ -44,12 +45,12 @@ func getExtFromMimeType(mimeType string, lang string) (string, error) {
 func parseBase64Image(data string, lang string) ([]byte, error) {
 	parts := strings.SplitN(data, ";", 2)
 	if len(parts) < 2 {
-		return nil, fmt.Errorf(i18n.Translate(lang, "object:parseBase64Image() error: invalid image format"))
+		return nil, errors.New(i18n.Translate(lang, "object:parseBase64Image() error: invalid image format"))
 	}
 
 	b64Parts := strings.SplitN(parts[1], ",", 2)
 	if len(b64Parts) < 2 {
-		return nil, fmt.Errorf(i18n.Translate(lang, "object:parseBase64Image() error: invalid image format"))
+		return nil, errors.New(i18n.Translate(lang, "object:parseBase64Image() error: invalid image format"))
 	}
 
 	imageContent, err := base64.StdEncoding.DecodeString(b64Parts[1])

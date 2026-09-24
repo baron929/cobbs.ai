@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,13 +35,7 @@ func AutoSigninFilter(ctx *context.Context) {
 	}
 
 	// HTTP Bearer token like "Authorization: Bearer 123"
-	accessToken := ctx.Input.Query("accessToken")
-	if accessToken == "" {
-		accessToken = ctx.Input.Query("access_token")
-	}
-	if accessToken == "" {
-		accessToken = parseBearerToken(ctx)
-	}
+	accessToken := parseBearerToken(ctx)
 	if accessToken != "" {
 		userId, err := getUsernameByAccessToken(accessToken)
 		if err != nil {

@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,8 +23,8 @@ import (
 	"strings"
 
 	"github.com/ThinkInAIXYZ/go-mcp/protocol"
-	"github.com/the-open-agent/openagent/tool"
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/tool"
+	"github.com/baron929/cobbs.ai/util"
 )
 
 type generatedResourceArchiveBuiltinTool struct {
@@ -137,7 +137,7 @@ func archiveGeneratedResourceFileToStorage(owner, user, path, origin string) (*R
 	ext := strings.ToLower(filepath.Ext(fileName))
 	fileType := getGeneratedResourceFileType(ext)
 	storageName := fmt.Sprintf(
-		"openagent/resources/generated/%s_%s",
+		"cobbs.ai/resources/generated/%s_%s",
 		util.GetRandomName(),
 		resourceArchiveSafePathSegment(fileName),
 	)

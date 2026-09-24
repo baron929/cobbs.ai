@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,9 +21,9 @@ import (
 	"strings"
 
 	"github.com/beego/beego/context"
-	"github.com/the-open-agent/openagent/auth"
-	"github.com/the-open-agent/openagent/conf"
-	"github.com/the-open-agent/openagent/object"
+	"github.com/baron929/cobbs.ai/auth"
+	"github.com/baron929/cobbs.ai/conf"
+	"github.com/baron929/cobbs.ai/object"
 )
 
 const (
@@ -84,8 +84,8 @@ func CorsFilter(ctx *context.Context) {
 		responseError(ctx, fmt.Sprintf("CORS error: origin [%s] is not allowed, path: %s", origin, ctx.Request.URL.Path))
 	}
 
-	if object.OpenAgentHost == "" {
-		object.OpenAgentHost = origin
+	if object.CobbsAIHost == "" {
+		object.CobbsAIHost = origin
 	}
 }
 

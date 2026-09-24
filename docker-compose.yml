@@ -1,6 +1,6 @@
 version: '3.1'
 services:
-  openagent:
+  cobbs.ai:
     restart: always
     build:
       context: ./
@@ -14,6 +14,14 @@ services:
     environment:
       RUNNING_IN_DOCKER: "true"
       DOCKER_DB_HOST: db
+      runmode: prod
+      dataSourceName: "root:${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD is required}@tcp(db:3306)/"
+      issuer: "${COBBSAI_ISSUER:?COBBSAI_ISSUER is required}"
+      casdoorEndpoint: "${COBBSAI_ISSUER:?COBBSAI_ISSUER is required}"
+      clientId: "${COBBSAI_CLIENT_ID:?COBBSAI_CLIENT_ID is required}"
+      clientSecret: "${COBBSAI_CLIENT_SECRET:?COBBSAI_CLIENT_SECRET is required}"
+      casdoorOrganization: "${COBBSAI_ORGANIZATION:?COBBSAI_ORGANIZATION is required}"
+      casdoorApplication: "${COBBSAI_APPLICATION:?COBBSAI_APPLICATION is required}"
     volumes:
       - ./conf:/conf/
   db:
@@ -23,6 +31,6 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD is required}"
     volumes:
       - /usr/local/docker/mysql:/var/lib/mysql

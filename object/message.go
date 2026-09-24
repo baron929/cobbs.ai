@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,14 +16,15 @@ package object
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"regexp"
 	"strings"
 	"time"
 
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/model"
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/model"
+	"github.com/baron929/cobbs.ai/util"
 	"xorm.io/core"
 )
 
@@ -322,7 +323,7 @@ func RefineMessageFiles(message *Message, origin string, lang string) error {
 			}
 		}
 		if store == nil {
-			return fmt.Errorf(i18n.Translate(lang, "account:The default store is not found"))
+			return errors.New(i18n.Translate(lang, "account:The default store is not found"))
 		}
 
 		obj, err := store.GetImageProviderObj(lang)

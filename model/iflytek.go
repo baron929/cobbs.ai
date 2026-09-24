@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/the-open-agent/openagent/i18n"
+	"github.com/baron929/cobbs.ai/i18n"
 )
 
 type iFlytekModelProvider struct {
@@ -66,7 +66,7 @@ func (p *iFlytekModelProvider) getBaseURL() string {
 	}
 }
 
-// getAPIModelName maps the openagent subType to the iFlytek HTTP API model name.
+// getAPIModelName maps the cobbs.ai subType to the iFlytek HTTP API model name.
 func (p *iFlytekModelProvider) getAPIModelName() string {
 	switch p.subType {
 	case "spark-x2", "spark-x1.5":

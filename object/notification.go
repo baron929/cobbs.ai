@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,9 +20,9 @@ import (
 	"time"
 
 	"github.com/beego/beego/logs"
-	"github.com/the-open-agent/openagent/auth"
-	"github.com/the-open-agent/openagent/conf"
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/auth"
+	"github.com/baron929/cobbs.ai/conf"
+	"github.com/baron929/cobbs.ai/util"
 	"xorm.io/core"
 	"xorm.io/xorm"
 )
@@ -69,7 +69,7 @@ type Notification struct {
 }
 
 func buildNotificationContent(recipient, title, content, url string) string {
-	parts := []string{fmt.Sprintf("[OpenAgent] %s", title)}
+	parts := []string{fmt.Sprintf("[cobbs.ai] %s", title)}
 	if recipient != "" {
 		parts = append(parts, fmt.Sprintf("Recipient: %s", recipient))
 	}

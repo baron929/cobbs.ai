@@ -1,4 +1,4 @@
-// Copyright 2024 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2024 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,12 +15,13 @@
 package object
 
 import (
+	"errors"
 	"fmt"
 
-	"github.com/the-open-agent/openagent/embedding"
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/model"
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/embedding"
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/model"
+	"github.com/baron929/cobbs.ai/util"
 )
 
 func GetProviderFromName(owner string, providerName string, lang string) (*Provider, error) {
@@ -41,7 +42,7 @@ func GetProviderFromName(owner string, providerName string, lang string) (*Provi
 		}
 	}
 	if provider == nil {
-		return nil, fmt.Errorf(i18n.Translate(lang, "object:Please add a model provider first"))
+		return nil, errors.New(i18n.Translate(lang, "object:Please add a model provider first"))
 	}
 	return provider, nil
 }
@@ -96,7 +97,7 @@ func getEmbeddingProviderFromName(owner string, providerName string, lang string
 		if providerName != "" {
 			return nil, nil, fmt.Errorf(i18n.Translate(lang, "object:The embedding provider: %s is not found"), providerName)
 		} else {
-			return nil, nil, fmt.Errorf(i18n.Translate(lang, "object:Please add an embedding provider first"))
+			return nil, nil, errors.New(i18n.Translate(lang, "object:Please add an embedding provider first"))
 		}
 	}
 

@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -552,7 +552,7 @@ func downloadPptxTemplate(ctx context.Context, location *url.URL) (string, func(
 		return "", func() {}, fmt.Errorf("template exceeds the 100 MB download limit")
 	}
 
-	file, err := os.CreateTemp("", "openagent-pptx-template-*.pptx")
+	file, err := os.CreateTemp("", "cobbs.ai-pptx-template-*.pptx")
 	if err != nil {
 		return "", func() {}, err
 	}
@@ -665,7 +665,7 @@ func downloadPptxImage(ctx context.Context, location *url.URL, limit int64) (str
 		return "", fmt.Errorf("URL did not return an image (Content-Type: %s)", ct)
 	}
 
-	file, err := os.CreateTemp("", "openagent-pptx-image-*")
+	file, err := os.CreateTemp("", "cobbs.ai-pptx-image-*")
 	if err != nil {
 		return "", err
 	}

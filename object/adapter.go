@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,19 +18,17 @@ import (
 	"database/sql"
 	"flag"
 	"fmt"
-	"net"
 	"os"
 	"path/filepath"
 	"runtime"
 	"strings"
-	"time"
 
 	"github.com/beego/beego"
 	_ "github.com/denisenkom/go-mssqldb" // mssql
 	_ "github.com/go-sql-driver/mysql"   // mysql
 	_ "github.com/lib/pq"                // postgres
-	"github.com/the-open-agent/openagent/conf"
-	"github.com/the-open-agent/openagent/embedsupport"
+	"github.com/baron929/cobbs.ai/conf"
+	"github.com/baron929/cobbs.ai/embedsupport"
 	moderncsqlite "modernc.org/sqlite"
 	"xorm.io/xorm"
 )
@@ -40,8 +38,6 @@ func init() {
 	// Re-register the same pure-Go driver under "sqlite3" so xorm can pair its dialect with the driver.
 	sql.Register("sqlite3", &moderncsqlite.Driver{})
 }
-
-const defaultMySQLDataSourceName = "root:123456@tcp(localhost:3306)/"
 
 // isUniqueConstraintError reports whether err is a unique-constraint violation
 // from any supported database (MySQL: "Duplicate entry", SQLite: "UNIQUE constraint failed").
@@ -67,41 +63,35 @@ func maskDSN(dsn string) string {
 func sqliteDBPath() string {
 	exe, err := os.Executable()
 	if err != nil {
-		return "openagent.db"
+		return "cobbs.ai.db"
 	}
-	return filepath.Join(filepath.Dir(exe), "openagent.db")
+	return filepath.Join(filepath.Dir(exe), "cobbs.ai.db")
 }
 
-// resolveDatabase returns the effective driver and DSN to use.
-// When the config still holds the default unmodified MySQL values and nothing
-// is listening on port 3306, it transparently falls back to SQLite so that
-// the binary works out-of-the-box without a MySQL installation.
+// resolveDatabase returns the effective driver and DSN to use. Empty database
+// configuration selects SQLite for single-binary development; configured
+// database connections are never silently redirected to another database.
 func resolveDatabase(driverName, dataSourceName string) (string, string) {
 	dbName := conf.GetConfigString("dbName")
+	if dataSourceName == "" {
+		dsn := sqliteDBPath()
+		fmt.Printf("cobbs.ai: empty database configuration, using SQLite [dsn=%s]\n", dsn)
+		return "sqlite3", dsn
+	}
 
-	if driverName != "mysql" || dataSourceName != defaultMySQLDataSourceName {
-		fmt.Printf("OpenAgent: connecting to database [driver=%s, dsn=%s, db=%s]\n", driverName, maskDSN(dataSourceName), dbName)
+	if driverName != "mysql" {
+		fmt.Printf("cobbs.ai: connecting to database [driver=%s, dsn=%s, db=%s]\n", driverName, maskDSN(dataSourceName), dbName)
 		return driverName, dataSourceName
 	}
 
-	// Single-binary mode: the embedded conf/app.conf was used because no
-	// conf/app.conf file exists on disk. Always use SQLite in this case —
-	// the default MySQL credentials are almost certainly wrong, and the user
-	// has no obvious way to edit the config without creating the file manually.
+	// Single-binary mode uses SQLite when no database configuration is supplied.
 	if embedsupport.IsEmbeddedConf() {
 		dsn := sqliteDBPath()
-		fmt.Printf("OpenAgent: single-binary mode, using SQLite [dsn=%s]\n", dsn)
+		fmt.Printf("cobbs.ai: single-binary mode, using SQLite [dsn=%s]\n", dsn)
 		return "sqlite3", dsn
 	}
 
-	conn, err := net.DialTimeout("tcp", "localhost:3306", 2*time.Second)
-	if err != nil {
-		dsn := sqliteDBPath()
-		fmt.Printf("OpenAgent: connecting to database [driver=sqlite3, dsn=%s]\n", dsn)
-		return "sqlite3", dsn
-	}
-	conn.Close()
-	fmt.Printf("OpenAgent: connecting to database [driver=%s, dsn=%s, db=%s]\n", driverName, maskDSN(dataSourceName), dbName)
+	fmt.Printf("cobbs.ai: connecting to database [driver=%s, dsn=%s, db=%s]\n", driverName, maskDSN(dataSourceName), dbName)
 	return driverName, dataSourceName
 }
 
@@ -444,6 +434,11 @@ func (a *Adapter) createTable() {
 	}
 
 	err = a.engine.Sync2(new(ToolPolicy))
+	if err != nil {
+		panic(err)
+	}
+
+	err = a.engine.Sync2(new(ApprovalRecord))
 	if err != nil {
 		panic(err)
 	}

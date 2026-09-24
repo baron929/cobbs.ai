@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import (
 // bundleFixture is what a user migrating an agent we have no adapter for would
 // hand-write or script: some entries complete, some sloppy.
 const bundleFixture = `{
-  // A bundle exported from an agent OpenAgent has no native adapter for.
+  // A bundle exported from an agent cobbs.ai has no native adapter for.
   "source": "hermes",
   "sourceVersion": "2.1",
   "agents": [

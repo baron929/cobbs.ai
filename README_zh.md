@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://cdn.openagentai.org/img/openagent-logo_1900x450.png" alt="OpenAgent" width="480">
+<img src="https://cdn.cobbs.aiai.org/img/cobbs.ai-logo_1900x450.png" alt="cobbs.ai" width="480">
 
 <br/>
 <br/>
@@ -11,16 +11,16 @@
 
 <br/>
 
-[![Build](https://github.com/the-open-agent/openagent/workflows/Build/badge.svg?style=flat-square)](https://github.com/the-open-agent/openagent/actions/workflows/build.yml)
-[![Release](https://img.shields.io/github/v/release/the-open-agent/openagent?style=flat-square&color=4f46e5)](https://github.com/the-open-agent/openagent/releases/latest)
-[![Docker Pulls](https://img.shields.io/docker/pulls/casbin/openagent?style=flat-square&color=0ea5e9)](https://hub.docker.com/r/casbin/openagent)
-[![Go Report](https://goreportcard.com/badge/github.com/the-open-agent/openagent?style=flat-square)](https://goreportcard.com/report/github.com/the-open-agent/openagent)
-[![License](https://img.shields.io/github/license/the-open-agent/openagent?style=flat-square&color=22c55e)](https://github.com/the-open-agent/openagent/blob/master/LICENSE)
+[![Build](https://github.com/baron929/cobbs.ai/actions/workflows/build.yml)](https://github.com/baron929/cobbs.ai/actions/workflows/build.yml)
+[![Release](https://img.shields.io/github/v/release/baron929/cobbs.ai?style=flat-square&color=4f46e5)](https://github.com/baron929/cobbs.ai/releases/latest)
+[![Docker Pulls](https://img.shields.io/docker/pulls/casbin/cobbs.ai?style=flat-square&color=0ea5e9)](https://hub.docker.com/r/casbin/cobbs.ai)
+[![Go Report](https://goreportcard.com/badge/github.com/baron929/cobbs.ai?style=flat-square)](https://goreportcard.com/report/github.com/baron929/cobbs.ai)
+[![License](https://img.shields.io/github/license/baron929/cobbs.ai?style=flat-square&color=22c55e)](https://github.com/baron929/cobbs.ai/blob/master/LICENSE)
 [![Discord](https://img.shields.io/discord/1022748306096537660?logo=discord&label=discord&color=5865F2&style=flat-square)](https://discord.gg/5rPsrAzK7S)
 
 <br/>
 
-[**在线演示**](https://demo.openagentai.org) · [**试用场**](https://try.openagentai.org) · [**文档**](https://www.openagentai.org) · [**Discord**](https://discord.gg/5rPsrAzK7S)
+[**在线演示**](https://demo.cobbs.aiai.org) · [**试用场**](https://try.cobbs.aiai.org) · [**文档**](https://www.cobbs.aiai.org) · [**Discord**](https://discord.gg/5rPsrAzK7S)
 
 </div>
 
@@ -30,9 +30,9 @@
 
 ---
 
-## 什么是 OpenAgent？
+## 什么是 cobbs.ai？
 
-OpenAgent 是一个开源个人 AI 助手，将强大的大语言模型、私有知识库和自主 Agent 循环融为一体，形成可自托管的一站式平台。你可以接入任意模型提供商、从文档构建 RAG 知识库，并让 Agent 代替你浏览网页、执行代码、调用任何兼容 MCP 的工具。
+cobbs.ai 是一个开源个人 AI 助手，将强大的大语言模型、私有知识库和自主 Agent 循环融为一体，形成可自托管的一站式平台。你可以接入任意模型提供商、从文档构建 RAG 知识库，并让 Agent 代替你浏览网页、执行代码、调用任何兼容 MCP 的工具。
 
 <div align="center">
 <br/>
@@ -53,10 +53,10 @@ OpenAgent 是一个开源个人 AI 助手，将强大的大语言模型、私有
 <table>
   <tr>
     <td width="300" align="center">
-      <a href="https://go.apimart.ai/gh-openagent" target="_blank"><img src="https://cdn.openagentai.org/img/sponsor_apimart.png" alt="APIMart" width="280"></a>
+      <a href="https://go.apimart.ai/gh-cobbs.ai" target="_blank"><img src="https://cdn.cobbs.aiai.org/img/sponsor_apimart.png" alt="APIMart" width="280"></a>
     </td>
     <td>
-      感谢 APIMart 赞助了本项目！APIMart 是专注 AI 图片/视频生成的低价 API 平台，GPT-Image-2 低至 $0.006/张，1 美元可出图 160+ 张。图片、视频一套异步 API 通吃，提交任务拿 ID、回调取结果，跑批万张不超时、换模型不改代码。按量付费、无月费，通过此<a href="https://go.apimart.ai/gh-openagent" target="_blank">注册链接</a>注册即可开用。
+      感谢 APIMart 赞助了本项目！APIMart 是专注 AI 图片/视频生成的低价 API 平台，GPT-Image-2 低至 $0.006/张，1 美元可出图 160+ 张。图片、视频一套异步 API 通吃，提交任务拿 ID、回调取结果，跑批万张不超时、换模型不改代码。按量付费、无月费，通过此<a href="https://go.apimart.ai/gh-cobbs.ai" target="_blank">注册链接</a>注册即可开用。
     </td>
   </tr>
 </table>
@@ -65,23 +65,23 @@ OpenAgent 是一个开源个人 AI 助手，将强大的大语言模型、私有
 
 ## 快速开始
 
-提供 **Linux**、**macOS** 和 **Windows**（`x86_64` / `arm64`）预编译二进制文件。安装脚本会自动下载最新版本并在 **14000 端口**启动 OpenAgent。
+提供 **Linux**、**macOS** 和 **Windows**（`x86_64` / `arm64`）预编译二进制文件。安装脚本会自动下载最新版本并在 **14000 端口**启动 cobbs.ai。
 
 **macOS / Linux / WSL**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/the-open-agent/openagent/master/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/baron929/cobbs.ai/master/scripts/install.sh | bash
 ```
 
 **Windows（PowerShell）**
 ```powershell
-irm https://raw.githubusercontent.com/the-open-agent/openagent/master/scripts/install.ps1 | iex
+irm https://raw.githubusercontent.com/baron929/cobbs.ai/master/scripts/install.ps1 | iex
 ```
 
 > **Windows 原生支持** — 无需 WSL，无需 Docker。
 
 打开 [http://localhost:14000](http://localhost:14000) 即可使用。
 
-> 可选环境变量：`OPENAGENT_VERSION`、`INSTALL_DIR`、`BIN_DIR`
+> 可选环境变量：`COBBSAI_VERSION`、`INSTALL_DIR`、`BIN_DIR`
 
 **从源码构建**
 ```bash
@@ -179,14 +179,14 @@ docker-compose up
 
 | 环境             | 地址                         | 说明                                             |
 |:-----------------|:-----------------------------|:-------------------------------------------------|
-| **在线预览**     | https://demo.openagentai.org | 只读浏览 — 无需注册账号                          |
-| **试用场**       | https://try.openagentai.org  | 可自由操作 — 数据每 5 分钟重置一次               |
+| **在线预览**     | https://demo.cobbs.aiai.org | 只读浏览 — 无需注册账号                          |
+| **试用场**       | https://try.cobbs.aiai.org  | 可自由操作 — 数据每 5 分钟重置一次               |
 
 ---
 
 ## 文档
 
-完整文档请访问 **[https://www.openagentai.org](https://www.openagentai.org)**
+完整文档请访问 **[https://www.cobbs.aiai.org](https://www.cobbs.aiai.org)**
 
 ---
 
@@ -199,4 +199,4 @@ docker-compose up
 
 ## 许可证
 
-[Apache 2.0](https://github.com/the-open-agent/openagent/blob/master/LICENSE)
+[Apache 2.0](https://github.com/baron929/cobbs.ai/blob/master/LICENSE)

@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,22 +20,26 @@ package model
 import (
 	"context"
 	"fmt"
+	"os"
 	"testing"
 
 	"github.com/beego/beego"
-	"github.com/the-open-agent/openagent/proxy"
+	"github.com/baron929/cobbs.ai/proxy"
 	"google.golang.org/genai"
 )
 
 func TestListGeminiModels(t *testing.T) {
+	apiKey := os.Getenv("GOOGLE_API_KEY")
+	if apiKey == "" {
+		t.Skip("Gemini API test requires GOOGLE_API_KEY to be configured")
+	}
+
 	err := beego.LoadAppConfig("ini", "../conf/app.conf")
 	if err != nil {
 		panic(err)
 	}
 
 	proxy.InitHttpClient()
-
-	apiKey := ""
 
 	ctx := context.Background()
 

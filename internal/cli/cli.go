@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import (
 	"path/filepath"
 )
 
-const progName = "openagent"
+const progName = "cobbs.ai"
 
 // EarlyDispatch handles CLI-only commands (help, version) and normalizes argv for
 // optional serve-style subcommands. If it returns handled=true, the process should

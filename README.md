@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://cdn.openagentai.org/img/openagent-logo_1900x450.png" alt="OpenAgent" width="480">
+<img src="https://cdn.cobbs.aiai.org/img/cobbs.ai-logo_1900x450.png" alt="cobbs.ai" width="480">
 
 <br/>
 <br/>
@@ -11,16 +11,16 @@
 
 <br/>
 
-[![Build](https://github.com/the-open-agent/openagent/workflows/Build/badge.svg?style=flat-square)](https://github.com/the-open-agent/openagent/actions/workflows/build.yml)
-[![Release](https://img.shields.io/github/v/release/the-open-agent/openagent?style=flat-square&color=4f46e5)](https://github.com/the-open-agent/openagent/releases/latest)
-[![Docker Pulls](https://img.shields.io/docker/pulls/casbin/openagent?style=flat-square&color=0ea5e9)](https://hub.docker.com/r/casbin/openagent)
-[![Go Report](https://goreportcard.com/badge/github.com/the-open-agent/openagent?style=flat-square)](https://goreportcard.com/report/github.com/the-open-agent/openagent)
-[![License](https://img.shields.io/github/license/the-open-agent/openagent?style=flat-square&color=22c55e)](https://github.com/the-open-agent/openagent/blob/master/LICENSE)
+[![Build](https://github.com/baron929/cobbs.ai/actions/workflows/build.yml)](https://github.com/baron929/cobbs.ai/actions/workflows/build.yml)
+[![Release](https://img.shields.io/github/v/release/baron929/cobbs.ai?style=flat-square&color=4f46e5)](https://github.com/baron929/cobbs.ai/releases/latest)
+[![Docker Pulls](https://img.shields.io/docker/pulls/casbin/cobbs.ai?style=flat-square&color=0ea5e9)](https://hub.docker.com/r/casbin/cobbs.ai)
+[![Go Report](https://goreportcard.com/badge/github.com/baron929/cobbs.ai?style=flat-square)](https://goreportcard.com/report/github.com/baron929/cobbs.ai)
+[![License](https://img.shields.io/github/license/baron929/cobbs.ai?style=flat-square&color=22c55e)](https://github.com/baron929/cobbs.ai/blob/master/LICENSE)
 [![Discord](https://img.shields.io/discord/1022748306096537660?logo=discord&label=discord&color=5865F2&style=flat-square)](https://discord.gg/5rPsrAzK7S)
 
 <br/>
 
-[**Live Demo**](https://demo.openagentai.org) · [**Playground**](https://try.openagentai.org) · [**Docs**](https://www.openagentai.org) · [**Discord**](https://discord.gg/5rPsrAzK7S)
+[**Live Demo**](https://demo.cobbs.aiai.org) · [**Playground**](https://try.cobbs.aiai.org) · [**Docs**](https://www.cobbs.aiai.org) · [**Discord**](https://discord.gg/5rPsrAzK7S)
 
 </div>
 
@@ -30,9 +30,9 @@ English | [中文](./README_zh.md)
 
 ---
 
-## What is OpenAgent?
+## What is cobbs.ai?
 
-OpenAgent is an open-source personal AI assistant that brings together powerful LLMs, your own knowledge base, and autonomous agent loops — all in one self-hostable platform. Connect any model provider, build a RAG knowledge base from your documents, and let agents browse the web, run code, and call any MCP-compatible tool on your behalf.
+cobbs.ai is an open-source personal AI assistant that brings together powerful LLMs, your own knowledge base, and autonomous agent loops — all in one self-hostable platform. Connect any model provider, build a RAG knowledge base from your documents, and let agents browse the web, run code, and call any MCP-compatible tool on your behalf.
 
 <div align="center">
 <br/>
@@ -53,10 +53,10 @@ OpenAgent is an open-source personal AI assistant that brings together powerful 
 <table>
   <tr>
     <td width="300" align="center">
-      <a href="https://go.apimart.ai/gh-openagent" target="_blank"><img src="https://cdn.openagentai.org/img/sponsor_apimart.png" alt="APIMart" width="280"></a>
+      <a href="https://go.apimart.ai/gh-cobbs.ai" target="_blank"><img src="https://cdn.cobbs.aiai.org/img/sponsor_apimart.png" alt="APIMart" width="280"></a>
     </td>
     <td>
-      Thanks to APIMart for sponsoring this project! APIMart is a low-cost API platform for AI image &amp; video generation &mdash; GPT-Image-2 from $0.006/image, 160+ images per dollar. One async API covers both image and video: submit a task, get an ID, fetch results via polling or callback. Batch tens of thousands of images without timeouts, switch models without changing code. Pay-as-you-go with no monthly fee &mdash; <a href="https://go.apimart.ai/gh-openagent" target="_blank">sign up here</a> to get started.
+      Thanks to APIMart for sponsoring this project! APIMart is a low-cost API platform for AI image &amp; video generation &mdash; GPT-Image-2 from $0.006/image, 160+ images per dollar. One async API covers both image and video: submit a task, get an ID, fetch results via polling or callback. Batch tens of thousands of images without timeouts, switch models without changing code. Pay-as-you-go with no monthly fee &mdash; <a href="https://go.apimart.ai/gh-cobbs.ai" target="_blank">sign up here</a> to get started.
     </td>
   </tr>
 </table>
@@ -65,23 +65,23 @@ OpenAgent is an open-source personal AI assistant that brings together powerful 
 
 ## Quick Start
 
-Pre-built binaries for **Linux**, **macOS**, and **Windows** (`x86_64` / `arm64`). The installer downloads the latest release and starts OpenAgent on **port 14000**.
+Pre-built binaries for **Linux**, **macOS**, and **Windows** (`x86_64` / `arm64`). The installer downloads the latest release and starts cobbs.ai on **port 14000**.
 
 **macOS / Linux / WSL**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/the-open-agent/openagent/master/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/baron929/cobbs.ai/master/scripts/install.sh | bash
 ```
 
 **Windows (PowerShell)**
 ```powershell
-irm https://raw.githubusercontent.com/the-open-agent/openagent/master/scripts/install.ps1 | iex
+irm https://raw.githubusercontent.com/baron929/cobbs.ai/master/scripts/install.ps1 | iex
 ```
 
 > **Windows runs natively** — no WSL, no Docker required.
 
 Open [http://localhost:14000](http://localhost:14000) and you're in.
 
-> Optional env vars: `OPENAGENT_VERSION`, `INSTALL_DIR`, `BIN_DIR`
+> Optional env vars: `COBBSAI_VERSION`, `INSTALL_DIR`, `BIN_DIR`
 
 **Build from source**
 
@@ -184,14 +184,14 @@ Connect every major LLM provider and switch between them per conversation — no
 
 | Environment      | URL                          | Notes                                             |
 |:-----------------|:-----------------------------|:--------------------------------------------------|
-| **Live Preview** | https://demo.openagentai.org | Read-only tour — no account needed                |
-| **Playground**   | https://try.openagentai.org  | Make changes freely — data resets every 5 minutes |
+| **Live Preview** | https://demo.cobbs.aiai.org | Read-only tour — no account needed                |
+| **Playground**   | https://try.cobbs.aiai.org  | Make changes freely — data resets every 5 minutes |
 
 ---
 
 ## Documentation
 
-Full docs at **[https://www.openagentai.org](https://www.openagentai.org)**
+Full docs at **[https://www.cobbs.aiai.org](https://www.cobbs.aiai.org)**
 
 ---
 
@@ -204,4 +204,4 @@ Full docs at **[https://www.openagentai.org](https://www.openagentai.org)**
 
 ## License
 
-[Apache 2.0](https://github.com/the-open-agent/openagent/blob/master/LICENSE)
+[Apache 2.0](https://github.com/baron929/cobbs.ai/blob/master/LICENSE)

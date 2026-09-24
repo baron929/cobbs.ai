@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,15 +16,16 @@ package object
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
 	"path/filepath"
 	"strings"
 
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/model"
-	"github.com/the-open-agent/openagent/txt"
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/model"
+	"github.com/baron929/cobbs.ai/txt"
 )
 
 var (
@@ -92,7 +93,7 @@ func detectImageMimeType(data []byte, fallbackExt string) string {
 
 func generateImageCaption(modelProviderObj model.ModelProvider, fileUrl string, fileExt string, lang string) (string, error) {
 	if modelProviderObj == nil {
-		return "", fmt.Errorf(i18n.Translate(lang, "object:image caption requires a model provider; configure a vision-capable ModelProvider on the store"))
+		return "", errors.New(i18n.Translate(lang, "object:image caption requires a model provider; configure a vision-capable ModelProvider on the store"))
 	}
 
 	resp, err := http.Get(fileUrl)

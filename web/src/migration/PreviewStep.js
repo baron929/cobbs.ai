@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import {countApplicable, getCategoryLabel, renderActionTag, renderCategoryTag} f
 const {Text} = Typography;
 
 // PreviewStep is the dry run: every row the migration would write, what it
-// would be called on the OpenAgent side, and why anything is being skipped.
+// would be called on the cobbs.ai side, and why anything is being skipped.
 function PreviewStep(props) {
   const {plan, options, setOptions, selectedKeys, setSelectedKeys, replanning, starting, onBack, onStart} = props;
 
@@ -52,7 +52,7 @@ function PreviewStep(props) {
           {name}
           {record.displayName && record.displayName !== name ? <Text type="secondary" style={{marginLeft: 8}}>{record.displayName}</Text> : null}
           {record.secrets ? (
-            <Tooltip title={i18next.t("migration:This item carries an API key or token, which will be copied into OpenAgent.")}>
+            <Tooltip title={i18next.t("migration:This item carries an API key or token, which will be copied into cobbs.ai.")}>
               <KeyOutlined style={{marginLeft: 8, color: "#faad14"}} />
             </Tooltip>
           ) : null}
@@ -135,7 +135,7 @@ function PreviewStep(props) {
               optionType="button"
               options={[
                 {label: i18next.t("migration:Import under a new name"), value: "rename"},
-                {label: i18next.t("migration:Keep what OpenAgent has"), value: "skip"},
+                {label: i18next.t("migration:Keep what cobbs.ai has"), value: "skip"},
                 {label: i18next.t("migration:Replace it"), value: "overwrite"},
               ]}
             />

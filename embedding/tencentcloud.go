@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,12 +16,13 @@ package embedding
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
+	"github.com/baron929/cobbs.ai/i18n"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/profile"
 	hunyuan "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/hunyuan/v20230901"
-	"github.com/the-open-agent/openagent/i18n"
 )
 
 type TencentCloudEmbeddingProvider struct {
@@ -71,7 +72,7 @@ func (p *TencentCloudEmbeddingProvider) QueryVector(text string, ctx context.Con
 	}
 
 	if len(response.Response.Data) == 0 {
-		return nil, nil, fmt.Errorf(i18n.Translate(lang, "embedding:no embedding vector found in response"))
+		return nil, nil, errors.New(i18n.Translate(lang, "embedding:no embedding vector found in response"))
 	}
 
 	vector := make([]float32, len(response.Response.Data[0].Embedding))

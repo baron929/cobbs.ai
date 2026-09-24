@@ -7,7 +7,7 @@ from fastapi import FastAPI, File, HTTPException, UploadFile
 from rapidocr import RapidOCR
 
 
-app = FastAPI(title="OpenAgent OCR Service")
+app = FastAPI(title="cobbs.ai OCR Service")
 ocr_engine = RapidOCR()
 ocr_lock = Lock()
 

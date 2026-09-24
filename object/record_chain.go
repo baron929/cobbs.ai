@@ -1,4 +1,4 @@
-// Copyright 2024 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2024 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 package object
 
 import (
+	"errors"
 	"fmt"
 	"net"
 	"net/url"
@@ -24,9 +25,9 @@ import (
 
 	"github.com/beego/beego/logs"
 	"github.com/robfig/cron/v3"
-	"github.com/the-open-agent/openagent/chain"
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/chain"
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/util"
 )
 
 type Param struct {
@@ -68,7 +69,7 @@ func (record *Record) getRecordChainClient(chainProvider string, lang string) (c
 		return nil, nil, err
 	}
 	if provider == nil {
-		return nil, nil, fmt.Errorf(i18n.Translate(lang, "object:there is no active blockchain provider"))
+			return nil, nil, errors.New(i18n.Translate(lang, "object:there is no active blockchain provider"))
 	}
 
 	client, err := chain.NewChainClient(provider.Type, provider.ClientId, provider.ClientSecret, provider.Region, provider.Network, provider.Chain, provider.ProviderUrl, provider.Text, provider.UserKey, provider.UserCert, provider.SignKey, provider.SignCert, provider.ContractName, provider.ContractMethod, lang)

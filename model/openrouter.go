@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 package model
 
 import (
+	"errors"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -23,8 +24,8 @@ import (
 	"strings"
 
 	"github.com/casibase/go-openrouter"
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/proxy"
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/proxy"
 )
 
 type OpenRouterModelProvider struct {
@@ -40,8 +41,8 @@ func NewOpenRouterModelProvider(subType string, secretKey string, temperature fl
 	p := &OpenRouterModelProvider{
 		subType:     subType,
 		secretKey:   secretKey,
-		siteName:    "OpenAgent",
-		siteUrl:     "https://openagentai.org",
+		siteName:    "cobbs.ai",
+		siteUrl:     "https://cobbs.aiai.org",
 		temperature: &temperature,
 		topP:        &topP,
 	}
@@ -134,7 +135,7 @@ func (p *OpenRouterModelProvider) QueryText(question string, writer io.Writer, h
 	ctx := context.Background()
 	flusher, ok := writer.(http.Flusher)
 	if !ok {
-		return nil, fmt.Errorf(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
+		return nil, errors.New(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
 	}
 
 	model := p.subType
@@ -149,15 +150,15 @@ func (p *OpenRouterModelProvider) QueryText(question string, writer io.Writer, h
 
 	contextLength := getContextLength(p.subType)
 
-	if strings.HasPrefix(question, "$OpenAgentDryRun$") {
+	if strings.HasPrefix(question, "$cobbs.aiDryRun$") {
 		modelResult, err := getDefaultModelResult(model, question, "")
 		if err != nil {
-			return nil, fmt.Errorf(i18n.Translate(lang, "model:cannot calculate tokens"))
+			return nil, errors.New(i18n.Translate(lang, "model:cannot calculate tokens"))
 		}
 		if contextLength > modelResult.TotalTokenCount {
 			return modelResult, nil
 		} else {
-			return nil, fmt.Errorf(i18n.Translate(lang, "model:exceed max tokens"))
+			return nil, errors.New(i18n.Translate(lang, "model:exceed max tokens"))
 		}
 	}
 

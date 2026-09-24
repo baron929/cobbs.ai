@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 package model
 
 import (
+	"errors"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -25,12 +26,13 @@ import (
 	"time"
 
 	"github.com/ThinkInAIXYZ/go-mcp/protocol"
+	"github.com/baron929/cobbs.ai/audit"
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/mcp"
+	"github.com/baron929/cobbs.ai/tool"
+	"github.com/baron929/cobbs.ai/toolauth"
 	"github.com/openai/openai-go/v2/responses"
 	"github.com/sashabaranov/go-openai"
-	"github.com/the-open-agent/openagent/audit"
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/mcp"
-	"github.com/the-open-agent/openagent/tool"
 )
 
 type ToolMessages struct {
@@ -43,9 +45,11 @@ type ToolSession struct {
 	McpToolSet   *mcp.ToolSet
 	ToolMessages *ToolMessages
 	IsVision     bool
-	// SessionID identifies the chat/session these tool calls belong to. It is
-	// stamped onto every audit event so the audit log lands in one file per
-	// session; empty falls back to a shared file.
+	Subject      string
+	Owner        string
+	Store        string
+	Approval     *toolauth.Approval
+	// SessionID identifies the chat/session these tool calls belong to.
 	SessionID string
 }
 
@@ -76,13 +80,7 @@ func flushToolCallDelta(index int, id string, name string, argumentsDelta string
 	if name == "" && argumentsDelta == "" {
 		return nil
 	}
-
-	payload, err := json.Marshal(ToolCallDelta{
-		Index:          index,
-		ID:             id,
-		Name:           name,
-		ArgumentsDelta: argumentsDelta,
-	})
+	payload, err := json.Marshal(ToolCallDelta{Index: index, ID: id, Name: name, ArgumentsDelta: argumentsDelta})
 	if err != nil {
 		return err
 	}
@@ -96,20 +94,12 @@ func reverseToolsToOpenAi(tools []*protocol.Tool) ([]openai.Tool, error) {
 		if err != nil {
 			return nil, err
 		}
-
 		var parameters map[string]interface{}
 		if err := json.Unmarshal(schemaBytes, &parameters); err != nil {
 			return nil, err
 		}
 		normalizeToolParametersSchema(parameters)
-		openaiTools = append(openaiTools, openai.Tool{
-			Type: "function",
-			Function: &openai.FunctionDefinition{
-				Name:        tool.Name,
-				Description: tool.Description,
-				Parameters:  parameters,
-			},
-		})
+		openaiTools = append(openaiTools, openai.Tool{Type: "function", Function: &openai.FunctionDefinition{Name: tool.Name, Description: tool.Description, Parameters: parameters}})
 	}
 	return openaiTools, nil
 }
@@ -126,7 +116,6 @@ func handleToolCallsParameters(toolCall openai.ToolCall, toolCalls []openai.Tool
 	if toolCallsMap == nil {
 		toolCallsMap = make(map[int]int)
 	}
-
 	idx := *toolCall.Index
 	if existingIdx, exists := toolCallsMap[idx]; exists {
 		if toolCall.Function.Name != "" {
@@ -157,18 +146,13 @@ func normalizeToolCalls(toolSession *ToolSession) []openai.ToolCall {
 	}
 	result := make([]openai.ToolCall, 0, len(responseFunctionToolCalls))
 	for _, tc := range responseFunctionToolCalls {
-		result = append(result, openai.ToolCall{
-			ID:       tc.ID,
-			Type:     "function",
-			Function: openai.FunctionCall{Name: tc.Name, Arguments: tc.Arguments},
-		})
+		result = append(result, openai.ToolCall{ID: tc.ID, Type: "function", Function: openai.FunctionCall{Name: tc.Name, Arguments: tc.Arguments}})
 	}
 	return result
 }
 
 func QueryTextWithTools(p ModelProvider, question string, writer io.Writer, history []*RawMessage, prompt string, knowledgeMessages []*RawMessage, toolSession *ToolSession, lang string) (*ModelResult, error) {
 	var messages []*RawMessage
-
 	toolCount := 0
 	if toolSession.McpToolSet != nil {
 		toolCount = len(toolSession.McpToolSet.Tools)
@@ -177,12 +161,10 @@ func QueryTextWithTools(p ModelProvider, question string, writer io.Writer, hist
 		}
 	}
 	fmt.Printf("\n--- LLM Call (Round 0) | Tools available: [%d] ---\n", toolCount)
-
 	modelResult, err := p.QueryText(question, writer, history, prompt, knowledgeMessages, toolSession, lang)
 	if err != nil {
 		return nil, err
 	}
-
 	toolCalls := normalizeToolCalls(toolSession)
 	if len(toolCalls) == 0 {
 		fmt.Printf("LLM Decision: [Final Answer — no tool calls]\n")
@@ -194,24 +176,16 @@ func QueryTextWithTools(p ModelProvider, question string, writer io.Writer, hist
 		round++
 		fmt.Printf("\n--- Agent Round %d | LLM Decision: [%d tool call(s)] ---\n", round, len(toolCalls))
 		for i, tc := range toolCalls {
-			fmt.Printf("  Tool %d: [%s] args: %s\n", i+1, tc.Function.Name, tc.Function.Arguments)
+			fmt.Printf("  Tool %d: [%s] argsLength: %d\n", i+1, tc.Function.Name, len(tc.Function.Arguments))
 		}
-
 		roundHasToolError := false
 		var roundImages []ImageAttachment
 		for _, toolCall := range toolCalls {
 			serverName, toolName := mcp.GetServerNameAndToolNameFromId(toolCall.Function.Name)
-
-			messages = append(messages, &RawMessage{
-				Text:             "",
-				Author:           "AI",
-				ReasoningContent: toolSession.ToolMessages.ReasoningContent,
-				ToolCall:         toolCall,
-			})
-
+			messages = append(messages, &RawMessage{Text: "", Author: "AI", ReasoningContent: toolSession.ToolMessages.ReasoningContent, ToolCall: toolCall})
 			var toolFailed bool
 			var images []ImageAttachment
-			messages, images, toolFailed, err = callMcpTool(toolCall, serverName, toolName, toolSession.SessionID, toolSession.IsVision, toolSession.McpToolSet, messages, writer, lang)
+			messages, images, toolFailed, err = callMcpTool(toolCall, serverName, toolName, toolSession, messages, writer, lang)
 			if err != nil {
 				return nil, err
 			}
@@ -221,40 +195,27 @@ func QueryTextWithTools(p ModelProvider, question string, writer io.Writer, hist
 			}
 		}
 		if len(roundImages) > 0 {
-			messages = append(messages, &RawMessage{
-				Text:   "Images returned by image_search, in the same order as the result metadata.",
-				Author: "User",
-				Images: roundImages,
-			})
+			messages = append(messages, &RawMessage{Text: "Images returned by image_search, in the same order as the result metadata.", Author: "User", Images: roundImages})
 		}
-
 		toolSession.ToolMessages.Messages = messages
 		fmt.Printf("\n--- LLM Call (Round %d) | Tool results fed back ---\n", round)
 		modelResult, err = p.QueryText(question, writer, history, prompt, knowledgeMessages, toolSession, lang)
 		if err != nil {
 			return nil, err
 		}
-
 		toolCalls = normalizeToolCalls(toolSession)
 		if len(toolCalls) == 0 && roundHasToolError {
-			messages = append(messages, &RawMessage{
-				Text:   toolErrorRecoveryPrompt,
-				Author: "System",
-			})
+			messages = append(messages, &RawMessage{Text: toolErrorRecoveryPrompt, Author: "System"})
 			toolSession.ToolMessages.Messages = messages
-
 			fmt.Printf("\n--- LLM Call (Round %d recovery) | Tool error recovery prompt added ---\n", round)
 			modelResult, err = p.QueryText(question, writer, history, prompt, knowledgeMessages, toolSession, lang)
 			if err != nil {
 				return nil, err
 			}
-
 			toolCalls = normalizeToolCalls(toolSession)
 		}
 	}
-
 	fmt.Printf("LLM Decision: [Final Answer — no more tool calls after round %d]\n", round)
-
 	for _, conn := range toolSession.McpToolSet.Connections {
 		conn.Close()
 	}
@@ -262,11 +223,7 @@ func QueryTextWithTools(p ModelProvider, question string, writer io.Writer, hist
 }
 
 func createToolMessage(toolCall openai.ToolCall, text string) *RawMessage {
-	return &RawMessage{
-		Text:       text,
-		Author:     "Tool",
-		ToolCallID: toolCall.ID,
-	}
+	return &RawMessage{Text: text, Author: "Tool", ToolCallID: toolCall.ID}
 }
 
 func startHeartbeat(writer io.Writer, mu *sync.Mutex) chan<- struct{} {
@@ -291,147 +248,149 @@ func startHeartbeat(writer io.Writer, mu *sync.Mutex) chan<- struct{} {
 	return stop
 }
 
-func callMcpTool(toolCall openai.ToolCall, serverName, toolName, sessionID string, isVision bool, mcpToolSet *mcp.ToolSet, messages []*RawMessage, writer io.Writer, lang string) ([]*RawMessage, []ImageAttachment, bool, error) {
+func callMcpTool(toolCall openai.ToolCall, serverName, toolName string, toolSession *ToolSession, messages []*RawMessage, writer io.Writer, lang string) ([]*RawMessage, []ImageAttachment, bool, error) {
 	var arguments map[string]interface{}
-	ctx := tool.WithModelVision(context.Background(), isVision)
-
-	// One audit event is emitted for every exit path, including the early
-	// failures below - a malformed-argument call and a call to an unregistered
-	// tool are exactly what an audit log must not miss. The deferred Record runs
-	// whichever way the function returns; each path sets the final outcome.
+	ctx := tool.WithModelVision(context.Background(), toolSession.IsVision)
+	mcpToolSet := toolSession.McpToolSet
 	start := time.Now()
-	auditEvent := audit.Event{
-		Type:            "tool_call",
-		Tool:            toolName,
-		Server:          serverName,
-		SessionID:       sessionID,
-		ArgumentsLength: len(toolCall.Function.Arguments),
-		Outcome:         "attempted",
-	}
+	auditEvent := audit.Event{Type: "tool_call", Tool: toolName, Server: serverName, SessionID: toolSession.SessionID, ArgumentsLength: len(toolCall.Function.Arguments), Outcome: "attempted"}
 	defer func() {
 		auditEvent.DurationMs = time.Since(start).Milliseconds()
 		audit.Record(auditEvent)
 	}()
 
-	if err := json.Unmarshal([]byte(toolCall.Function.Arguments), &arguments); err != nil {
+	if err := json.Unmarshal([]byte(toolCall.Function.Arguments), &arguments); err != nil || arguments == nil {
 		auditEvent.Outcome = "failure"
-		return nil, nil, false, fmt.Errorf(i18n.Translate(lang, "model:failed to parse tool arguments: %v"), err)
+		return nil, nil, false, errors.New(i18n.Translate(lang, "model:tool arguments must be a JSON object"))
+	}
+	if serverName == "" {
+		if mcpToolSet == nil || mcpToolSet.BuiltinTools == nil {
+			auditEvent.Outcome = "not_found"
+			return messages, nil, false, nil
+		}
+		if _, ok := mcpToolSet.BuiltinTools.GetTool(toolName); !ok {
+			auditEvent.Outcome = "not_found"
+			return messages, nil, false, nil
+		}
+	} else if mcpToolSet == nil || mcpToolSet.Connections[serverName] == nil {
+		auditEvent.Outcome = "not_found"
+		return messages, nil, false, nil
+	}
+	if serverName != "" {
+		registered := false
+		for _, registeredTool := range mcpToolSet.Tools {
+			if registeredTool.Name == toolCall.Function.Name || registeredTool.Name == toolName {
+				registered = true
+				break
+			}
+		}
+		if !registered {
+			auditEvent.Outcome = "not_found"
+			return messages, nil, false, nil
+		}
 	}
 
-	// Send tool-start event immediately so the frontend can show the tool call before execution
-	toolStartData := ToolCall{
-		Name:      toolCall.Function.Name,
-		Arguments: toolCall.Function.Arguments,
-		Content:   "",
-		IsError:   false,
+	authorizer := mcpToolSet.Authorizer
+	if authorizer == nil {
+		authorizer = toolauth.NewDenyAuthorizer()
 	}
-	toolStartJSON, err := json.Marshal(toolStartData)
-	if err == nil {
-		_ = flushDataThink(string(toolStartJSON), "tool-start", writer, lang)
+	category := toolauth.Classify(serverName, toolName)
+	authorization, authErr := authorizer.Authorize(ctx, toolauth.Request{Subject: toolSession.Subject, Owner: toolSession.Owner, Store: toolSession.Store, Server: serverName, Tool: toolName, Category: category, Resource: toolauth.Resource(arguments), Arguments: arguments, Approval: toolSession.Approval})
+	auditEvent.Subject = toolSession.Subject
+	auditEvent.Owner = toolSession.Owner
+	auditEvent.Store = toolSession.Store
+	auditEvent.Category = category
+	auditEvent.ArgumentsHash = toolauth.ArgumentsHash(arguments)
+	auditEvent.Effect = string(authorization.Effect)
+	auditEvent.Reason = authorization.Reason
+	auditEvent.Rule = authorization.Rule
+	auditEvent.ApprovalNeeded = authorization.ApprovalNeeded
+	auditEvent.Approved = authorization.Approved
+
+	var err error
+	var result *protocol.CallToolResult
+	if authErr != nil {
+		auditEvent.Outcome = "denied"
+		result = toolAuthorizationResult(authErr)
 	}
 
 	var mu sync.Mutex
-	var result *protocol.CallToolResult
-
+	if authErr == nil {
+		toolStartJSON, marshalErr := json.Marshal(ToolCall{Name: toolCall.Function.Name, Arguments: toolCall.Function.Arguments})
+		if marshalErr == nil {
+			_ = flushDataThink(string(toolStartJSON), "tool-start", writer, lang)
+		}
+	}
 	heartbeat := startHeartbeat(writer, &mu)
 	defer close(heartbeat)
-
-	if serverName == "" {
-		// builtin tools
-		if mcpToolSet.BuiltinTools == nil {
-			auditEvent.Outcome = "not_found"
-			return messages, nil, false, nil
-		}
+	if authErr == nil && serverName == "" {
 		result, err = mcpToolSet.BuiltinTools.ExecuteTool(ctx, toolName, arguments)
-	} else {
-		// MCP server tools
-		conn, ok := mcpToolSet.Connections[serverName]
-		if !ok {
-			auditEvent.Outcome = "not_found"
-			return messages, nil, false, nil
-		}
-		req := &protocol.CallToolRequest{
-			Name:      toolName,
-			Arguments: arguments,
-		}
-		result, err = conn.CallTool(ctx, req)
+	} else if authErr == nil {
+		result, err = mcpToolSet.Connections[serverName].CallTool(ctx, &protocol.CallToolRequest{Name: toolName, Arguments: arguments})
 	}
 
-	response := &ToolCallResponse{
-		ToolName: toolCall.Function.Name,
-	}
+	response := &ToolCallResponse{ToolName: toolCall.Function.Name}
 	var images []ImageAttachment
 	var responseContent []protocol.Content
 	if result != nil {
 		for _, content := range result.Content {
 			if imageContent, ok := content.(*protocol.ImageContent); ok {
-				images = append(images, ImageAttachment{
-					Data:     imageContent.Data,
-					MimeType: imageContent.MimeType,
-				})
+				images = append(images, ImageAttachment{Data: imageContent.Data, MimeType: imageContent.MimeType})
 				continue
 			}
 			responseContent = append(responseContent, content)
 		}
 	}
-
 	if err != nil {
 		response.Success = false
-		response.Error = err.Error()
-	} else if result.IsError {
-		response.Success = false
-		contentBytes, err := json.Marshal(responseContent)
-		if err != nil {
-			response.Error = fmt.Sprintf(i18n.Translate(lang, "model:failed to marshal error content: %v"), err)
+		if authErr != nil {
+			response.Error = toolauth.SafeError(authErr).Error()
 		} else {
+			response.Error = "tool execution failed"
+		}
+	} else if result == nil || result.IsError {
+		response.Success = false
+		contentBytes, marshalErr := json.Marshal(responseContent)
+		if marshalErr != nil {
+			response.Error = "tool returned an invalid error response"
+		} else if result != nil && len(contentBytes) > 0 {
 			response.Error = string(contentBytes)
 		}
 	} else {
 		response.Success = true
-		contentBytes, err := json.Marshal(responseContent)
-		if err != nil {
-			response.Data = fmt.Sprintf(i18n.Translate(lang, "model:failed to marshal content: %v"), err)
+		contentBytes, marshalErr := json.Marshal(responseContent)
+		if marshalErr != nil {
+			response.Data = "tool returned an invalid response"
 		} else {
 			response.Data = string(contentBytes)
 		}
 	}
-
-	auditEvent.Outcome = "success"
-	if !response.Success {
-		auditEvent.Outcome = "failure"
-	}
-
-	responseJson, err := json.Marshal(response)
-	if err != nil {
-		return nil, nil, false, fmt.Errorf(i18n.Translate(lang, "model:failed to marshal tool response: %v"), err)
-	}
-
-	var contentStr string
-	if !response.Success {
-		contentStr = response.Error
-	} else {
-		contentStr = response.Data.(string)
-	}
-
-	fmt.Printf("Tool Result: [%s]\n", contentStr)
-	isError := !response.Success
-
-	toolData := ToolCall{
-		Name:      toolCall.Function.Name,
-		Arguments: toolCall.Function.Arguments,
-		Content:   contentStr,
-		IsError:   isError,
-	}
-	toolJSON, err := json.Marshal(toolData)
-	if err == nil {
-		mu.Lock()
-		if err := flushDataThink(string(toolJSON), "tool", writer, lang); err == nil {
+	if authErr == nil {
+		auditEvent.Outcome = "success"
+		if !response.Success {
+			auditEvent.Outcome = "failure"
 		}
+	}
+	responseJSON, marshalErr := json.Marshal(response)
+	if marshalErr != nil {
+		return nil, nil, false, errors.New(i18n.Translate(lang, "model:failed to marshal tool response"))
+	}
+	contentStr := response.Error
+	if response.Success {
+		contentStr, _ = response.Data.(string)
+	}
+	toolJSON, marshalErr := json.Marshal(ToolCall{Name: toolCall.Function.Name, Arguments: toolCall.Function.Arguments, Content: contentStr, IsError: !response.Success})
+	if marshalErr == nil {
+		mu.Lock()
+		_ = flushDataThink(string(toolJSON), "tool", writer, lang)
 		mu.Unlock()
 	}
-
-	messages = append(messages, createToolMessage(toolCall, string(responseJson)))
+	messages = append(messages, createToolMessage(toolCall, string(responseJSON)))
 	return messages, images, !response.Success, nil
+}
+
+func toolAuthorizationResult(err error) *protocol.CallToolResult {
+	return &protocol.CallToolResult{IsError: true, Content: []protocol.Content{&protocol.TextContent{Type: "text", Text: toolauth.SafeError(err).Error()}}}
 }
 
 func GetToolCallsFromWriter(toolMessage string) []ToolCall {
@@ -439,8 +398,7 @@ func GetToolCallsFromWriter(toolMessage string) []ToolCall {
 		return nil
 	}
 	var toolCalls []ToolCall
-	toolCallLines := strings.Split(toolMessage, "\n")
-	for _, line := range toolCallLines {
+	for _, line := range strings.Split(toolMessage, "\n") {
 		if line == "" {
 			continue
 		}

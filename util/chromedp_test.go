@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,28 +19,77 @@ package util
 
 import (
 	"context"
-	"fmt"
+	"log"
+	"os"
+	"os/exec"
+	"runtime"
 	"testing"
 	"time"
 
 	"github.com/chromedp/chromedp"
 )
 
-func TestGetGoogleHomepage(t *testing.T) {
-	ctx, cancel := chromedp.NewContext(context.Background())
-	defer cancel()
+const defaultChromePath = `C:\Program Files\Google\Chrome\Application\chrome.exe`
 
-	ctx, cancel = context.WithTimeout(ctx, 30*time.Second)
-	defer cancel()
+func chromeExecutablePath(t *testing.T) string {
+	t.Helper()
 
-	var htmlContent string
-	err := chromedp.Run(ctx,
-		chromedp.Navigate("https://www.google.com"),
-		chromedp.OuterHTML("html", &htmlContent),
-	)
+	execPath := os.Getenv("CHROME_PATH")
+	if execPath != "" {
+		validateChromeExecutable(t, execPath)
+		return execPath
+	}
+
+	if runtime.GOOS == "windows" {
+		execPath = defaultChromePath
+		validateChromeExecutable(t, execPath)
+		return execPath
+	}
+
+	for _, candidate := range []string{"google-chrome", "google-chrome-stable", "chromium", "chromium-browser"} {
+		if execPath, err := exec.LookPath(candidate); err == nil {
+			return execPath
+		}
+	}
+
+	t.Skip("Chrome is unavailable; set CHROME_PATH to run this browser integration test")
+	return ""
+}
+
+func validateChromeExecutable(t *testing.T, execPath string) {
+	t.Helper()
+
+	info, err := os.Stat(execPath)
 	if err != nil {
+		t.Fatalf("Chrome executable %q is unavailable: %v; set CHROME_PATH to a valid browser path", execPath, err)
+	}
+	if info.IsDir() {
+		t.Fatalf("Chrome executable path %q is a directory; set CHROME_PATH to the browser executable", execPath)
+	}
+}
+
+func TestGetGoogleHomepage(t *testing.T) {
+	execPath := chromeExecutablePath(t)
+	opts := append(chromedp.DefaultExecAllocatorOptions[:],
+		chromedp.ExecPath(execPath),
+	)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	ctx, cancel = chromedp.NewExecAllocator(ctx, opts...)
+	defer cancel()
+
+	ctx, cancel = chromedp.NewContext(ctx)
+	defer cancel()
+
+	var title string
+	if err := chromedp.Run(ctx,
+		chromedp.Navigate("https://www.google.com"),
+		chromedp.Title(&title),
+	); err != nil {
 		t.Fatalf("chromedp run failed: %v", err)
 	}
 
-	fmt.Println(htmlContent)
+	log.Println("Page title:", title)
 }

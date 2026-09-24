@@ -1,4 +1,4 @@
-module github.com/the-open-agent/openagent
+module github.com/baron929/cobbs.ai
 
 go 1.25.0
 

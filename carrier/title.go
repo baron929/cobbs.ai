@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -53,7 +53,7 @@ func (p *TitleCarrier) GetQuestion(question string) (string, error) {
 		"\n\n**At the end of your answer, you MUST append a clear, concise, and meaningful topic title based on both the user's input and your response.**\n" +
 		"A meaningful topic title should be able to represent the user's purpose or the overall theme of this conversation.\n" +
 		"Examples of generated title:\n" +
-		"\tquery: what is openagent? title: introduction to openagent\n" +
+		"\tquery: what is cobbs.ai? title: introduction to cobbs.ai\n" +
 		"It should appear at the very end of the response, prefixed by: " + p.divider + "\n" +
 		"Only skip the divider and title when the user's message is completely empty.\n" +
 		"Format:\n<Your complete answer>\n" + p.divider + format + "\n"

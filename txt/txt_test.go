@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,6 +29,10 @@ import (
 func TestProcessFiles(t *testing.T) {
 	inputDir := "inputdir"   // Specify input file directory
 	outputDir := "outputdir" // Specify output directory
+
+	if _, err := os.Stat(inputDir); os.IsNotExist(err) {
+		t.Skip("input fixture directory is not present in this environment")
+	}
 
 	if _, err := os.Stat(outputDir); os.IsNotExist(err) {
 		err := os.Mkdir(outputDir, 0o755)

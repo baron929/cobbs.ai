@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 package model
 
 import (
+	"errors"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -26,7 +27,7 @@ import (
 	"unicode"
 
 	"github.com/sashabaranov/go-openai"
-	"github.com/the-open-agent/openagent/i18n"
+	"github.com/baron929/cobbs.ai/i18n"
 )
 
 type LocalModelProvider struct {
@@ -161,7 +162,7 @@ func (p *LocalModelProvider) CalculatePrice(modelResult *ModelResult, lang strin
 func flushDataAzure(data string, writer io.Writer, lang string) error {
 	flusher, ok := writer.(http.Flusher)
 	if !ok {
-		return fmt.Errorf(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
+		return errors.New(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
 	}
 	for _, runeValue := range data {
 		char := string(runeValue)
@@ -202,7 +203,7 @@ func flushDataAzure(data string, writer io.Writer, lang string) error {
 func flushDataOpenai(data string, writer io.Writer, lang string) error {
 	flusher, ok := writer.(http.Flusher)
 	if !ok {
-		return fmt.Errorf(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
+		return errors.New(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
 	}
 	if _, err := fmt.Fprintf(writer, "event: message\ndata: %s\n\n", data); err != nil {
 		return err
@@ -214,7 +215,7 @@ func flushDataOpenai(data string, writer io.Writer, lang string) error {
 func flushDataThink(data string, eventType string, writer io.Writer, lang string) error {
 	flusher, ok := writer.(http.Flusher)
 	if !ok {
-		return fmt.Errorf(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
+		return errors.New(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
 	}
 	if _, err := fmt.Fprintf(writer, "event: %s\ndata: %s\n\n", eventType, data); err != nil {
 		return err
@@ -253,7 +254,7 @@ func (p *LocalModelProvider) QueryText(question string, writer io.Writer, histor
 	ctx := context.Background()
 	flusher, ok := writer.(http.Flusher)
 	if !ok {
-		return nil, fmt.Errorf(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
+		return nil, errors.New(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
 	}
 
 	model := p.subType
@@ -306,13 +307,13 @@ func (p *LocalModelProvider) QueryText(question string, writer io.Writer, histor
 			return nil, err
 		}
 
-		if strings.HasPrefix(question, "$OpenAgentDryRun$") {
+		if strings.HasPrefix(question, "$cobbs.aiDryRun$") {
 			return modelResult, nil
 
 			//if GetOpenAiMaxTokens(p.subType) > modelResult.TotalTokenCount {
 			//	return modelResult, nil
 			//} else {
-			//	return nil, fmt.Errorf(i18n.Translate(lang, "model:exceed max tokens"))
+			//	return nil, errors.New(i18n.Translate(lang, "model:exceed max tokens"))
 			//}
 		}
 
@@ -442,7 +443,7 @@ func (p *LocalModelProvider) QueryText(question string, writer io.Writer, histor
 		}
 		return modelResult, nil
 	} else if getOpenAiModelType(model) == "ImageGeneration" {
-		if strings.HasPrefix(question, "$OpenAgentDryRun$") {
+		if strings.HasPrefix(question, "$cobbs.aiDryRun$") {
 			return modelResult, nil
 		}
 		reqUrl := openai.ImageRequest{

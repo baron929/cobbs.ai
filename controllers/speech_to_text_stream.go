@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,8 +22,8 @@ import (
 
 	"github.com/beego/beego/logs"
 	"github.com/gorilla/websocket"
-	"github.com/the-open-agent/openagent/object"
-	"github.com/the-open-agent/openagent/stt"
+	"github.com/baron929/cobbs.ai/object"
+	"github.com/baron929/cobbs.ai/stt"
 )
 
 // sttStreamUpgrader is the gorilla/websocket upgrader for the streaming

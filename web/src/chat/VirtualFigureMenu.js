@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@ import React from "react";
 import {CheckOutlined, EyeInvisibleOutlined, SettingOutlined} from "@ant-design/icons";
 import i18next from "i18next";
 
-export const storagePrefix = "openagent_virtual_figure";
+export const storagePrefix = "cobbs.ai_virtual_figure";
 
 export function getStoreStorageId(store) {
   if (!store) {

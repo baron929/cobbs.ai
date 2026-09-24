@@ -1,11 +1,11 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "OpenAgent RESTful API",
-        "description": "Swagger Docs of OpenAgent Backend API",
+        "title": "cobbs.ai RESTful API",
+        "description": "Swagger Docs of cobbs.ai Backend API",
         "version": "1.70.0",
         "contact": {
-            "email": "admin@openagentai.org"
+            "email": "baron@cobbs.ai"
         }
     },
     "basePath": "/api",

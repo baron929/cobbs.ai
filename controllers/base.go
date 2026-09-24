@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,10 +20,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/baron929/cobbs.ai/auth"
+	"github.com/baron929/cobbs.ai/object"
 	"github.com/beego/beego"
 	"github.com/beego/beego/logs"
-	"github.com/the-open-agent/openagent/auth"
-	"github.com/the-open-agent/openagent/object"
 )
 
 type ApiController struct {
@@ -224,21 +224,15 @@ func (c *ApiController) errorLogFilter() {
 		if status == "error" {
 			method := c.Ctx.Input.Method()
 			path := c.Ctx.Input.URL()
-			query := ""
-			if c.Ctx.Request != nil && c.Ctx.Request.URL != nil {
-				query = c.Ctx.Request.URL.RawQuery
-			}
-			body := string(c.Ctx.Input.RequestBody)
-			if len(body) > 4096 {
-				body = body[:4096] + "...(truncated)"
-			}
-			token := c.Ctx.Request.Header.Get("Authorization")
+			queryPresent := c.Ctx.Request != nil && c.Ctx.Request.URL != nil && c.Ctx.Request.URL.RawQuery != ""
+			authorizationPresent := c.Ctx.Request != nil && c.Ctx.Request.Header.Get("Authorization") != ""
+			bodyLength := len(c.Ctx.Input.RequestBody)
 			respJSON, _ := json.Marshal(v)
 			respStr := string(respJSON)
 			if len(respStr) > 4096 {
 				respStr = respStr[:4096] + "...(truncated)"
 			}
-			logs.Error("API error: method=%s path=%s query=%s token=%s body=%s response=%s", method, path, query, token, body, respStr)
+			logs.Error("API error: method=%s path=%s queryPresent=%t authorizationPresent=%t bodyLength=%d response=%s", method, path, queryPresent, authorizationPresent, bodyLength, respStr)
 		}
 	}
 }

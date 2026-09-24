@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,9 +20,9 @@ import (
 	"strings"
 
 	"github.com/sashabaranov/go-openai"
-	"github.com/the-open-agent/openagent/model"
-	"github.com/the-open-agent/openagent/object"
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/model"
+	"github.com/baron929/cobbs.ai/object"
+	"github.com/baron929/cobbs.ai/util"
 )
 
 // ChatCompletions implements the OpenAI-compatible chat completions API
@@ -117,6 +117,9 @@ func (c *ApiController) chatCompletionsViaStore(store *object.Store, request ope
 				ToolCalls: nil,
 			},
 			IsVision:  model.IsVisionModel(modelProviderRecord.SubType),
+			Subject:   "api:" + store.Owner + "/" + store.Name,
+			Owner:     store.Owner,
+			Store:     store.Name,
 			SessionID: chat.Name,
 		}
 		modelResult, err = model.QueryTextWithTools(modelProviderObj, question, writer, history, prompt, []*model.RawMessage{}, toolSession, lang)

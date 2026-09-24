@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -91,7 +91,7 @@ class PasswordSigninPage extends React.Component {
       <div style={{display: "flex", alignItems: "center", justifyContent: "center", minHeight: "100vh", background: "#ffffff"}}>
         <div style={{width: "340px"}}>
           <div style={{textAlign: "center", marginBottom: "36px"}}>
-            <img src={this.props.logo} alt="OpenAgent" style={{width: "260px", maxWidth: "100%"}} />
+            <img src={this.props.logo} alt="cobbs.ai" style={{width: "260px", maxWidth: "100%"}} />
           </div>
           <Form initialValues={{username: "admin", password: this.state.autoSignin ? "123" : undefined}} onFinish={(values) => this.onFinish(values)} requiredMark={false}>
             <Form.Item name="username" rules={[{required: true, message: i18next.t("account:Please input your username")}]}>

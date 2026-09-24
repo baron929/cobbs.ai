@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -98,7 +98,7 @@ func TestOpenClawSqliteTranscripts(t *testing.T) {
 		t.Errorf("first message = %+v", first.Messages[0])
 	}
 	// The typed-parts blob must be flattened, and the assistant turn must use
-	// the "AI" author OpenAgent expects.
+	// the "AI" author cobbs.ai expects.
 	if first.Messages[1].Author != "AI" || first.Messages[1].Text != "Use the export command." {
 		t.Errorf("second message = %+v", first.Messages[1])
 	}

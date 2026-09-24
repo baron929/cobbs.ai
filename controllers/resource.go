@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,8 +22,8 @@ import (
 	"strings"
 
 	"github.com/beego/beego/utils/pagination"
-	"github.com/the-open-agent/openagent/object"
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/object"
+	"github.com/baron929/cobbs.ai/util"
 )
 
 // GetGlobalResources
@@ -260,7 +260,7 @@ func (c *ApiController) UploadResource() {
 		fileType = fileTypeParts[0]
 	}
 
-	fullFilePath := fmt.Sprintf("openagent/resources/%s/%s/%s", category, userName, fileName)
+	fullFilePath := fmt.Sprintf("cobbs.ai/resources/%s/%s/%s", category, userName, fileName)
 
 	host := c.Ctx.Request.Host
 	origin := getOriginFromHost(host)

@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,8 +21,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/the-open-agent/openagent/model"
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/model"
+	"github.com/baron929/cobbs.ai/util"
 	"xorm.io/core"
 )
 
@@ -103,9 +103,9 @@ type experienceReviewWritePlan struct {
 	AppendSkillToStore bool
 }
 
-const experienceReviewSystemPrompt = `You are OpenAgent's background experience reviewer.
+const experienceReviewSystemPrompt = `You are cobbs.ai's background experience reviewer.
 
-Your job is to decide whether the completed task contains durable procedural knowledge that should be saved as an OpenAgent Skill.
+Your job is to decide whether the completed task contains durable procedural knowledge that should be saved as an cobbs.ai Skill.
 
 Save only reusable workflows, stable tool usage patterns, user corrections, verified pitfalls, selectors, checks, or recovery paths.
 Do not save raw chain-of-thought, private reasoning, secrets, credentials, personal data, one-off task narratives, or transient environment failures.
@@ -211,7 +211,7 @@ func RunExperienceReview(snapshot experienceReviewSnapshot) error {
 		return fmt.Errorf("marshal review payload: %w", err)
 	}
 
-	question := "Review this completed OpenAgent task and decide whether to update the skill library.\n\n" + string(payloadBytes)
+	question := "Review this completed cobbs.ai task and decide whether to update the skill library.\n\n" + string(payloadBytes)
 	var writer MyWriter
 	_, err = modelProviderObj.QueryText(question, &writer, []*model.RawMessage{}, experienceReviewSystemPrompt, []*model.RawMessage{}, nil, snapshot.Lang)
 	if err != nil {

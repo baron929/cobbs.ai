@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/util"
 
 	// The pure-Go SQLite driver, imported here rather than relied on through
 	// another package's init: this package must be able to read a transcript
@@ -253,7 +253,7 @@ func flattenTranscriptContent(value interface{}) string {
 }
 
 // parseTranscriptTime normalizes the several timestamp encodings OpenClaw uses
-// into OpenAgent's string format.
+// into cobbs.ai's string format.
 func parseTranscriptTime(value interface{}) string {
 	switch typed := value.(type) {
 	case string:

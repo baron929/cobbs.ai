@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/util"
 )
 
 // ---------------------------------------------------------------------------
@@ -30,7 +30,7 @@ import (
 // ---------------------------------------------------------------------------
 
 // NormalizeEntityName turns a free-form third-party identifier into something
-// usable as an OpenAgent entity name: lowercase, no spaces, no slashes.
+// usable as an cobbs.ai entity name: lowercase, no spaces, no slashes.
 func NormalizeEntityName(name string) string {
 	name = strings.TrimSpace(strings.ToLower(name))
 	replacer := strings.NewReplacer(" ", "-", "/", "-", "\\", "-", ":", "-", "_", "-", ".", "-")

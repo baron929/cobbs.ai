@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,16 +17,17 @@ package object
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"strings"
 	"time"
 
 	"github.com/ThinkInAIXYZ/go-mcp/client"
 	"github.com/ThinkInAIXYZ/go-mcp/protocol"
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/mcp"
-	mcppkg "github.com/the-open-agent/openagent/mcp"
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/mcp"
+	mcppkg "github.com/baron929/cobbs.ai/mcp"
+	"github.com/baron929/cobbs.ai/util"
 	"xorm.io/core"
 )
 
@@ -368,7 +369,7 @@ func GetServerMcpToolSet(owner, serverName, lang string) (*mcp.ToolSet, error) {
 // TestContent (JSON: {"tool": "toolName", "arguments": {...}}).
 func TestMcpServer(s *Server, lang string) (string, error) {
 	if !s.IsConfigured() {
-		return "", fmt.Errorf(i18n.Translate(lang, "object:Server URL is empty"))
+		return "", errors.New(i18n.Translate(lang, "object:Server URL is empty"))
 	}
 	if s.Token == "***" {
 		if s.Owner != "" && s.Name != "" {
@@ -387,7 +388,7 @@ func TestMcpServer(s *Server, lang string) (string, error) {
 		return "", fmt.Errorf(i18n.Translate(lang, "object:invalid MCP test JSON: %v"), err)
 	}
 	if strings.TrimSpace(payload.Tool) == "" {
-		return "", fmt.Errorf(i18n.Translate(lang, "object:MCP test JSON must include non-empty \"tool\""))
+		return "", errors.New(i18n.Translate(lang, "object:MCP test JSON must include non-empty \"tool\""))
 	}
 	if payload.Arguments == nil {
 		payload.Arguments = map[string]interface{}{}

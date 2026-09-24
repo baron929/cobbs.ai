@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,9 +17,9 @@ package controllers
 import (
 	"fmt"
 
-	"github.com/the-open-agent/openagent/model"
-	"github.com/the-open-agent/openagent/object"
-	"github.com/the-open-agent/openagent/video"
+	"github.com/baron929/cobbs.ai/model"
+	"github.com/baron929/cobbs.ai/object"
+	"github.com/baron929/cobbs.ai/video"
 )
 
 // dryRunWriter is a dummy writer that implements both io.Writer and http.Flusher

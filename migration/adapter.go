@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@
 //     called on every adapter in turn, so a false positive hijacks somebody
 //     else's import. Return an error only for input it recognizes but cannot
 //     read.
-//  3. Extract() fills a Bundle. Anything the source has that OpenAgent cannot
+//  3. Extract() fills a Bundle. Anything the source has that cobbs.ai cannot
 //     represent goes through Bundle.addWarning rather than being dropped: the
 //     wizard shows those, and a migration that quietly loses configuration is
 //     not a painless one.
@@ -44,7 +44,7 @@ import (
 // Input is the raw material handed to an adapter: either an uploaded
 // file (config or archive) or a server-side directory to scan.
 type Input struct {
-	// Owner is the OpenAgent owner the imported entities will belong to.
+	// Owner is the cobbs.ai owner the imported entities will belong to.
 	Owner string
 	// FileName is the uploaded file's original name, used for format sniffing.
 	FileName string

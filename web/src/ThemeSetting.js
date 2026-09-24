@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -45,7 +45,7 @@ export function getAvatarColor(s) {
 }
 
 export function getDefaultAiAvatar() {
-  return `${StaticBaseUrl}/img/openagent.png`;
+  return `${StaticBaseUrl}/img/cobbs.ai.png`;
 }
 
 let builtInSiteFigureUrl = "";
@@ -55,7 +55,7 @@ export function setBuiltInSiteFigureUrl(url) {
 }
 
 export function getVirtualFigureUrl(store) {
-  return store?.figureUrl || builtInSiteFigureUrl || `${StaticBaseUrl}/img/openagent-figure.png`;
+  return store?.figureUrl || builtInSiteFigureUrl || `${StaticBaseUrl}/img/cobbs.ai-figure.png`;
 }
 
 export function getAvatarFallback() {
@@ -463,7 +463,7 @@ export function getIsDark() {
 }
 
 export function getHtmlTitle(storeHtmlTitle) {
-  const defaultHtmlTitle = "OpenAgent";
+  const defaultHtmlTitle = "cobbs.ai";
   let htmlTitle = Conf.HtmlTitle;
   if (storeHtmlTitle && storeHtmlTitle !== defaultHtmlTitle) {
     htmlTitle = storeHtmlTitle;
@@ -492,13 +492,13 @@ export function getStoreIconUrl(store) {
 }
 
 export function getLogo(themes, storeLogoUrl) {
-  const defaultLogoUrl = "https://cdn.openagentai.org/img/openagent-logo_1900x450.png";
+  const defaultLogoUrl = "https://cdn.cobbs.aiai.org/img/cobbs.ai-logo_1900x450.png";
   let logoUrl = Conf.LogoUrl || defaultLogoUrl;
   if (storeLogoUrl && storeLogoUrl !== defaultLogoUrl) {
     logoUrl = storeLogoUrl;
   }
   if (Conf.StaticBaseUrl) {
-    logoUrl = logoUrl.replace("https://cdn.openagentai.org", Conf.StaticBaseUrl);
+    logoUrl = logoUrl.replace("https://cdn.cobbs.aiai.org", Conf.StaticBaseUrl);
   }
   if (themes.includes("dark")) {
     return logoUrl.replace(/\.png$/, "_white.png");
@@ -512,7 +512,7 @@ export function getNavbarHtml(themes, storeNavbarHtml) {
   if (storeNavbarHtml) {
     navbarHtml = storeNavbarHtml;
   }
-  navbarHtml = navbarHtml.replace("https://cdn.openagentai.org", Conf.StaticBaseUrl);
+  navbarHtml = navbarHtml.replace("https://cdn.cobbs.aiai.org", Conf.StaticBaseUrl);
   if (themes.includes("dark")) {
     return navbarHtml.replace(/(\.png)/g, "_white$1");
   } else {
@@ -522,10 +522,10 @@ export function getNavbarHtml(themes, storeNavbarHtml) {
 
 export function getFooterHtml(themes, storeFooterHtml, site) {
   const logoUrl = getLogo("", site?.logoUrl);
-  const defaultFooterHtml = `<a target="_blank" href="https://github.com/the-open-agent/openagent" rel="noreferrer"><img style="padding-bottom: 3px;" height="30" alt="OpenAgent" src="${logoUrl}" /></a>`;
-  const isDefaultFooter = !storeFooterHtml || storeFooterHtml.includes("/img/openagent-logo_1900x450.png");
+  const defaultFooterHtml = `<a target="_blank" href="https://github.com/baron929/cobbs.ai" rel="noreferrer"><img style="padding-bottom: 3px;" height="30" alt="cobbs.ai" src="${logoUrl}" /></a>`;
+  const isDefaultFooter = !storeFooterHtml || storeFooterHtml.includes("/img/cobbs.ai-logo_1900x450.png");
   let footerHtml = isDefaultFooter ? (Conf.FooterHtml || defaultFooterHtml) : storeFooterHtml;
-  footerHtml = footerHtml.replace("https://cdn.openagentai.org", Conf.StaticBaseUrl);
+  footerHtml = footerHtml.replace("https://cdn.cobbs.aiai.org", Conf.StaticBaseUrl);
   if (themes.includes("dark")) {
     return footerHtml.replace(/(\.png)/g, "_white$1");
   } else {

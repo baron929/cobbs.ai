@@ -1,4 +1,4 @@
-// Copyright 2024 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2024 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,11 +18,12 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
 
-	"github.com/the-open-agent/openagent/i18n"
+	"github.com/baron929/cobbs.ai/i18n"
 )
 
 type MiniMaxEmbeddingProvider struct {
@@ -121,7 +122,7 @@ func (p *MiniMaxEmbeddingProvider) QueryVector(text string, ctx context.Context,
 	}
 
 	if len(embeddingResponse.Vectors) == 0 {
-		return nil, nil, fmt.Errorf(i18n.Translate(lang, "embedding:no embedding vector found in response"))
+		return nil, nil, errors.New(i18n.Translate(lang, "embedding:no embedding vector found in response"))
 	}
 
 	embeddingResult := &EmbeddingResult{

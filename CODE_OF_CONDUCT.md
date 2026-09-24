@@ -2,7 +2,7 @@
 
 ## Our Pledge
 
-We as members, contributors, and maintainers of OpenAgent pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, caste, color, religion, or sexual identity and orientation.
+We as members, contributors, and maintainers of cobbs.ai pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, caste, color, religion, or sexual identity and orientation.
 
 We pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.
 
@@ -32,13 +32,13 @@ Maintainers have the right and responsibility to remove, edit, or reject comment
 
 ## Scope
 
-This Code of Conduct applies within all community spaces — GitHub issues, pull requests, discussions, Discord, and any other official OpenAgent channels — and also applies when an individual is officially representing the project in public spaces.
+This Code of Conduct applies within all community spaces — GitHub issues, pull requests, discussions, Discord, and any other official cobbs.ai channels — and also applies when an individual is officially representing the project in public spaces.
 
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the project maintainers at:
 
-**[GitHub Security Advisories](https://github.com/the-open-agent/openagent/security/advisories/new)**
+**[GitHub Security Advisories](https://github.com/baron929/cobbs.ai/security/advisories/new)**
 
 All complaints will be reviewed and investigated promptly and fairly. All maintainers are obligated to respect the privacy and security of the reporter.
 

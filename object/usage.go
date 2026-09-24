@@ -1,4 +1,4 @@
-// Copyright 2024 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2024 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,10 +18,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/the-open-agent/openagent/auth"
-	"github.com/the-open-agent/openagent/conf"
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/model"
+	"github.com/baron929/cobbs.ai/auth"
+	"github.com/baron929/cobbs.ai/conf"
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/model"
 )
 
 type Usage struct {
@@ -218,8 +218,8 @@ func GetUsageMetadata(lang string) (*UsageMetadata, error) {
 
 func GetDefaultUsageMetadata() *UsageMetadata {
 	return &UsageMetadata{
-		Organization: "OpenAgent",
-		Application:  "OpenAgent",
+		Organization: "cobbs.ai",
+		Application:  "cobbs.ai",
 	}
 }
 

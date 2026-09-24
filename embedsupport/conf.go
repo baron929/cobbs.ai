@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -53,7 +53,7 @@ func setupConf(confFS fs.FS) {
 		return
 	}
 
-	tmpDir, err := os.MkdirTemp("", "openagent-conf-*")
+	tmpDir, err := os.MkdirTemp("", "cobbs.ai-conf-*")
 	if err != nil {
 		fmt.Printf("embedsupport: cannot create temp dir for conf: %v\n", err)
 		return

@@ -1,5 +1,5 @@
 services:
-  openagent-ocr:
+  cobbs.ai-ocr:
     restart: unless-stopped
     build:
       context: ./deploy/ocr-service

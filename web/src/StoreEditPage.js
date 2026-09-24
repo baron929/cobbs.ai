@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -278,7 +278,7 @@ class StoreEditPage extends React.Component {
 
   getPendingReviewChecks(store) {
     const isDefaultDisplayName = !store.displayName || store.displayName.includes("New Store");
-    const isDefaultAvatar = !store.avatar || store.avatar.includes("openagent.png") || store.avatar.includes("casibase.png");
+    const isDefaultAvatar = !store.avatar || store.avatar.includes("cobbs.ai.png") || store.avatar.includes("casibase.png");
 
     return [
       {passed: !isDefaultDisplayName, text: i18next.t("store:Set a custom display name (not the default \"New Store\" name)")},

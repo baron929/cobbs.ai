@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -243,29 +243,29 @@ class ToolEditPage extends React.Component {
                 >
                   <Option value="User Chrome">{i18next.t("tool:User Chrome")}</Option>
                   <Option value="Chrome for Testing">{i18next.t("tool:Chrome for Testing")}</Option>
-                  <Option value="OpenAgent Chrome Extension">{i18next.t("tool:OpenAgent Chrome Extension")}</Option>
+                  <Option value="cobbs.ai Chrome Extension">{i18next.t("tool:cobbs.ai Chrome Extension")}</Option>
                 </Select>,
                 12
               )
             ) : null}
-            {tool.type === "browser_use" && tool.mode === "OpenAgent Chrome Extension" ? (
+            {tool.type === "browser_use" && tool.mode === "cobbs.ai Chrome Extension" ? (
               <Col span={24} style={{marginTop: "12px"}}>
                 <Alert
                   type="info"
                   showIcon
-                  message={i18next.t("tool:OpenAgent Chrome Extension - Setup title")}
+                  message={i18next.t("tool:cobbs.ai Chrome Extension - Setup title")}
                   description={
                     <ol style={{marginTop: "8px", marginBottom: "0", paddingLeft: "20px"}}>
                       <li>
-                        {i18next.t("tool:OpenAgent Chrome Extension - Step 1 prefix")}
+                        {i18next.t("tool:cobbs.ai Chrome Extension - Step 1 prefix")}
                         {" "}
-                        <a href="https://github.com/the-open-agent/openagent-chrome" target="_blank" rel="noopener noreferrer">
-                          {i18next.t("tool:OpenAgent Chrome Extension - Step 1 link")}
+                        <a href="https://github.com/baron929/cobbs.ai-chrome" target="_blank" rel="noopener noreferrer">
+                          {i18next.t("tool:cobbs.ai Chrome Extension - Step 1 link")}
                         </a>
                       </li>
-                      <li>{i18next.t("tool:OpenAgent Chrome Extension - Step 2")}</li>
-                      <li>{i18next.t("tool:OpenAgent Chrome Extension - Step 3")}</li>
-                      <li>{i18next.t("tool:OpenAgent Chrome Extension - Step 4")}</li>
+                      <li>{i18next.t("tool:cobbs.ai Chrome Extension - Step 2")}</li>
+                      <li>{i18next.t("tool:cobbs.ai Chrome Extension - Step 3")}</li>
+                      <li>{i18next.t("tool:cobbs.ai Chrome Extension - Step 4")}</li>
                     </ol>
                   }
                 />

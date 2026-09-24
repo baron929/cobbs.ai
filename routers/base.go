@@ -1,4 +1,4 @@
-// Copyright 2024 The OpenAgent Authors.. All Rights Reserved.
+// Copyright 2024 The cobbs.ai Authors.. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,16 +15,17 @@
 package routers
 
 import (
-	"crypto/md5"
+	"crypto/sha256"
+	"crypto/subtle"
 	"encoding/hex"
 	"fmt"
 	"strings"
 
+	"github.com/baron929/cobbs.ai/auth"
+	"github.com/baron929/cobbs.ai/conf"
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/util"
 	"github.com/beego/beego/context"
-	"github.com/the-open-agent/openagent/auth"
-	"github.com/the-open-agent/openagent/conf"
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/util"
 )
 
 type Response struct {
@@ -40,8 +41,15 @@ func GetSessionUser(ctx *context.Context) *auth.User {
 		return nil
 	}
 
-	claims := s.(auth.Claims)
-	return &claims.User
+	switch claims := s.(type) {
+	case auth.Claims:
+		return &claims.User
+	case *auth.Claims:
+		if claims != nil {
+			return &claims.User
+		}
+	}
+	return nil
 }
 
 func getUsername(ctx *context.Context) (username string) {
@@ -108,18 +116,15 @@ func setSessionUser(ctx *context.Context, userId string) {
 
 func getUsernameByClientIdSecret(ctx *context.Context) (string, error) {
 	clientId, clientSecret, ok := ctx.Request.BasicAuth()
-	if !ok {
-		clientId = ctx.Input.Query("clientId")
-		clientSecret = ctx.Input.Query("clientSecret")
-	}
-
-	if clientId == "" || clientSecret == "" {
+	if !ok || clientId == "" || clientSecret == "" {
 		return "", nil
 	}
 
 	applicationName := conf.GetConfigString("casdoorApplication")
-	if clientSecret != conf.GetConfigString("clientSecret") {
-		return "", fmt.Errorf("Incorrect client secret for application: %s", applicationName)
+	configuredClientID := conf.GetConfigString("clientId")
+	configuredClientSecret := conf.GetConfigString("clientSecret")
+	if subtle.ConstantTimeCompare([]byte(clientId), []byte(configuredClientID)) != 1 || subtle.ConstantTimeCompare([]byte(clientSecret), []byte(configuredClientSecret)) != 1 {
+		return "", fmt.Errorf("invalid application credentials for %s", applicationName)
 	}
 
 	return util.GetIdFromOwnerAndName("app", applicationName), nil
@@ -129,9 +134,9 @@ func getUsernameByAccessToken(accessTokenInput string) (string, error) {
 	applicationName := conf.GetConfigString("casdoorApplication")
 	clientSecret := conf.GetConfigString("clientSecret")
 	clientId := conf.GetConfigString("clientId")
-	accessToken := getMd5HexDigest(clientId + ":" + clientSecret)
-	if accessTokenInput != accessToken {
-		return "", fmt.Errorf("Incorrect access token for application: %s", applicationName)
+	accessToken := getAccessTokenDigest(clientId + ":" + clientSecret)
+	if subtle.ConstantTimeCompare([]byte(accessTokenInput), []byte(accessToken)) != 1 {
+		return "", fmt.Errorf("invalid application access token for %s", applicationName)
 	}
 
 	return util.GetIdFromOwnerAndName("app", applicationName), nil
@@ -139,7 +144,7 @@ func getUsernameByAccessToken(accessTokenInput string) (string, error) {
 
 func parseBearerToken(ctx *context.Context) string {
 	header := ctx.Request.Header.Get("Authorization")
-	tokens := strings.Split(header, " ")
+	tokens := strings.Fields(header)
 	if len(tokens) != 2 {
 		return ""
 	}
@@ -152,8 +157,8 @@ func parseBearerToken(ctx *context.Context) string {
 	return tokens[1]
 }
 
-func getMd5HexDigest(s string) string {
-	hash := md5.Sum([]byte(s))
+func getAccessTokenDigest(s string) string {
+	hash := sha256.Sum256([]byte(s))
 	res := hex.EncodeToString(hash[:])
 	return res
 }

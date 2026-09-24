@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,12 +18,13 @@ import (
 	"context"
 	"encoding/base64"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
 
 	"github.com/WqyJh/go-cosyvoice"
-	"github.com/the-open-agent/openagent/i18n"
+	"github.com/baron929/cobbs.ai/i18n"
 )
 
 type AlibabacloudTextToSpeechProvider struct {
@@ -175,7 +176,7 @@ func (p *AlibabacloudTextToSpeechProvider) QueryAudioStream(text string, ctx con
 	// Check if writer supports Flush
 	flusher, ok := writer.(http.Flusher)
 	if !ok {
-		return nil, fmt.Errorf(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
+		return nil, errors.New(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
 	}
 
 	// Error channel for streaming mode

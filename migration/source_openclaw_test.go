@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -204,7 +204,7 @@ func TestOpenClawDetectAndExtract(t *testing.T) {
 		t.Errorf("assistant text = %q, structured content was not flattened", chat.Messages[1].Text)
 	}
 
-	// The cron section has no OpenAgent equivalent and must be reported, not dropped.
+	// The cron section has no cobbs.ai equivalent and must be reported, not dropped.
 	foundCronWarning := false
 	for _, warning := range bundle.Warnings {
 		if warning.Item == "cron" {

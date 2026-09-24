@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,10 +17,10 @@ package object
 import (
 	"fmt"
 
-	"github.com/the-open-agent/openagent/auth"
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/pipe"
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/auth"
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/pipe"
+	"github.com/baron929/cobbs.ai/util"
 	"xorm.io/core"
 )
 

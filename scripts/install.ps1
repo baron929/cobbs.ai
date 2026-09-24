@@ -1,19 +1,20 @@
-# OpenAgent one-step install (Windows PowerShell): download the release binary for your platform.
+# cobbs.ai one-step install (Windows PowerShell): download the release binary for your platform.
 # Usage (run only if you trust this script source):
-#   irm https://raw.githubusercontent.com/the-open-agent/openagent/master/scripts/install.ps1 | iex
+#   irm https://raw.githubusercontent.com/baron929/cobbs.ai/master/scripts/install.ps1 | iex
 #
 # Optional environment variables:
-#   OPENAGENT_VERSION   e.g. v1.777.3  (default: latest release)
-#   INSTALL_DIR         installation directory (default: $env:LOCALAPPDATA\openagent)
+#   COBBSAI_VERSION     e.g. v1.777.3  (default: latest release)
+#   OPENAGENT_VERSION   legacy alias for COBBSAI_VERSION
+#   INSTALL_DIR         installation directory (default: $env:LOCALAPPDATA\cobbs.ai)
 
 $ErrorActionPreference = 'Stop'
 
-$Repo    = 'the-open-agent/openagent'
-$Version = if ($env:OPENAGENT_VERSION) { $env:OPENAGENT_VERSION } else { 'latest' }
-$InstallDir = if ($env:INSTALL_DIR) { $env:INSTALL_DIR } else { "$env:LOCALAPPDATA\openagent" }
+$Repo    = 'baron929/cobbs.ai'
+$Version = if ($env:COBBSAI_VERSION) { $env:COBBSAI_VERSION } elseif ($env:OPENAGENT_VERSION) { $env:OPENAGENT_VERSION } else { 'latest' }
+$InstallDir = if ($env:INSTALL_DIR) { $env:INSTALL_DIR } else { "$env:LOCALAPPDATA\cobbs.ai" }
 
 function Write-Info { param([string]$Msg) Write-Host $Msg }
-function Write-Err  { param([string]$Msg) Write-Host "[openagent] $Msg" -ForegroundColor Red }
+function Write-Err  { param([string]$Msg) Write-Host "[cobbs.ai] $Msg" -ForegroundColor Red }
 
 # ── resolve version ────────────────────────────────────────────────────────────
 if ($Version -eq 'latest') {
@@ -22,7 +23,7 @@ if ($Version -eq 'latest') {
     $Version = $release.tag_name
     if (-not $Version) { throw 'Failed to fetch latest version from GitHub API.' }
 }
-Write-Info "Installing openagent $Version"
+Write-Info "Installing cobbs.ai $Version"
 
 # ── detect arch ───────────────────────────────────────────────────────────────
 $Arch = (Get-CimInstance Win32_Processor).Architecture
@@ -33,15 +34,15 @@ $ArchName = switch ($Arch) {
     default { throw "Unsupported architecture ($Arch). Download manually from https://github.com/$Repo/releases" }
 }
 
-$Filename = "openagent_windows_${ArchName}.exe"
+$Filename = "cobbs.ai_windows_${ArchName}.exe"
 $Url      = "https://github.com/$Repo/releases/download/$Version/$Filename"
 
 # ── download binary ─────────────────────────────────────────────────────────────
-$TmpDir = Join-Path $env:TEMP "openagent_install_$(Get-Random)"
+$TmpDir = Join-Path $env:TEMP "cobbs.ai_install_$(Get-Random)"
 New-Item -ItemType Directory -Path $TmpDir | Out-Null
 
 try {
-    $ExePath = Join-Path $TmpDir 'openagent.exe'
+    $ExePath = Join-Path $TmpDir 'cobbs.ai.exe'
     Write-Info "Downloading $Url ..."
     Invoke-WebRequest -Uri $Url -OutFile $ExePath -UseBasicParsing
 
@@ -51,7 +52,7 @@ try {
     }
 
     Write-Info "Installing to $InstallDir ..."
-    Copy-Item -Path $ExePath -Destination (Join-Path $InstallDir 'openagent.exe') -Force
+    Copy-Item -Path $ExePath -Destination (Join-Path $InstallDir 'cobbs.ai.exe') -Force
 
     # Record the version so it can be read without running the binary. The release
     # binary is built with -trimpath and packed with UPX, which erases the version
@@ -74,9 +75,9 @@ if ($UserPath -notlike "*$InstallDir*") {
 }
 
 Write-Info ''
-Write-Info "openagent $Version installed to $InstallDir"
+Write-Info "cobbs.ai $Version installed to $InstallDir"
 Write-Info ''
 Write-Info "For more information visit https://github.com/$Repo"
 Write-Info ''
-Write-Info 'Starting openagent...'
-& (Join-Path $InstallDir 'openagent.exe') serve
+Write-Info 'Starting cobbs.ai...'
+& (Join-Path $InstallDir 'cobbs.ai.exe') serve

@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 
 package object
 
-import "github.com/the-open-agent/openagent/model"
+import "github.com/baron929/cobbs.ai/model"
 
 // GetAnswerFake returns a hardcoded string without calling the LLM API, for fast local debugging.
 // Switch between GetAnswer and GetAnswerFake by commenting one of the two call sites (e.g. in task_analyze.go).

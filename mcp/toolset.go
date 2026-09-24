@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +17,8 @@ package mcp
 import (
 	"github.com/ThinkInAIXYZ/go-mcp/client"
 	"github.com/ThinkInAIXYZ/go-mcp/protocol"
-	"github.com/the-open-agent/openagent/tool"
+	"github.com/baron929/cobbs.ai/toolauth"
+	"github.com/baron929/cobbs.ai/tool"
 )
 
 // ToolSet holds everything needed to execute MCP and builtin tool calls
@@ -31,4 +32,6 @@ type ToolSet struct {
 	// BuiltinTools is the registry of server-side builtin tools.
 	BuiltinTools     *tool.ToolRegistry
 	WebSearchEnabled bool
+	// Authorizer is mandatory for execution. A nil value is treated as deny.
+	Authorizer toolauth.Authorizer
 }

@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -373,7 +373,7 @@ class SystemInfo extends React.Component {
       : <PrometheusInfoTable prometheusInfo={prometheusInfo} table={"throughput"} />;
 
     // Version
-    const link = versionInfo?.version ? `https://github.com/the-open-agent/openagent/releases/tag/${versionInfo.version}` : "";
+    const link = versionInfo?.version ? `https://github.com/baron929/cobbs.ai/releases/tag/${versionInfo.version}` : "";
     let versionText = versionInfo?.version || i18next.t("system:Unknown version");
     if (versionInfo?.commitOffset > 0) {
       versionText += ` (ahead+${versionInfo.commitOffset})`;
@@ -471,7 +471,7 @@ class SystemInfo extends React.Component {
                 }}
                 headStyle={cardHeadStyle}
                 bodyStyle={{padding: "24px 28px"}}
-                title={<CardTitle icon={<CodeOutlined style={{color: iconColor}} />} text={i18next.t("system:About OpenAgent")} />}
+                title={<CardTitle icon={<CodeOutlined style={{color: iconColor}} />} text={i18next.t("system:About cobbs.ai")} />}
               >
                 <div style={{display: "flex", alignItems: "flex-start", gap: 24, flexWrap: "wrap"}}>
                   <div style={{flex: 1, minWidth: 260}}>
@@ -485,7 +485,7 @@ class SystemInfo extends React.Component {
                         "supporting computer-use, browser-use and coding agent")}
                     </div>
                     <div style={{display: "flex", flexWrap: "wrap", gap: 8}}>
-                      <a target="_blank" rel="noreferrer" href="https://github.com/the-open-agent/openagent"
+                      <a target="_blank" rel="noreferrer" href="https://github.com/baron929/cobbs.ai"
                         style={{display: "flex", alignItems: "center", gap: 5, textDecoration: "none"}}>
                         <Tag icon={<GithubOutlined />} color={isDark ? "default" : "default"}
                           style={{
@@ -503,7 +503,7 @@ class SystemInfo extends React.Component {
                           {versionText}
                         </Tag>
                       </a>
-                      <a target="_blank" rel="noreferrer" href="https://openagentai.org"
+                      <a target="_blank" rel="noreferrer" href="https://cobbs.aiai.org"
                         style={{display: "flex", alignItems: "center", gap: 5, textDecoration: "none"}}>
                         <Tag icon={<GlobalOutlined />} color="green"
                           style={{cursor: "pointer", borderRadius: 6, padding: "2px 10px"}}>
@@ -544,7 +544,7 @@ class SystemInfo extends React.Component {
             <Col span={24}>
               <Card
                 id="about-card"
-                title={<CardTitle icon={<CodeOutlined style={{color: iconColor}} />} text={i18next.t("system:About OpenAgent")} />}
+                title={<CardTitle icon={<CodeOutlined style={{color: iconColor}} />} text={i18next.t("system:About cobbs.ai")} />}
                 style={cardStyle}
                 headStyle={cardHeadStyle}
                 bodyStyle={{padding: "20px"}}
@@ -553,13 +553,13 @@ class SystemInfo extends React.Component {
                   {i18next.t("system:🚀⚡️Next-generation personal AI assistant powered by LLM, RAG and agent loops,\nsupporting computer-use, browser-use and coding agent")}
                 </div>
                 <div style={{display: "flex", flexWrap: "wrap", gap: 8}}>
-                  <a target="_blank" rel="noreferrer" href="https://github.com/the-open-agent/openagent" style={{textDecoration: "none"}}>
+                  <a target="_blank" rel="noreferrer" href="https://github.com/baron929/cobbs.ai" style={{textDecoration: "none"}}>
                     <Tag icon={<GithubOutlined />} style={{cursor: "pointer", borderRadius: 6}}>GitHub</Tag>
                   </a>
                   <a target="_blank" rel="noreferrer" href={link} style={{textDecoration: "none"}}>
                     <Tag icon={<LinkOutlined />} color="blue" style={{cursor: "pointer", borderRadius: 6}}>{versionText}</Tag>
                   </a>
-                  <a target="_blank" rel="noreferrer" href="https://openagentai.org" style={{textDecoration: "none"}}>
+                  <a target="_blank" rel="noreferrer" href="https://cobbs.aiai.org" style={{textDecoration: "none"}}>
                     <Tag icon={<GlobalOutlined />} color="green" style={{cursor: "pointer", borderRadius: 6}}>{i18next.t("system:Official website")}</Tag>
                   </a>
                 </div>

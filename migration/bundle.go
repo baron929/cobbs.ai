@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ type BundleSkill struct {
 }
 
 // BundleProvider maps to a Provider. Only the fields a third-party agent can
-// realistically supply are modelled; everything else keeps OpenAgent defaults.
+// realistically supply are modelled; everything else keeps cobbs.ai defaults.
 type BundleProvider struct {
 	Name         string  `json:"name"`
 	DisplayName  string  `json:"displayName"`
@@ -68,7 +68,7 @@ type BundleMcpServer struct {
 	Env         map[string]string `json:"env"`
 }
 
-// BundleAgent maps to a Store -- OpenAgent's unit of "one configured agent".
+// BundleAgent maps to a Store -- cobbs.ai's unit of "one configured agent".
 type BundleAgent struct {
 	Name          string   `json:"name"`
 	DisplayName   string   `json:"displayName"`
@@ -83,7 +83,7 @@ type BundleAgent struct {
 	IsDefault     bool     `json:"isDefault"`
 }
 
-// BundleMessage is one turn of a conversation. Author follows the OpenAgent
+// BundleMessage is one turn of a conversation. Author follows the cobbs.ai
 // convention: "AI" for the assistant, anything else for a human.
 type BundleMessage struct {
 	Author      string `json:"author"`
@@ -104,7 +104,7 @@ type BundleChat struct {
 	Messages    []*BundleMessage `json:"messages"`
 }
 
-// BundleWarning records something the source had that OpenAgent cannot yet
+// BundleWarning records something the source had that cobbs.ai cannot yet
 // represent. Warnings are surfaced in the UI instead of being dropped silently
 // -- a migration that quietly loses configuration is not a painless one.
 type BundleWarning struct {

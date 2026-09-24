@@ -16,7 +16,7 @@ builds:
       - -tags=embed
       - -trimpath
     ldflags:
-      - -s -w -X github.com/the-open-agent/openagent/internal/cli.Version={{.Version}} -X github.com/the-open-agent/openagent/internal/cli.Commit={{.Commit}} -X github.com/the-open-agent/openagent/internal/cli.BuildDate={{.Date}}
+      - -s -w -X github.com/baron929/cobbs.ai/internal/cli.Version={{.Version}} -X github.com/baron929/cobbs.ai/internal/cli.Commit={{.Commit}} -X github.com/baron929/cobbs.ai/internal/cli.BuildDate={{.Date}}
     goos:
       - linux
       - windows

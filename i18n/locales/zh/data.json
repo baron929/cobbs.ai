@@ -57,9 +57,6 @@
     "transaction failed to be mined: %v": "交易挖矿失败：%v",
     "transaction failed with status: %d, reason: %s": "交易失败，状态码：%d，原因：%s"
   },
-  "chat": {
-    "Searching experience library": "正在检索经验库"
-  },
   "comment": {
     "Comment content cannot be longer than %d characters": "评论内容不能超过%d个字符"
   },
@@ -126,11 +123,13 @@
     "exceed max tokens": "超过最大标记（token）数量",
     "failed to marshal content: %v": "序列化内容失败：%v",
     "failed to marshal error content: %v": "序列化错误内容失败：%v",
+    "failed to marshal tool response": "failed to marshal tool response",
     "failed to marshal tool response: %v": "序列化工具响应失败：%v",
     "failed to parse tool arguments: %v": "解析工具参数失败：%v",
     "failed to write response: %v": "写入响应失败：%v",
     "no generations returned": "未返回生成结果（generations）",
     "the token count: [%d] exceeds the model: [%s]'s maximum token count: [%d]": "标记（token）数量：[%d] 超过模型：[%s] 的最大标记数量：[%d]",
+    "tool arguments must be a JSON object": "tool arguments must be a JSON object",
     "unsupported model: %s": "不支持的模型：%s",
     "writer does not implement http.Flusher": "写入器（writer）未实现http.Flusher接口"
   },
@@ -217,7 +216,7 @@
     "You can only set the publish state to Private or Pending Review": "您只能将状态设置为私有或待审核",
     "You cannot fork your own agent": "无法复刻自己的智能体",
     "You have already forked this agent": "你已经复刻过这个智能体了",
-    "given that there must be one default store in OpenAgent, you cannot set this store to non-default. You can directly set another store as default": "OpenAgent中必须保留至少一个默认存储，因此无法将当前存储设为非默认。您可以直接将另一个存储设为默认。"
+    "given that there must be one default store in cobbs.ai, you cannot set this store to non-default. You can directly set another store as default": "cobbs.ai中必须保留至少一个默认存储，因此无法将当前存储设为非默认。您可以直接将另一个存储设为默认。"
   },
   "stt": {
     "API error: %s": "API错误：%s",

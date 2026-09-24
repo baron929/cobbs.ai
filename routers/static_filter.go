@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,9 +27,9 @@ import (
 
 	"github.com/beego/beego/context"
 	"github.com/beego/beego/logs"
-	"github.com/the-open-agent/openagent/conf"
-	"github.com/the-open-agent/openagent/embedsupport"
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/conf"
+	"github.com/baron929/cobbs.ai/embedsupport"
+	"github.com/baron929/cobbs.ai/util"
 )
 
 func getWebBuildFolder() string {
@@ -72,7 +72,7 @@ func StaticFilter(ctx *context.Context) {
 			if target == "/swagger" || target == "/swagger/" {
 				target = "/swagger/index.html"
 			}
-			http.Redirect(ctx.ResponseWriter, ctx.Request, "https://try.openagentai.org"+target, http.StatusFound)
+			http.Redirect(ctx.ResponseWriter, ctx.Request, "https://try.cobbs.aiai.org"+target, http.StatusFound)
 			return
 		}
 	}

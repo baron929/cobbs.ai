@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -60,7 +60,7 @@ func ExtractMarkdownTree(markdownText string) map[string]string {
 		if isHeading {
 			if currentKey != "" {
 				result[currentKey] = strings.TrimSpace(strings.Join(currentContent, "\n"))
-			} else {
+			} else if len(currentContent) > 0 {
 				result["root"] = strings.TrimSpace(strings.Join(currentContent, "\n"))
 			}
 
@@ -88,7 +88,7 @@ func ExtractMarkdownTree(markdownText string) map[string]string {
 
 	if currentKey != "" {
 		result[currentKey] = strings.TrimSpace(strings.Join(currentContent, "\n"))
-	} else {
+	} else if len(currentContent) > 0 {
 		result["root"] = strings.TrimSpace(strings.Join(currentContent, "\n"))
 	}
 
@@ -137,39 +137,75 @@ func ExtractTablesWithContext(markdownText string, contextKey string) (string, [
 	return remainder, tablesWithContext, nil
 }
 
+func extractOrderedHeadingKeys(markdownText string) []string {
+	numberedHeadingPattern := regexp.MustCompile(`^(\d+(\.\d+)*)\s+(.+)$`)
+	hashHeadingPattern := regexp.MustCompile(`^(#{1,6})\s+(.+)$`)
+
+	lines := strings.Split(markdownText, "\n")
+	result := make([]string, 0)
+	path := make([]string, 0)
+
+	for _, line := range lines {
+		line = strings.TrimSpace(line)
+		if line == "" {
+			continue
+		}
+
+		var title string
+		var level int
+
+		if m := hashHeadingPattern.FindStringSubmatch(line); m != nil {
+			title = fmt.Sprintf("%s %s", m[1], m[2])
+			level = len(m[1])
+		} else if m := numberedHeadingPattern.FindStringSubmatch(line); m != nil {
+			title = fmt.Sprintf("%s %s", m[1], m[3])
+			level = strings.Count(m[1], ".") + 1
+		} else {
+			continue
+		}
+
+		switch {
+		case level == len(path)+1:
+			path = append(path, title)
+		case level == len(path):
+			if len(path) > 0 {
+				path[len(path)-1] = title
+			} else {
+				path = append(path, title)
+			}
+		case level < len(path):
+			path = path[:level-1]
+			path = append(path, title)
+		default:
+			path = append(path, title)
+		}
+
+		result = append(result, strings.Join(path, " > "))
+	}
+
+	return result
+}
+
 func (p *MarkdownSplitProvider) SplitText(text string) ([]string, error) {
-	headingsMap := ExtractMarkdownTree(text)
+	remainder, tables, err := ExtractTablesAndRemainder(text)
+	if err != nil {
+		return nil, err
+	}
 
-	var sections []string
+	textSplitter, err := NewDefaultSplitProvider("markdown")
+	if err != nil {
+		return nil, err
+	}
 
-	for key, content := range headingsMap {
-		remainder, tables, err := ExtractTablesWithContext(content, key)
-		if err != nil {
-			return nil, err
-		}
+	sections, err := textSplitter.SplitText(remainder)
+	if err != nil {
+		return nil, err
+	}
 
-		// add tables to sections
-		for _, table := range tables {
-			sections = append(sections, strings.TrimSpace(table))
-		}
-
-		// add text to sections
-		if strings.TrimSpace(remainder) != "" {
-			textSplitter, err := NewDefaultSplitProvider("markdown")
-			if err != nil {
-				return nil, err
-			}
-
-			textSections, err := textSplitter.SplitText(remainder)
-			if err != nil {
-				return nil, err
-			}
-
-			for _, section := range textSections {
-				if strings.TrimSpace(section) != "" {
-					sections = append(sections, key+"\n\n"+strings.TrimSpace(section))
-				}
-			}
+	for _, table := range tables {
+		table = strings.TrimSpace(table)
+		if table != "" {
+			sections = append(sections, table)
 		}
 	}
 

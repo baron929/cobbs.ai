@@ -1,23 +1,24 @@
 #!/usr/bin/env bash
-# OpenAgent one-step install: download the release binary for your platform.
+# cobbs.ai one-step install: download the release binary for your platform.
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/the-open-agent/openagent/master/scripts/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/baron929/cobbs.ai/master/scripts/install.sh | bash
 #
 # Optional environment variables:
-#   OPENAGENT_VERSION   e.g. v1.777.3  (default: latest release)
-#   INSTALL_DIR         installation directory (default: $HOME/.local/share/openagent)
-#   BIN_DIR             directory for the openagent symlink on PATH (default: $HOME/.local/bin)
+#   COBBSAI_VERSION     e.g. v1.777.3  (default: latest release)
+#   OPENAGENT_VERSION   legacy alias for COBBSAI_VERSION
+#   INSTALL_DIR         installation directory (default: $HOME/.local/share/cobbs.ai)
+#   BIN_DIR             directory for the cobbs.ai symlink on PATH (default: $HOME/.local/bin)
 
 set -euo pipefail
 
-OPENAGENT_VERSION="${OPENAGENT_VERSION:-latest}"
-INSTALL_DIR="${INSTALL_DIR:-$HOME/.local/share/openagent}"
+COBBSAI_VERSION="${COBBSAI_VERSION:-${OPENAGENT_VERSION:-latest}}"
+INSTALL_DIR="${INSTALL_DIR:-$HOME/.local/share/cobbs.ai}"
 BIN_DIR="${BIN_DIR:-$HOME/.local/bin}"
 
-REPO="the-open-agent/openagent"
+REPO="baron929/cobbs.ai"
 
 info() { printf '%s\n' "$*"; }
-die()  { printf '[openagent] %s\n' "$*" >&2; exit 1; }
+die()  { printf '[cobbs.ai] %s\n' "$*" >&2; exit 1; }
 
 need_cmd() {
 	command -v "$1" >/dev/null 2>&1 || die "required command not found: $1"
@@ -26,13 +27,13 @@ need_cmd() {
 need_cmd curl
 
 # ── resolve version ────────────────────────────────────────────────────────────
-if [[ "${OPENAGENT_VERSION}" == "latest" ]]; then
+if [[ "${COBBSAI_VERSION}" == "latest" ]]; then
 	info "Fetching latest release version..."
-	OPENAGENT_VERSION="$(curl -fsSL "https://api.github.com/repos/${REPO}/releases/latest" \
+	COBBSAI_VERSION="$(curl -fsSL "https://api.github.com/repos/${REPO}/releases/latest" \
 		| grep '"tag_name"' | head -1 | sed 's/.*"tag_name": *"\([^"]*\)".*/\1/')"
-	[[ -n "${OPENAGENT_VERSION}" ]] || die "Failed to fetch latest version from GitHub API."
+	[[ -n "${COBBSAI_VERSION}" ]] || die "Failed to fetch latest version from GitHub API."
 fi
-info "Installing openagent ${OPENAGENT_VERSION}"
+info "Installing cobbs.ai ${COBBSAI_VERSION}"
 
 # ── detect OS / arch ───────────────────────────────────────────────────────────
 OS="$(uname -s)"
@@ -50,8 +51,8 @@ case "${ARCH}" in
 	*) die "Unsupported architecture: ${ARCH}. Download manually from https://github.com/${REPO}/releases" ;;
 esac
 
-FILENAME="openagent_${OS_NAME}_${ARCH_NAME}"
-URL="https://github.com/${REPO}/releases/download/${OPENAGENT_VERSION}/${FILENAME}"
+FILENAME="cobbs.ai_${OS_NAME}_${ARCH_NAME}"
+URL="https://github.com/${REPO}/releases/download/${COBBSAI_VERSION}/${FILENAME}"
 
 # ── download binary ─────────────────────────────────────────────────────────────
 TMPDIR="$(mktemp -d)"

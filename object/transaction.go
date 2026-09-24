@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,12 +20,14 @@ import (
 
 	"github.com/beego/beego/logs"
 	"github.com/robfig/cron/v3"
-	"github.com/the-open-agent/openagent/auth"
-	"github.com/the-open-agent/openagent/conf"
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/auth"
+	"github.com/baron929/cobbs.ai/conf"
+	"github.com/baron929/cobbs.ai/util"
 )
 
-var OpenAgentHost = ""
+// CobbsAIHost stores the origin used for transaction population and is set by
+// the CORS filter when an externally visible origin is accepted.
+var CobbsAIHost = ""
 
 // createTransactionFromMessage creates a transaction object from a message.
 // This is a helper function to reduce code duplication.
@@ -34,8 +36,8 @@ func createTransactionFromMessage(message *Message) *auth.Transaction {
 		Owner:       conf.GetConfigString("casdoorOrganization"),
 		CreatedTime: message.CreatedTime,
 		Application: conf.GetConfigString("casdoorApplication"),
-		Domain:      OpenAgentHost,
-		Category:    "OpenAgent Chat",
+		Domain:      CobbsAIHost,
+		Category:    "cobbs.ai Chat",
 		Type:        message.Chat,
 		Subtype:     message.Name,
 		Provider:    message.ModelProvider,

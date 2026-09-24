@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
 // limitations under the License.
 
 // Package guard is a standalone, host-agnostic permission engine for agent
-// tool calls. It has no dependency on OpenAgent (no object/model/beego imports)
+// tool calls. It has no dependency on cobbs.ai (no object/model/beego imports)
 // so it can be reused as-is by other agents (Longxia, Hermes, ...).
 //
 // The host maps its own domain (agent, store, user, tool call)

@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ import (
 	"github.com/chromedp/cdproto/target"
 	"github.com/chromedp/chromedp"
 	"github.com/chromedp/chromedp/kb"
-	"github.com/the-open-agent/openagent/proxy"
+	"github.com/baron929/cobbs.ai/proxy"
 )
 
 const (
@@ -272,9 +272,9 @@ func (s *browserUseSession) closeLocked() {
 
 func defaultBrowserUseDataDir() string {
 	if configDir, err := os.UserConfigDir(); err == nil && configDir != "" {
-		return filepath.Join(configDir, "openagent", "browser-use")
+		return filepath.Join(configDir, "cobbs.ai", "browser-use")
 	}
-	return filepath.Join(os.TempDir(), "openagent-browser-use")
+	return filepath.Join(os.TempDir(), "cobbs.ai-browser-use")
 }
 
 var browserUseDownloadMu sync.Mutex
@@ -376,9 +376,9 @@ func chromeForTestingPlatform() (string, error) {
 
 func browserUseCacheDir() string {
 	if cacheDir, err := os.UserCacheDir(); err == nil && cacheDir != "" {
-		return filepath.Join(cacheDir, "openagent", "browser-use")
+		return filepath.Join(cacheDir, "cobbs.ai", "browser-use")
 	}
-	return filepath.Join(os.TempDir(), "openagent-browser-use")
+	return filepath.Join(os.TempDir(), "cobbs.ai-browser-use")
 }
 
 func fetchChromeForTestingMetadata() (*chromeForTestingMetadata, error) {
@@ -577,7 +577,7 @@ func browserUseSelector(arguments map[string]interface{}) (string, error) {
 		if err != nil {
 			return "", err
 		}
-		return fmt.Sprintf(`[data-openagent-browser-use-ref="%d"]`, index), nil
+		return fmt.Sprintf(`[data-cobbs.ai-browser-use-ref="%d"]`, index), nil
 	}
 	if selector, ok := arguments["selector"].(string); ok && strings.TrimSpace(selector) != "" {
 		return strings.TrimSpace(selector), nil
@@ -993,12 +993,12 @@ func browserUseSnapshotScript() string {
     .sort((a, b) => priorityOf(a.el) - priorityOf(b.el) || a.order - b.order)
     .map((item) => item.el)
     .slice(0, maxElements);
-  document.querySelectorAll('[data-openagent-browser-use-ref]').forEach((el) => {
-    el.removeAttribute('data-openagent-browser-use-ref');
+  document.querySelectorAll('[data-cobbs.ai-browser-use-ref]').forEach((el) => {
+    el.removeAttribute('data-cobbs.ai-browser-use-ref');
   });
   return nodes.map((el, index) => {
     const ref = String(index + 1);
-    el.setAttribute('data-openagent-browser-use-ref', ref);
+    el.setAttribute('data-cobbs.ai-browser-use-ref', ref);
     const rect = el.getBoundingClientRect();
     return {
       index: index + 1,
@@ -1163,7 +1163,7 @@ type browserUseOpenBuiltin struct{ provider *BrowserUseTool }
 func (b *browserUseOpenBuiltin) GetName() string { return "browser_use_open" }
 
 func (b *browserUseOpenBuiltin) GetDescription() string {
-	return "Open or reuse the managed visible browser and navigate the Browser Use controlled tab to a URL. In extension mode, OpenAgent UI tabs are protected and Browser Use uses a separate controlled tab. Use this for real browser tasks only; do not claim a page was opened unless this tool succeeds. The browser keeps tabs, cookies, and media state across related user requests. This tool returns a fresh snapshot plus current browser state; use the returned element indexes only until the next page-changing action."
+	return "Open or reuse the managed visible browser and navigate the Browser Use controlled tab to a URL. In extension mode, cobbs.ai UI tabs are protected and Browser Use uses a separate controlled tab. Use this for real browser tasks only; do not claim a page was opened unless this tool succeeds. The browser keeps tabs, cookies, and media state across related user requests. This tool returns a fresh snapshot plus current browser state; use the returned element indexes only until the next page-changing action."
 }
 
 func (b *browserUseOpenBuiltin) GetInputSchema() interface{} {
@@ -1566,7 +1566,7 @@ type browserUseSwitchTabBuiltin struct{ provider *BrowserUseTool }
 func (b *browserUseSwitchTabBuiltin) GetName() string { return "browser_use_switch_tab" }
 
 func (b *browserUseSwitchTabBuiltin) GetDescription() string {
-	return "Switch Browser Use to a tab returned by browser_use_tabs. The switch sets the selected tab as the controlled tab used by Browser Use tools; protected OpenAgent UI tabs cannot be controlled. This tool returns a fresh snapshot and browser state for the selected tab."
+	return "Switch Browser Use to a tab returned by browser_use_tabs. The switch sets the selected tab as the controlled tab used by Browser Use tools; protected cobbs.ai UI tabs cannot be controlled. This tool returns a fresh snapshot and browser state for the selected tab."
 }
 
 func (b *browserUseSwitchTabBuiltin) GetInputSchema() interface{} {

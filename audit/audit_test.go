@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -53,22 +53,22 @@ func TestRecordFallsBackToDefaultSessionFile(t *testing.T) {
 	Record(Event{Type: "tool_call", Tool: "time"})
 	flush()
 
-	if _, err := os.Stat(filepath.Join(dir, "openagent.jsonl")); err != nil {
-		t.Fatalf("event with no session id should land in openagent.jsonl: %v", err)
+	if _, err := os.Stat(filepath.Join(dir, "cobbs.ai.jsonl")); err != nil {
+		t.Fatalf("event with no session id should land in cobbs.ai.jsonl: %v", err)
 	}
 }
 
-// TestAuditDirForResolvesSymlinks is a regression test: OpenAgent is commonly
-// invoked through a symlink (e.g. a package manager's ~/.local/bin/openagent
+// TestAuditDirForResolvesSymlinks is a regression test: cobbs.ai is commonly
+// invoked through a symlink (e.g. a package manager's ~/.local/bin/cobbs.ai
 // pointing at the real binary elsewhere). os.Executable() returns the symlink
 // path used to invoke the process, not the real one, so without resolving it
 // events used to land next to the symlink - a directory aiguard's
-// agentmonitor.ResolveOpenAgentAuditDir, which does resolve it, never looks
+// agentmonitor.Resolvecobbs.aiAuditDir, which does resolve it, never looks
 // in, leaving the Sessions/Records page permanently showing "waiting for
 // activity" despite real events being recorded.
 func TestAuditDirForResolvesSymlinks(t *testing.T) {
 	realDir := t.TempDir()
-	realBinary := filepath.Join(realDir, "openagent")
+	realBinary := filepath.Join(realDir, "cobbs.ai")
 	if err := os.WriteFile(realBinary, []byte("stub"), 0o755); err != nil {
 		t.Fatal(err)
 	}
@@ -81,9 +81,9 @@ func TestAuditDirForResolvesSymlinks(t *testing.T) {
 	}
 
 	linkDir := t.TempDir()
-	symlinkBinary := filepath.Join(linkDir, "openagent")
+	symlinkBinary := filepath.Join(linkDir, "cobbs.ai")
 	if err := os.Symlink(realBinary, symlinkBinary); err != nil {
-		t.Fatal(err)
+		t.Skipf("symlink resolution is not supported in this environment: %v", err)
 	}
 
 	got := auditDirFor(symlinkBinary)
@@ -95,11 +95,11 @@ func TestAuditDirForResolvesSymlinks(t *testing.T) {
 
 func TestSanitizeSession(t *testing.T) {
 	tests := map[string]string{
-		"":             "openagent",
+		"":             "cobbs.ai",
 		"sess_ABC-1.2": "sess_ABC-1.2",
 		"a/b\\c":       "a-b-c",
 		"../../etc":    "etc",
-		"..":           "openagent",
+		"..":           "cobbs.ai",
 	}
 	for in, want := range tests {
 		if got := sanitizeSession(in); got != want {

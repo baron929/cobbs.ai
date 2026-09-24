@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 package model
 
 import (
+	"errors"
 	"context"
 	"fmt"
 	"io"
@@ -23,8 +24,8 @@ import (
 
 	"github.com/anthropics/anthropic-sdk-go"
 	"github.com/anthropics/anthropic-sdk-go/option"
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/proxy"
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/proxy"
 )
 
 type ClaudeModelProvider struct {
@@ -98,15 +99,15 @@ func (p *ClaudeModelProvider) QueryText(question string, writer io.Writer, histo
 		option.WithHTTPClient(proxy.ProxyHttpClient),
 	)
 
-	if strings.HasPrefix(question, "$OpenAgentDryRun$") {
+	if strings.HasPrefix(question, "$cobbs.aiDryRun$") {
 		modelResult, err := getDefaultModelResult(p.subType, question, "")
 		if err != nil {
-			return nil, fmt.Errorf(i18n.Translate(lang, "model:cannot calculate tokens"))
+			return nil, errors.New(i18n.Translate(lang, "model:cannot calculate tokens"))
 		}
 		if getContextLength(p.subType) > modelResult.TotalTokenCount {
 			return modelResult, nil
 		} else {
-			return nil, fmt.Errorf(i18n.Translate(lang, "model:exceed max tokens"))
+			return nil, errors.New(i18n.Translate(lang, "model:exceed max tokens"))
 		}
 	}
 
@@ -146,7 +147,7 @@ func (p *ClaudeModelProvider) QueryText(question string, writer io.Writer, histo
 
 	flusher, ok := writer.(http.Flusher)
 	if !ok {
-		return nil, fmt.Errorf(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
+		return nil, errors.New(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
 	}
 
 	flushData := func(event string, data string) error {

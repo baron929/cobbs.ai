@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,18 +14,18 @@
 
 // Package routers
 // @APIVersion 1.70.0
-// @Title OpenAgent RESTful API
-// @Description Swagger Docs of OpenAgent Backend API
-// @Contact admin@openagentai.org
+// @Title cobbs.ai RESTful API
+// @Description Swagger Docs of cobbs.ai Backend API
+// @Contact admin@cobbs.aiai.org
 // @SecurityDefinition AccessToken apiKey Authorization header
 // @Schemes https,http
-// @ExternalDocs Find out more about OpenAgent
-// @ExternalDocsUrl https://openagentai.org/
+// @ExternalDocs Find out more about cobbs.ai
+// @ExternalDocsUrl https://cobbs.aiai.org/
 package routers
 
 import (
+	"github.com/baron929/cobbs.ai/controllers"
 	"github.com/beego/beego"
-	"github.com/the-open-agent/openagent/controllers"
 )
 
 func init() {
@@ -164,6 +164,8 @@ func initAPI() {
 	beego.Router("/api/update-tool-policy", &controllers.ApiController{}, "POST:UpdateToolPolicy")
 	beego.Router("/api/add-tool-policy", &controllers.ApiController{}, "POST:AddToolPolicy")
 	beego.Router("/api/delete-tool-policy", &controllers.ApiController{}, "POST:DeleteToolPolicy")
+	beego.Router("/api/grant-approval", &controllers.ApiController{}, "POST:GrantApproval")
+	beego.Router("/api/update-approval-state", &controllers.ApiController{}, "POST:UpdateApprovalState")
 
 	beego.Router("/api/get-global-files", &controllers.ApiController{}, "GET:GetGlobalFiles")
 	beego.Router("/api/get-files", &controllers.ApiController{}, "GET:GetFiles")

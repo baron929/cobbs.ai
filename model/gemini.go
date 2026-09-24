@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 package model
 
 import (
+	"errors"
 	"context"
 	"encoding/base64"
 	"fmt"
@@ -22,8 +23,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/proxy"
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/proxy"
 	"google.golang.org/genai"
 )
 
@@ -234,14 +235,14 @@ func (p *GeminiModelProvider) calculatePrice(modelResult *ModelResult, lang stri
 
 	// Veo 3.1 video generation models
 	case strings.Contains(p.subType, "veo-3.1-fast") || strings.Contains(p.subType, "veo-3.0-fast"):
-		return fmt.Errorf(i18n.Translate(lang, "model:calculatePrice() error: video generation pricing requires duration information"))
+		return errors.New(i18n.Translate(lang, "model:calculatePrice() error: video generation pricing requires duration information"))
 
 	case strings.Contains(p.subType, "veo-3"):
-		return fmt.Errorf(i18n.Translate(lang, "model:calculatePrice() error: video generation pricing requires duration information"))
+		return errors.New(i18n.Translate(lang, "model:calculatePrice() error: video generation pricing requires duration information"))
 
 	// Veo 2 video generation models
 	case strings.Contains(p.subType, "veo-2"):
-		return fmt.Errorf(i18n.Translate(lang, "model:calculatePrice() error: video generation pricing requires duration information"))
+		return errors.New(i18n.Translate(lang, "model:calculatePrice() error: video generation pricing requires duration information"))
 
 	// Experimental models (using default Flash pricing)
 	case strings.Contains(p.subType, "gemini-exp"):
@@ -284,7 +285,7 @@ func isGeminiImagePreviewModel(subType string) bool {
 func (p *GeminiModelProvider) queryImagen(ctx context.Context, client *genai.Client, question string, writer io.Writer, lang string) (*ModelResult, error) {
 	flusher, ok := writer.(http.Flusher)
 	if !ok {
-		return nil, fmt.Errorf(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
+		return nil, errors.New(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
 	}
 
 	cfg := &genai.GenerateImagesConfig{
@@ -348,15 +349,15 @@ func (p *GeminiModelProvider) QueryText(question string, writer io.Writer, histo
 		return nil, err
 	}
 
-	if strings.HasPrefix(question, "$OpenAgentDryRun$") {
+	if strings.HasPrefix(question, "$cobbs.aiDryRun$") {
 		modelResult, err := getDefaultModelResult(p.subType, question, "")
 		if err != nil {
-			return nil, fmt.Errorf(i18n.Translate(lang, "model:cannot calculate tokens"))
+			return nil, errors.New(i18n.Translate(lang, "model:cannot calculate tokens"))
 		}
 		if getContextLength(p.subType) > modelResult.TotalTokenCount {
 			return modelResult, nil
 		} else {
-			return nil, fmt.Errorf(i18n.Translate(lang, "model:exceed max tokens"))
+			return nil, errors.New(i18n.Translate(lang, "model:exceed max tokens"))
 		}
 	}
 
@@ -392,7 +393,7 @@ func (p *GeminiModelProvider) QueryText(question string, writer io.Writer, histo
 
 	flusher, ok := writer.(http.Flusher)
 	if !ok {
-		return nil, fmt.Errorf(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
+		return nil, errors.New(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
 	}
 
 	flushData := func(data []*genai.Part) error {

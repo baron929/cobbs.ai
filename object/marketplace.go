@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/the-open-agent/openagent/proxy"
+	"github.com/baron929/cobbs.ai/proxy"
 )
 
 // ---------------------------------------------------------------------------
@@ -29,7 +29,7 @@ import (
 
 // MarketplaceSource describes a single skill marketplace that can be queried.
 type MarketplaceSource struct {
-	// ID is the internal key used in API calls (e.g. "clawhub", "openagent").
+	// ID is the internal key used in API calls (e.g. "clawhub", "cobbs.ai").
 	ID string `json:"id"`
 	// Name is the human-readable label shown in the UI.
 	Name string `json:"name"`
@@ -76,10 +76,10 @@ type marketplaceManifest struct {
 // Additional sources can be added by the user via the UI in the future.
 var DefaultMarketplaceSources = []MarketplaceSource{
 	{
-		ID:   "openagent",
-		Name: "OpenAgent Official",
+		ID:   "cobbs.ai",
+		Name: "cobbs.ai Official",
 		Type: "github",
-		URL:  "the-open-agent/openagent",
+		URL:  "baron929/cobbs.ai",
 	},
 	{
 		ID:   "clawhub",

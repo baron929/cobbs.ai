@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,21 +27,25 @@ import (
 	"github.com/beego/beego"
 	"github.com/beego/beego/logs"
 	_ "github.com/beego/beego/session/redis"
-	"github.com/the-open-agent/openagent/authz"
-	"github.com/the-open-agent/openagent/conf"
-	"github.com/the-open-agent/openagent/controllers"
-	"github.com/the-open-agent/openagent/internal/cli"
-	"github.com/the-open-agent/openagent/internal/localocr"
-	"github.com/the-open-agent/openagent/object"
-	"github.com/the-open-agent/openagent/proxy"
-	"github.com/the-open-agent/openagent/routers"
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/authz"
+	"github.com/baron929/cobbs.ai/conf"
+	"github.com/baron929/cobbs.ai/controllers"
+	"github.com/baron929/cobbs.ai/internal/cli"
+	"github.com/baron929/cobbs.ai/internal/localocr"
+	"github.com/baron929/cobbs.ai/object"
+	"github.com/baron929/cobbs.ai/proxy"
+	"github.com/baron929/cobbs.ai/routers"
+	"github.com/baron929/cobbs.ai/util"
 )
 
 func main() {
 	handled, code, _ := cli.EarlyDispatch()
 	if handled {
 		os.Exit(code)
+	}
+	if err := conf.ValidateProductionConfig(); err != nil {
+		logs.Error("production startup validation failed: %v", err)
+		os.Exit(1)
 	}
 
 	cli.WriteVersionFile()
@@ -83,7 +87,7 @@ func main() {
 
 	beego.BConfig.CopyRequestBody = true
 	beego.BConfig.WebConfig.Session.SessionOn = true
-	beego.BConfig.WebConfig.Session.SessionName = "openagent_session_id"
+	beego.BConfig.WebConfig.Session.SessionName = "cobbs.ai_session_id"
 	if conf.GetConfigString("redisEndpoint") == "" {
 		beego.BConfig.WebConfig.Session.SessionProvider = "file"
 		beego.BConfig.WebConfig.Session.SessionProviderConfig = "./tmp"

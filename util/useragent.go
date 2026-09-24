@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ func InitParser() {
 		candidates = append(candidates, filepath.Join(filepath.Dir(exe), "data", "regexes.yaml"))
 	}
 	if cache, err := os.UserCacheDir(); err == nil {
-		candidates = append(candidates, filepath.Join(cache, "openagent", "data", "regexes.yaml"))
+		candidates = append(candidates, filepath.Join(cache, "cobbs.ai", "data", "regexes.yaml"))
 	}
 
 	var err error

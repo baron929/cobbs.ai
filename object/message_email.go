@@ -1,4 +1,4 @@
-// Copyright 2024 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2024 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,13 +15,14 @@
 package object
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
-	"github.com/the-open-agent/openagent/auth"
-	"github.com/the-open-agent/openagent/conf"
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/auth"
+	"github.com/baron929/cobbs.ai/conf"
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/util"
 )
 
 func (message *Message) SendEmail(lang string) error {
@@ -73,7 +74,7 @@ func (message *Message) SendEmail(lang string) error {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OpenAgent Message Update</title>
+<title>cobbs.ai Message Update</title>
 <style>
     body { font-family: Arial, sans-serif; }
     .email-container { width: 600px; margin: 0 auto; }
@@ -87,7 +88,7 @@ func (message *Message) SendEmail(lang string) error {
 <div class="email-container">
   <div class="header">
         <h3>%s</h3>
-        <img src="%s" alt="OpenAgent Logo" width="300">
+        <img src="%s" alt="cobbs.ai Logo" width="300">
     </div>
     <p>Hi <strong>%s</strong>, your AI reply has been updated by the administrator! </p>
     <p>Question:</p>
@@ -106,7 +107,7 @@ func (message *Message) SendEmail(lang string) error {
     <p>%s</p>
     <hr>
     <div class="footer">
-        <p>Copyright © 2025 OpenAgent Organization</p>
+        <p>Copyright © 2025 cobbs.ai Organization</p>
     </div>
 </div>
 </body>
@@ -131,7 +132,7 @@ func (message *Message) SendErrorEmail(errorText string, lang string) error {
 		return err
 	}
 	if adminUser == nil {
-		return fmt.Errorf(i18n.Translate(lang, "object:SendErrorEmail() error, the receiver user: \")admin\" doesn't exist"))
+		return errors.New(i18n.Translate(lang, "object:SendErrorEmail() error, the receiver user: \")admin\" doesn't exist"))
 	}
 
 	receiverEmail := adminUser.Email
@@ -178,7 +179,7 @@ func (message *Message) SendErrorEmail(errorText string, lang string) error {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OpenAgent Message Error</title>
+<title>cobbs.ai Message Error</title>
 <style>
     body { font-family: Arial, sans-serif; }
     .email-container { width: 600px; margin: 0 auto; }
@@ -192,7 +193,7 @@ func (message *Message) SendErrorEmail(errorText string, lang string) error {
 <div class="email-container">
   <div class="header">
         <h3>%s</h3>
-        <img src="%s" alt="OpenAgent Logo" width="300">
+        <img src="%s" alt="cobbs.ai Logo" width="300">
     </div>
     <p>The message for user: <strong>%s</strong> has encountered error! </p>
     <p>Question:</p>
@@ -207,7 +208,7 @@ func (message *Message) SendErrorEmail(errorText string, lang string) error {
     <p>%s</p>
     <hr>
     <div class="footer">
-        <p>Copyright © 2025 OpenAgent Organization</p>
+        <p>Copyright © 2025 cobbs.ai Organization</p>
     </div>
 </div>
 </body>

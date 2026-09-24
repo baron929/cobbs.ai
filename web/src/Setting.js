@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -240,7 +240,7 @@ export function loadChatGenerationMode(owner, chatName) {
   if (!owner || !chatName) {
     return "text";
   }
-  const raw = localStorage.getItem(`openagent_chat_generation_mode:${owner}:${chatName}`);
+  const raw = localStorage.getItem(`cobbs.ai_chat_generation_mode:${owner}:${chatName}`);
   return raw === "image" ? "image" : "text";
 }
 
@@ -249,7 +249,7 @@ export function saveChatGenerationMode(owner, chatName, mode) {
     return;
   }
   if (mode === "image" || mode === "text") {
-    localStorage.setItem(`openagent_chat_generation_mode:${owner}:${chatName}`, mode);
+    localStorage.setItem(`cobbs.ai_chat_generation_mode:${owner}:${chatName}`, mode);
   }
 }
 
@@ -447,12 +447,12 @@ export function getToolFunctions(tool) {
       {
         name: "web_search",
         description: "Search the web using the configured search engine",
-        testContent: JSON.stringify({tool: "web_search", arguments: {query: "OpenAgent web search", count: 3, language: "en", country: "us"}}, null, 2),
+        testContent: JSON.stringify({tool: "web_search", arguments: {query: "cobbs.ai web search", count: 3, language: "en", country: "us"}}, null, 2),
       },
       {
         name: "image_search",
         description: "Search for images and return thumbnails for visual analysis",
-        testContent: JSON.stringify({tool: "image_search", arguments: {query: "OpenAgent", count: 3, language: "en", country: "us"}}, null, 2),
+        testContent: JSON.stringify({tool: "image_search", arguments: {query: "cobbs.ai", count: 3, language: "en", country: "us"}}, null, 2),
       },
     ];
   }
@@ -467,7 +467,7 @@ export function getToolFunctions(tool) {
     return [
       {
         name: "local_special_dirs",
-        description: "Return Desktop, Documents, and Downloads paths for the OS user running the OpenAgent backend",
+        description: "Return Desktop, Documents, and Downloads paths for the OS user running the cobbs.ai backend",
         testContent: JSON.stringify({tool: "local_special_dirs", arguments: {}}, null, 2),
       },
       {
@@ -501,21 +501,21 @@ export function getToolFunctions(tool) {
     return [{
       name: "web_fetch",
       description: "Fetch and extract content from a web URL",
-      testContent: JSON.stringify({tool: "web_fetch", arguments: {url: "https://openagentai.org", purpose: "get_list", max_length: 3000}}, null, 2),
+      testContent: JSON.stringify({tool: "web_fetch", arguments: {url: "https://cobbs.aiai.org", purpose: "get_list", max_length: 3000}}, null, 2),
     }];
   }
   if (type === "web_browser") {
     return [{
       name: "web_browser",
       description: "Open a web page in a browser and capture a screenshot",
-      testContent: JSON.stringify({tool: "web_browser", arguments: {url: "https://openagentai.org", timeout: 60}}, null, 2),
+      testContent: JSON.stringify({tool: "web_browser", arguments: {url: "https://cobbs.aiai.org", timeout: 60}}, null, 2),
     }];
   }
   if (type === "browser_use") {
     return [{
       name: "browser_use",
       description: "Automate browser interactions using AI-driven control",
-      testContent: JSON.stringify({tool: "browser_use_open", arguments: {url: "https://openagentai.org"}}, null, 2),
+      testContent: JSON.stringify({tool: "browser_use_open", arguments: {url: "https://cobbs.aiai.org"}}, null, 2),
     }];
   }
   if (type === "gui") {

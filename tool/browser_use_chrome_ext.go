@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ import (
 )
 
 const (
-	browserUseModeChromeExt       = "OpenAgent Chrome Extension"
+	browserUseModeChromeExt       = "cobbs.ai Chrome Extension"
 	browserUseChromeExtBridgePath = "/api/chrome-connect"
 	browserUseChromeExtTimeout    = 45 * time.Second
 )
@@ -145,11 +145,11 @@ func (b *browserUseChromeExtBridge) handleWebSocket(w http.ResponseWriter, r *ht
 	}
 
 	b.attach(conn)
-	defer b.detach(conn, fmt.Errorf("OpenAgent Chrome extension disconnected"))
+	defer b.detach(conn, fmt.Errorf("cobbs.ai Chrome extension disconnected"))
 
 	_ = b.writeJSON(conn, map[string]interface{}{
 		"type":        "server_hello",
-		"name":        "openagent",
+		"name":        "cobbs.ai",
 		"version":     "2",
 		"heartbeatMs": 20000,
 	})
@@ -182,7 +182,7 @@ func (b *browserUseChromeExtBridge) attach(conn *websocket.Conn) {
 	if oldConn != nil && oldConn != conn {
 		_ = oldConn.Close()
 		for _, ch := range pending {
-			ch <- browserUseChromeExtResponse{err: fmt.Errorf("OpenAgent Chrome extension reconnected before the command completed")}
+			ch <- browserUseChromeExtResponse{err: fmt.Errorf("cobbs.ai Chrome extension reconnected before the command completed")}
 		}
 	}
 }
@@ -271,7 +271,7 @@ func (b *browserUseChromeExtBridge) call(ctx context.Context, command string, pa
 	conn := b.conn
 	if conn == nil {
 		b.mu.Unlock()
-		return nil, fmt.Errorf("OpenAgent Chrome extension is not connected. Install the OpenAgent Chrome extension, open the popup, enter http://127.0.0.1:14000, and click Connect")
+		return nil, fmt.Errorf("cobbs.ai Chrome extension is not connected. Install the cobbs.ai Chrome extension, open the popup, enter http://127.0.0.1:14000, and click Connect")
 	}
 	b.pending[id] = ch
 	b.mu.Unlock()
@@ -319,7 +319,7 @@ func (b *browserUseChromeExtBridge) disconnect() {
 		_ = conn.Close()
 	}
 	for _, ch := range pending {
-		ch <- browserUseChromeExtResponse{err: fmt.Errorf("OpenAgent Chrome extension bridge closed")}
+		ch <- browserUseChromeExtResponse{err: fmt.Errorf("cobbs.ai Chrome extension bridge closed")}
 	}
 }
 
@@ -562,7 +562,7 @@ type chromeConnectOpenBuiltin struct{}
 
 func (b *chromeConnectOpenBuiltin) GetName() string { return "browser_use_open" }
 func (b *chromeConnectOpenBuiltin) GetDescription() string {
-	return "Navigate the Browser Use controlled tab in your existing Chrome browser to a URL via the OpenAgent Chrome extension. OpenAgent UI tabs are protected and Browser Use operates a separate controlled tab. Use this for real browser tasks only; do not claim a page was opened unless this tool succeeds. Returns a fresh snapshot plus current browser state."
+	return "Navigate the Browser Use controlled tab in your existing Chrome browser to a URL via the cobbs.ai Chrome extension. cobbs.ai UI tabs are protected and Browser Use operates a separate controlled tab. Use this for real browser tasks only; do not claim a page was opened unless this tool succeeds. Returns a fresh snapshot plus current browser state."
 }
 
 func (b *chromeConnectOpenBuiltin) GetInputSchema() interface{} {
@@ -599,7 +599,7 @@ type chromeConnectSnapshotBuiltin struct{}
 
 func (b *chromeConnectSnapshotBuiltin) GetName() string { return "browser_use_snapshot" }
 func (b *chromeConnectSnapshotBuiltin) GetDescription() string {
-	return "Read the Browser Use controlled tab in your existing Chrome browser via the OpenAgent Chrome extension and return visible text, indexed interactive elements, URL, title, controlled tab index, tab count, and media state. Treat this as the source of truth before acting. Use it at the start of a follow-up request and after every navigation, click, type, or key press before reusing element indexes."
+	return "Read the Browser Use controlled tab in your existing Chrome browser via the cobbs.ai Chrome extension and return visible text, indexed interactive elements, URL, title, controlled tab index, tab count, and media state. Treat this as the source of truth before acting. Use it at the start of a follow-up request and after every navigation, click, type, or key press before reusing element indexes."
 }
 
 func (b *chromeConnectSnapshotBuiltin) GetInputSchema() interface{} {
@@ -726,7 +726,7 @@ type chromeConnectPlayMediaBuiltin struct{}
 
 func (b *chromeConnectPlayMediaBuiltin) GetName() string { return "browser_use_play_media" }
 func (b *chromeConnectPlayMediaBuiltin) GetDescription() string {
-	return "Play and unmute visible audio or video elements on the Browser Use controlled tab via the OpenAgent Chrome extension. Use this after opening a page with media if playback is paused or muted."
+	return "Play and unmute visible audio or video elements on the Browser Use controlled tab via the cobbs.ai Chrome extension. Use this after opening a page with media if playback is paused or muted."
 }
 
 func (b *chromeConnectPlayMediaBuiltin) GetInputSchema() interface{} {
@@ -749,7 +749,7 @@ type chromeConnectTabsBuiltin struct{}
 
 func (b *chromeConnectTabsBuiltin) GetName() string { return "browser_use_tabs" }
 func (b *chromeConnectTabsBuiltin) GetDescription() string {
-	return "List open Chrome tabs available via the OpenAgent Chrome extension, including active, controlled, and protected tab markers, titles, and URLs. Use this before switching tabs or when the current page does not match what the user sees."
+	return "List open Chrome tabs available via the cobbs.ai Chrome extension, including active, controlled, and protected tab markers, titles, and URLs. Use this before switching tabs or when the current page does not match what the user sees."
 }
 
 func (b *chromeConnectTabsBuiltin) GetInputSchema() interface{} {
@@ -772,7 +772,7 @@ type chromeConnectSwitchTabBuiltin struct{}
 
 func (b *chromeConnectSwitchTabBuiltin) GetName() string { return "browser_use_switch_tab" }
 func (b *chromeConnectSwitchTabBuiltin) GetDescription() string {
-	return "Switch Browser Use to a tab returned by browser_use_tabs via the OpenAgent Chrome extension. Protected OpenAgent UI tabs cannot be controlled. Returns a fresh snapshot and browser state for the selected tab."
+	return "Switch Browser Use to a tab returned by browser_use_tabs via the cobbs.ai Chrome extension. Protected cobbs.ai UI tabs cannot be controlled. Returns a fresh snapshot and browser state for the selected tab."
 }
 
 func (b *chromeConnectSwitchTabBuiltin) GetInputSchema() interface{} {
@@ -812,7 +812,7 @@ type chromeConnectCloseTabBuiltin struct{}
 
 func (b *chromeConnectCloseTabBuiltin) GetName() string { return "browser_use_close_tab" }
 func (b *chromeConnectCloseTabBuiltin) GetDescription() string {
-	return "Close a Chrome tab returned by browser_use_tabs via the OpenAgent Chrome extension. Use browser_use_tabs first, then pass the tab index to close."
+	return "Close a Chrome tab returned by browser_use_tabs via the cobbs.ai Chrome extension. Use browser_use_tabs first, then pass the tab index to close."
 }
 
 func (b *chromeConnectCloseTabBuiltin) GetInputSchema() interface{} {
@@ -848,7 +848,7 @@ type chromeConnectCloseBuiltin struct{}
 
 func (b *chromeConnectCloseBuiltin) GetName() string { return "browser_use_close" }
 func (b *chromeConnectCloseBuiltin) GetDescription() string {
-	return "Disconnect the OpenAgent Chrome extension bridge. Only use this when the user explicitly asks to stop browser use; do not use it between related follow-up tasks. Chrome tabs are left open."
+	return "Disconnect the cobbs.ai Chrome extension bridge. Only use this when the user explicitly asks to stop browser use; do not use it between related follow-up tasks. Chrome tabs are left open."
 }
 
 func (b *chromeConnectCloseBuiltin) GetInputSchema() interface{} {
@@ -862,7 +862,7 @@ func (b *chromeConnectCloseBuiltin) GetInputSchema() interface{} {
 func (b *chromeConnectCloseBuiltin) Execute(ctx context.Context, arguments map[string]interface{}) (*protocol.CallToolResult, error) {
 	_ = globalBrowserUseChromeExtBridge.requestDisconnect(ctx)
 	globalBrowserUseChromeExtBridge.disconnect()
-	return browserToolText("OpenAgent Chrome extension bridge disconnected. Chrome tabs were left open."), nil
+	return browserToolText("cobbs.ai Chrome extension bridge disconnected. Chrome tabs were left open."), nil
 }
 
 func browserUseChromeExtTabsToBrowserUseTabs(tabs []browserUseChromeExtTab) []browserUseTab {

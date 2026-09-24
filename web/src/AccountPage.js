@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -166,7 +166,7 @@ class AccountPage extends React.Component {
               {this.renderField(
                 Setting.getLabel(i18next.t("general:Display name"), i18next.t("general:Display name - Tooltip")),
                 <Form.Item name="displayName" style={{margin: 0}}>
-                  <Input placeholder={i18next.t("account:Name shown in OpenAgent")} />
+                  <Input placeholder={i18next.t("account:Name shown in cobbs.ai")} />
                 </Form.Item>,
                 12
               )}

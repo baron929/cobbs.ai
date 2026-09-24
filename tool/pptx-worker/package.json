@@ -1,7 +1,9 @@
 {
-  "name": "@openagent/pptx-worker",
+  "name": "cobbs.ai",
   "version": "0.1.0",
   "private": true,
+  "author": "Baron Aram",
+  "homepage": "https://github.com/baron929/cobbs.ai.git",
   "type": "module",
   "scripts": {
     "build": "esbuild worker.mjs --bundle --platform=node --format=esm --target=node18 --outfile=worker.bundle.mjs",

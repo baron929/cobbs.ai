@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,9 +15,10 @@
 package object
 
 import (
-	"github.com/the-open-agent/openagent/mcp"
-	"github.com/the-open-agent/openagent/tool"
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/mcp"
+	"github.com/baron929/cobbs.ai/toolauth"
+	"github.com/baron929/cobbs.ai/tool"
+	"github.com/baron929/cobbs.ai/util"
 )
 
 func buildMergedBuiltinRegistry(store *Store, user, origin, lang string) *tool.ToolRegistry {
@@ -67,6 +68,15 @@ func buildMergedBuiltinRegistry(store *Store, user, origin, lang string) *tool.T
 // MergeMcpTools merges builtin tools (from the store's tool list) and the
 // web-search flag into an existing McpToolSet, creating one if needed.
 func MergeMcpTools(mcpToolSet *mcp.ToolSet, store *Store, webSearchEnabled bool, user, origin, lang string) *mcp.ToolSet {
+	newAuthorizer := func() *toolauth.PolicyAuthorizer {
+		a := toolauth.NewDefaultAuthorizer()
+		a.ApprovalLedger = NewApprovalLedger()
+		return a
+	}
+
+	if mcpToolSet != nil && mcpToolSet.Authorizer == nil {
+		mcpToolSet.Authorizer = newAuthorizer()
+	}
 	if webSearchEnabled {
 		if mcpToolSet == nil {
 			mcpToolSet = &mcp.ToolSet{}
@@ -84,6 +94,7 @@ func MergeMcpTools(mcpToolSet *mcp.ToolSet, store *Store, webSearchEnabled bool,
 		return &mcp.ToolSet{
 			Tools:        allTools,
 			BuiltinTools: reg,
+			Authorizer:   newAuthorizer(),
 		}
 	}
 

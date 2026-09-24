@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,8 +21,8 @@ import (
 	"strings"
 
 	"github.com/beego/beego/logs"
-	"github.com/the-open-agent/openagent/object"
-	"github.com/the-open-agent/openagent/txt"
+	"github.com/baron929/cobbs.ai/object"
+	"github.com/baron929/cobbs.ai/txt"
 )
 
 // UploadTaskDocument
@@ -101,7 +101,7 @@ func (c *ApiController) UploadTaskDocument() {
 	// Upload file to storage
 	// Replace '+' with '_' to avoid '+'-as-space ambiguity in CDN URLs
 	safeFileName := strings.ReplaceAll(fileName, "+", "_")
-	filePath := fmt.Sprintf("openagent/task-documents/%s/%s", userName, safeFileName)
+	filePath := fmt.Sprintf("cobbs.ai/task-documents/%s/%s", userName, safeFileName)
 	host := c.Ctx.Request.Host
 	origin := getOriginFromHost(host)
 	fileUrl, err := object.UploadFileToStorageSafe(filePath, fileBytes, origin, c.GetAcceptLanguage())

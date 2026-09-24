@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,8 +17,14 @@
 
 package audio
 
-import "testing"
+import (
+	"os/exec"
+	"testing"
+)
 
 func TestExtractAudio(t *testing.T) {
+	if _, err := exec.LookPath("ffmpeg"); err != nil {
+		t.Skipf("ffmpeg is not installed in this environment: %v", err)
+	}
 	extractAudioExample()
 }

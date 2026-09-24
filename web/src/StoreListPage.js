@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -170,7 +170,7 @@ class StoreListPage extends BaseListPage {
       frequency: 10000,
       limitMinutes: 10,
       welcome: "Hello",
-      welcomeTitle: i18next.t("chat:Hello, I'm OpenAgent AI Assistant"),
+      welcomeTitle: i18next.t("chat:Hello, I'm cobbs.ai AI Assistant"),
       welcomeText: i18next.t("chat:I'm here to help answer your questions"),
       figureEnabled: true,
       figureUrl: "",

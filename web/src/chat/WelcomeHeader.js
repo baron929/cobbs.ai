@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ const WelcomeHeader = ({store}) => {
       <Welcome
         variant="borderless"
         icon={avatar}
-        title={(store === undefined) ? null : store.welcomeTitle || i18next.t("chat:Hello, I'm OpenAgent AI Assistant")}
+        title={(store === undefined) ? null : store.welcomeTitle || i18next.t("chat:Hello, I'm cobbs.ai AI Assistant")}
         description={(store === undefined) ? null : store.welcomeText || i18next.t("chat:I'm here to help answer your questions")}
         style={{textAlign: "center"}}
         styles={{

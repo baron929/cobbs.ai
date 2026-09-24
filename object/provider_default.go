@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,16 +15,17 @@
 package object
 
 import (
+	"errors"
 	"fmt"
 
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/model"
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/model"
 )
 
 // GetProviderByProviderKey retrieves a provider using the Provider key
 func GetProviderByProviderKey(providerKey string, lang string) (*Provider, error) {
 	if providerKey == "" {
-		return nil, fmt.Errorf(i18n.Translate(lang, "object:empty provider key"))
+		return nil, errors.New(i18n.Translate(lang, "object:empty provider key"))
 	}
 
 	provider := &Provider{}
@@ -58,7 +59,7 @@ func GetModelProviderByProviderKey(providerKey string, lang string) (model.Model
 	}
 
 	if provider == nil {
-		return nil, fmt.Errorf(i18n.Translate(lang, "object:The provider is not found"))
+		return nil, errors.New(i18n.Translate(lang, "object:The provider is not found"))
 	}
 
 	// Ensure it's a model provider

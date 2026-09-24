@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,11 +18,12 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
 
-	"github.com/the-open-agent/openagent/i18n"
+	"github.com/baron929/cobbs.ai/i18n"
 )
 
 type JinaEmbeddingProvider struct {
@@ -59,7 +60,7 @@ func (p *JinaEmbeddingProvider) calculatePrice(res *EmbeddingResult) error {
 
 func (p *JinaEmbeddingProvider) QueryVector(text string, ctx context.Context, lang string) ([]float32, *EmbeddingResult, error) {
 	if text == "" {
-		return nil, nil, fmt.Errorf(i18n.Translate(lang, "embedding:text cannot be empty"))
+		return nil, nil, errors.New(i18n.Translate(lang, "embedding:text cannot be empty"))
 	}
 
 	url := "https://api.jina.ai/v1/embeddings"
@@ -67,7 +68,7 @@ func (p *JinaEmbeddingProvider) QueryVector(text string, ctx context.Context, la
 	model := p.subType
 
 	if text == "" {
-		return nil, nil, fmt.Errorf(i18n.Translate(lang, "embedding:text can not be empty."))
+		return nil, nil, errors.New(i18n.Translate(lang, "embedding:text can not be empty."))
 	}
 
 	payload := map[string]interface{}{
@@ -122,7 +123,7 @@ func (p *JinaEmbeddingProvider) QueryVector(text string, ctx context.Context, la
 	}
 
 	if len(apiResponse.Data) == 0 {
-		return nil, nil, fmt.Errorf(i18n.Translate(lang, "embedding:no embeddings found in the response"))
+		return nil, nil, errors.New(i18n.Translate(lang, "embedding:no embeddings found in the response"))
 	}
 	embedding := apiResponse.Data[0].Embedding
 

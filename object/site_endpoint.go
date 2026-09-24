@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ func isPublicHost(rawHost string) bool {
 	ip := net.ParseIP(host)
 	if ip == nil {
 		// A non-empty hostname that isn't an IP literal is assumed public
-		// (e.g. try.openagentai.org).
+		// (e.g. try.cobbs.aiai.org).
 		return true
 	}
 	return !ip.IsLoopback() && !ip.IsPrivate() && !ip.IsLinkLocalUnicast() && !ip.IsUnspecified()

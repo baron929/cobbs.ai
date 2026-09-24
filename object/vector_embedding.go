@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,13 +24,13 @@ import (
 
 	"github.com/beego/beego/logs"
 	"github.com/cenkalti/backoff/v4"
-	"github.com/the-open-agent/openagent/embedding"
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/model"
-	"github.com/the-open-agent/openagent/split"
-	"github.com/the-open-agent/openagent/storage"
-	"github.com/the-open-agent/openagent/txt"
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/embedding"
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/model"
+	"github.com/baron929/cobbs.ai/split"
+	"github.com/baron929/cobbs.ai/storage"
+	"github.com/baron929/cobbs.ai/txt"
+	"github.com/baron929/cobbs.ai/util"
 )
 
 func filterTextFiles(files []*storage.Object) []*storage.Object {

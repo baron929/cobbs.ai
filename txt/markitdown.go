@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 package txt
 
 import (
+	"errors"
 	"bytes"
 	"fmt"
 	"io"
@@ -22,7 +23,7 @@ import (
 	"os/exec"
 	"unicode/utf8"
 
-	"github.com/the-open-agent/openagent/i18n"
+	"github.com/baron929/cobbs.ai/i18n"
 	"golang.org/x/text/encoding/simplifiedchinese"
 	"golang.org/x/text/transform"
 )
@@ -49,7 +50,7 @@ func gbkToUtf8(gbkData []byte) (string, error) {
 
 func GetTextFromMarkitdown(path string, lang string) (string, error) {
 	if !markitdownExists {
-		return "", fmt.Errorf(i18n.Translate(lang, "txt:GetTextFromMarkitdown() error, markitdown does not exist"))
+		return "", errors.New(i18n.Translate(lang, "txt:GetTextFromMarkitdown() error, markitdown does not exist"))
 	}
 
 	// Open the input file

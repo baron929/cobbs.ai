@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 
 package tool
 
-import "github.com/the-open-agent/openagent/tool/builtin_tool"
+import "github.com/baron929/cobbs.ai/tool/builtin_tool"
 
 // Type aliases so callers can use tool.BuiltinTool and tool.ToolRegistry
 // without importing the sub-package directly.

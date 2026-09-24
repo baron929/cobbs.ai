@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,8 +22,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/the-open-agent/openagent/migration"
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/migration"
+	"github.com/baron929/cobbs.ai/util"
 	"xorm.io/core"
 )
 
@@ -279,7 +279,7 @@ func upsertMigratedRow(action string, pk core.PK, row interface{}, insert func()
 	return insert()
 }
 
-// buildMigratedStore maps a migration.BundleAgent onto a Store, keeping OpenAgent's
+// buildMigratedStore maps a migration.BundleAgent onto a Store, keeping cobbs.ai's
 // defaults for everything the source has no concept of.
 func buildMigratedStore(owner string, name string, now string, agent *migration.BundleAgent, renames map[string]map[string]string) *Store {
 	skills := []string{}

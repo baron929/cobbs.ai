@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 package model
 
 import (
+	"errors"
 	"context"
 	"encoding/base64"
 	"encoding/json"
@@ -30,8 +31,8 @@ import (
 	"github.com/openai/openai-go/v2/responses"
 	"github.com/openai/openai-go/v2/shared"
 	"github.com/pkoukk/tiktoken-go"
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/proxy"
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/proxy"
 )
 
 type OpenAiModelProvider struct {
@@ -339,7 +340,7 @@ func (p *OpenAiModelProvider) QueryText(question string, writer io.Writer, histo
 	ctx := context.Background()
 	flusher, ok := writer.(http.Flusher)
 	if !ok {
-		return nil, fmt.Errorf(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
+		return nil, errors.New(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
 	}
 
 	model := p.subType
@@ -373,7 +374,7 @@ func (p *OpenAiModelProvider) QueryText(question string, writer io.Writer, histo
 			messages = openaiRawMessagesToMessages(rawMessages)
 		}
 
-		if strings.HasPrefix(question, "$OpenAgentDryRun$") {
+		if strings.HasPrefix(question, "$cobbs.aiDryRun$") {
 			promptTokenCount, err := openaiNumTokensFromMessages(messages, model)
 			if err != nil {
 				return nil, err
@@ -389,7 +390,7 @@ func (p *OpenAiModelProvider) QueryText(question string, writer io.Writer, histo
 			if getContextLength(model) > modelResult.TotalTokenCount {
 				return modelResult, nil
 			} else {
-				return nil, fmt.Errorf(i18n.Translate(lang, "model:exceed max tokens"))
+				return nil, errors.New(i18n.Translate(lang, "model:exceed max tokens"))
 			}
 		}
 
@@ -520,7 +521,7 @@ func (p *OpenAiModelProvider) QueryText(question string, writer io.Writer, histo
 		}
 		return modelResult, nil
 	} else if modelType == "ImageGeneration" {
-		if strings.HasPrefix(question, "$OpenAgentDryRun$") {
+		if strings.HasPrefix(question, "$cobbs.aiDryRun$") {
 			return modelResult, nil
 		}
 		quality := getGenerateImageQuality(model)

@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,10 +26,13 @@ import (
 )
 
 func TestParsePdfIntoTxt(t *testing.T) {
+	if _, err := os.Stat(pdfDirPath); err != nil {
+		t.Skipf("PDF fixture directory is not available in this environment: %v", err)
+	}
+
 	err := filepath.Walk(pdfDirPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			panic(err)
-			return nil
 		}
 
 		if !info.IsDir() && strings.HasSuffix(strings.ToLower(info.Name()), ".pdf") {

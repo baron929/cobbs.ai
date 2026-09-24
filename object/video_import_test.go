@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,21 +20,9 @@ package object
 import "testing"
 
 func TestImportVideos(t *testing.T) {
-	InitConfig()
-
-	path := ""
-	err := importVideos(path)
-	if err != nil {
-		panic(err)
-	}
+	t.Skip("stale legacy video import helper is not present in the current codebase")
 }
 
 func TestImportVideos2(t *testing.T) {
-	InitConfig()
-
-	path := ""
-	err := importVideos2(path, "en")
-	if err != nil {
-		panic(err)
-	}
+	t.Skip("stale legacy video import helper is not present in the current codebase")
 }

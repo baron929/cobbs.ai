@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,14 +17,15 @@ package object
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"strings"
 
 	"github.com/ThinkInAIXYZ/go-mcp/protocol"
-	"github.com/the-open-agent/openagent/auth"
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/tool"
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/auth"
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/tool"
+	"github.com/baron929/cobbs.ai/util"
 	"xorm.io/core"
 )
 
@@ -224,7 +225,7 @@ func testToolWithLoader(t *Tool, lang string, loadTool func(owner string, name s
 		return "", fmt.Errorf(i18n.Translate(lang, "object:invalid tool test JSON in testContent: %v"), err)
 	}
 	if strings.TrimSpace(payload.Tool) == "" {
-		return "", fmt.Errorf(i18n.Translate(lang, "object:tool test JSON must include non-empty \"tool\""))
+		return "", errors.New(i18n.Translate(lang, "object:tool test JSON must include non-empty \"tool\""))
 	}
 	if payload.Arguments == nil {
 		payload.Arguments = map[string]interface{}{}

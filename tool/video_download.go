@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ import (
 	"time"
 
 	"github.com/ThinkInAIXYZ/go-mcp/protocol"
-	"github.com/the-open-agent/openagent/proxy"
+	"github.com/baron929/cobbs.ai/proxy"
 )
 
 // VideoDownloadTool is the Tool Type "video_download".
@@ -108,7 +108,7 @@ func ensureManagedYtDlp() (string, error) {
 		return "", fmt.Errorf("failed to locate user cache directory for yt-dlp install")
 	}
 
-	installDir := filepath.Join(cacheDir, "openagent", "yt-dlp")
+	installDir := filepath.Join(cacheDir, "cobbs.ai", "yt-dlp")
 	executableName := "yt-dlp"
 	if runtime.GOOS == "windows" {
 		executableName = "yt-dlp.exe"

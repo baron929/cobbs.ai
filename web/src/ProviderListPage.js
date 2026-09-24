@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -79,7 +79,7 @@ class ProviderListPage extends BaseListPage {
       category: "Storage",
       type: "Local File System",
       subType: "",
-      clientId: "C:/storage_openagent",
+      clientId: "C:/storage_cobbs.ai",
       providerUrl: "",
       state: "Active",
       isRemote: false,

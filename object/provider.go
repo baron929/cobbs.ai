@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,15 +18,15 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/the-open-agent/openagent/auth"
-	"github.com/the-open-agent/openagent/embedding"
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/model"
-	"github.com/the-open-agent/openagent/storage"
-	"github.com/the-open-agent/openagent/stt"
-	"github.com/the-open-agent/openagent/tts"
-	"github.com/the-open-agent/openagent/util"
-	"github.com/the-open-agent/openagent/video"
+	"github.com/baron929/cobbs.ai/auth"
+	"github.com/baron929/cobbs.ai/embedding"
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/model"
+	"github.com/baron929/cobbs.ai/storage"
+	"github.com/baron929/cobbs.ai/stt"
+	"github.com/baron929/cobbs.ai/tts"
+	"github.com/baron929/cobbs.ai/util"
+	"github.com/baron929/cobbs.ai/video"
 	"xorm.io/core"
 	"xorm.io/xorm"
 )

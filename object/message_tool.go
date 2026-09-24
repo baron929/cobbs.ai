@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,13 +17,20 @@ package object
 import (
 	"strings"
 
-	"github.com/the-open-agent/openagent/mcp"
-	"github.com/the-open-agent/openagent/model"
-	"github.com/the-open-agent/openagent/tool"
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/mcp"
+	"github.com/baron929/cobbs.ai/model"
+	"github.com/baron929/cobbs.ai/toolauth"
+	"github.com/baron929/cobbs.ai/tool"
+	"github.com/baron929/cobbs.ai/util"
 )
 
 func buildToolSetForBuiltinTool(toolName, user, origin, lang string) (*mcp.ToolSet, error) {
+	newAuthorizer := func() *toolauth.PolicyAuthorizer {
+		a := toolauth.NewDefaultAuthorizer()
+		a.ApprovalLedger = NewApprovalLedger()
+		return a
+	}
+
 	if toolName == "" {
 		return nil, nil
 	}
@@ -57,6 +64,7 @@ func buildToolSetForBuiltinTool(toolName, user, origin, lang string) (*mcp.ToolS
 	return &mcp.ToolSet{
 		Tools:        allTools,
 		BuiltinTools: reg,
+		Authorizer:   newAuthorizer(),
 	}, nil
 }
 
@@ -87,6 +95,9 @@ func GetAnswerWithTool(modelProviderName, toolName, question, user, origin, lang
 			McpToolSet:   mcpToolSet,
 			ToolMessages: messages,
 			IsVision:     modelProvider != nil && model.IsVisionModel(modelProvider.SubType),
+			Subject:      user,
+			Owner:        "admin",
+			Store:        toolName,
 		}
 		modelResult, err = model.QueryTextWithTools(modelProviderObj, question, &writer, history, prompt, knowledge, toolSession, lang)
 	} else {

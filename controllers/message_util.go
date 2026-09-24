@@ -1,4 +1,4 @@
-// Copyright 2023 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2023 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,16 +17,17 @@ package controllers
 import (
 	"encoding/base64"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
 	"regexp"
 	"strings"
 
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/object"
+	"github.com/baron929/cobbs.ai/util"
 	"github.com/beego/beego"
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/object"
-	"github.com/the-open-agent/openagent/util"
 )
 
 func writeMessageErrorStream(responseWriter http.ResponseWriter, lang string, message *object.Message, errorText string) error {
@@ -152,14 +153,14 @@ func RefineMessageImage(message *object.Message, lang string) error {
 	imgRegex := regexp.MustCompile(`<img[^>]*src="([^"]*)"[^>]*>`)
 	srcMatches := imgRegex.FindStringSubmatch(message.Text)
 	if len(srcMatches) <= 1 {
-		return fmt.Errorf(i18n.Translate(lang, "no image url found"))
+		return errors.New(i18n.Translate(lang, "no image url found"))
 	}
 	imageUrl := srcMatches[1]
 
 	extRegex := regexp.MustCompile(`\.([a-zA-Z]+)\?`)
 	extMatches := extRegex.FindStringSubmatch(imageUrl)
 	if len(extMatches) <= 1 {
-		return fmt.Errorf(i18n.Translate(lang, "no extension found"))
+		return errors.New(i18n.Translate(lang, "no extension found"))
 	}
 	ext := extMatches[1]
 

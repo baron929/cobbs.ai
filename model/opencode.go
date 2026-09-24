@@ -1,4 +1,4 @@
-// Copyright 2026 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2026 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 package model
 
 import (
+	"errors"
 	"bufio"
 	"bytes"
 	"context"
@@ -25,8 +26,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/the-open-agent/openagent/i18n"
-	"github.com/the-open-agent/openagent/proxy"
+	"github.com/baron929/cobbs.ai/i18n"
+	"github.com/baron929/cobbs.ai/proxy"
 )
 
 type OpenCodeProvider struct {
@@ -67,17 +68,17 @@ URL: https://opencode.ai`
 func (p *OpenCodeProvider) QueryText(question string, writer io.Writer, history []*RawMessage, prompt string, knowledgeMessages []*RawMessage, toolSession *ToolSession, lang string) (*ModelResult, error) {
 	flusher, ok := writer.(http.Flusher)
 	if !ok {
-		return nil, fmt.Errorf(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
+		return nil, errors.New(i18n.Translate(lang, "model:writer does not implement http.Flusher"))
 	}
 
-	if strings.HasPrefix(question, "$OpenAgentDryRun$") {
+	if strings.HasPrefix(question, "$cobbs.aiDryRun$") {
 		return &ModelResult{}, nil
 	}
 
 	// NOTE: OpenCode is a self-contained agent that executes tools internally
 	// on the server side. It does not expose a "function calling" API where
 	// the LLM returns tool calls for the client to execute. This means
-	// OpenAgent's MCP tools cannot be mapped to OpenCode's execution model.
+	// cobbs.ai's MCP tools cannot be mapped to OpenCode's execution model.
 	// When toolSession is non-nil, tools are silently unavailable and the
 	// LLM will produce a text-only response.
 	_ = toolSession

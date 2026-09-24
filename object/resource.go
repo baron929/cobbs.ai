@@ -1,4 +1,4 @@
-// Copyright 2025 The OpenAgent Authors. All Rights Reserved.
+// Copyright 2025 The cobbs.ai Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ import (
 	"bytes"
 	"fmt"
 
-	"github.com/the-open-agent/openagent/util"
+	"github.com/baron929/cobbs.ai/util"
 	"xorm.io/core"
 )
 
@@ -191,7 +191,7 @@ func NewResourceFromUpload(owner, user, category, fileName, fileType, fileFormat
 }
 
 // UploadFileToStorageSafe uploads fileBytes to the default storage provider and returns a public URL.
-// objectKey is the storage path used for PutObject (e.g. "openagent/resources/avatar/user/file.png");
+// objectKey is the storage path used for PutObject (e.g. "cobbs.ai/resources/avatar/user/file.png");
 // callers should store it as StorageName for later deletion via DeleteResourceFile.
 func UploadFileToStorageSafe(objectKey string, fileBytes []byte, origin string, lang string) (fileUrl string, err error) {
 	provider, err := GetDefaultStorageProvider()

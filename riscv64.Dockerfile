@@ -8,15 +8,22 @@ ENV NODE_OPTIONS="--max-old-space-size=4144"
 RUN yarn install --frozen-lockfile --network-timeout 1000000 && yarn run build
 
 FROM --platform=$BUILDPLATFORM riscv64/golang:1.23.11-alpine3.21 AS BACK
-WORKDIR /go/src/openagent
+WORKDIR /go/src/cobbs.ai
 COPY . .
 RUN chmod +x ./build.sh
 RUN sh ./build.sh
 
 
 FROM riscv64/alpine:latest AS STANDARD
-LABEL MAINTAINER="https://openagentai.org/"
-ARG USER=openagent
+ARG VERSION
+ARG COMMIT
+ARG BUILD_DATE
+LABEL MAINTAINER="https://github.com/baron929/cobbs.ai"
+LABEL org.opencontainers.image.source="https://github.com/baron929/cobbs.ai"
+LABEL org.opencontainers.image.version="${VERSION}"
+LABEL org.opencontainers.image.revision="${COMMIT}"
+LABEL org.opencontainers.image.created="${BUILD_DATE}"
+ARG USER=cobbs
 ARG TARGETOS
 ARG TARGETARCH
 ENV BUILDX_ARCH="${TARGETOS:-linux}_${TARGETARCH:-amd64}"
@@ -34,9 +41,9 @@ RUN adduser -D $USER -u 1000 \
 
 USER 1000
 WORKDIR /
-COPY --from=BACK --chown=$USER:$USER /go/src/openagent/server_${BUILDX_ARCH} ./server
-COPY --from=BACK --chown=$USER:$USER /go/src/openagent/data ./data
-COPY --from=BACK --chown=$USER:$USER /go/src/openagent/conf/app.conf ./conf/app.conf
+COPY --from=BACK --chown=$USER:$USER /go/src/cobbs.ai/server_${BUILDX_ARCH} ./server
+COPY --from=BACK --chown=$USER:$USER /go/src/cobbs.ai/data ./data
+COPY --from=BACK --chown=$USER:$USER /go/src/cobbs.ai/conf/app.conf ./conf/app.conf
 COPY --from=FRONT --chown=$USER:$USER /web/build ./web/build
 
 ENTRYPOINT ["/server"]
@@ -49,7 +56,14 @@ RUN apt update \
     && rm -rf /var/lib/apt/lists/*
 
 FROM db AS ALLINONE
-LABEL MAINTAINER="https://openagentai.org/"
+ARG VERSION
+ARG COMMIT
+ARG BUILD_DATE
+LABEL MAINTAINER="https://github.com/baron929/cobbs.ai"
+LABEL org.opencontainers.image.source="https://github.com/baron929/cobbs.ai"
+LABEL org.opencontainers.image.version="${VERSION}"
+LABEL org.opencontainers.image.revision="${COMMIT}"
+LABEL org.opencontainers.image.created="${BUILD_DATE}"
 ARG TARGETOS
 ARG TARGETARCH
 ENV BUILDX_ARCH="${TARGETOS:-linux}_${TARGETARCH:-riscv64}"
@@ -58,10 +72,10 @@ RUN apt update
 RUN apt install -y ca-certificates && update-ca-certificates
 
 WORKDIR /
-COPY --from=BACK /go/src/openagent/server_${BUILDX_ARCH} ./server
-COPY --from=BACK /go/src/openagent/data ./data
-COPY --from=BACK /go/src/openagent/docker-entrypoint.sh /docker-entrypoint.sh
-COPY --from=BACK /go/src/openagent/conf/app.conf ./conf/app.conf
+COPY --from=BACK /go/src/cobbs.ai/server_${BUILDX_ARCH} ./server
+COPY --from=BACK /go/src/cobbs.ai/data ./data
+COPY --from=BACK /go/src/cobbs.ai/docker-entrypoint.sh /docker-entrypoint.sh
+COPY --from=BACK /go/src/cobbs.ai/conf/app.conf ./conf/app.conf
 COPY --from=FRONT /web/build ./web/build
 ENTRYPOINT ["/bin/bash"]
 CMD ["/docker-entrypoint.sh"]
