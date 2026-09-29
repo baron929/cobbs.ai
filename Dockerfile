@@ -35,7 +35,6 @@ ARG TARGETOS
 ARG TARGETARCH
 ENV BUILDX_ARCH="${TARGETOS:-linux}_${TARGETARCH:-amd64}"
 
-RUN sed -i 's/https/http/' /etc/apk/repositories
 RUN apk add curl
 RUN apk add nodejs
 RUN apk add ca-certificates && update-ca-certificates

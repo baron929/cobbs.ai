@@ -29,7 +29,7 @@ services:
     image: mysql:8.0.25
     platform: linux/amd64
     ports:
-      - "3306:3306"
+      - "127.0.0.1:3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD is required}"
     volumes:

@@ -20,7 +20,6 @@ import moment from "moment";
 import * as Setting from "./Setting";
 import * as TreeFileBackend from "./backend/TreeFileBackend";
 import DocViewer, {DocViewerRenderers} from "@cyntler/react-doc-viewer";
-import FileViewer from "react-file-viewer";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkFrontmatter from "remark-frontmatter";
@@ -767,7 +766,7 @@ class FileTree extends React.Component {
   }
 
   isExtForFileViewer(ext) {
-    return ["png", "jpg", "jpeg", "gif", "bmp", "pdf", "xlsx", "docx", "mp4", "webm", "mp3"].includes(ext);
+    return ["gif", "mp4", "webm", "mp3"].includes(ext);
   }
 
   isExtForMarkdownViewer(ext) {
@@ -838,20 +837,23 @@ class FileTree extends React.Component {
           }}
         />
       );
-    } else if (this.isExtForFileViewer(ext)) {
-      // https://github.com/plangrid/react-file-viewer
+    } else if (ext === "gif") {
       return (
-        <a target="_blank" rel="noreferrer" href={url}>
-          <FileViewer
-            key={path}
-            fileType={ext}
-            filePath={url}
-            errorComponent={<div>error</div>}
-            onError={(error) => {
-              Setting.showMessage("error", error);
-            }}
-          />
-        </a>
+        <div style={{height: this.getEditorHeightCss(), display: "flex", justifyContent: "center", alignItems: "center", overflow: "auto"}}>
+          <img src={url} alt={filename} style={{maxWidth: "100%", maxHeight: "100%", objectFit: "contain"}} />
+        </div>
+      );
+    } else if (ext === "mp4" || ext === "webm") {
+      return (
+        <div style={{height: this.getEditorHeightCss(), display: "flex", justifyContent: "center", alignItems: "center"}}>
+          <video src={url} controls style={{maxWidth: "100%", maxHeight: "100%"}} />
+        </div>
+      );
+    } else if (ext === "mp3") {
+      return (
+        <div style={{height: this.getEditorHeightCss(), display: "flex", justifyContent: "center", alignItems: "center"}}>
+          <audio src={url} controls />
+        </div>
       );
     } else if (this.isExtForMarkdownViewer(ext)) {
       // https://github.com/remarkjs/react-markdown

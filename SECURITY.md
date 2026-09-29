@@ -27,6 +27,12 @@ The approval endpoint derives the grant owner and subject from the authenticated
 - The application bearer digest now uses SHA-256 instead of the former MD5-derived value; clients using the legacy derived token must migrate to the new header token.
 - Prometheus metric names use underscore-separated names because dots are invalid in Prometheus identifiers; dashboards using the old names must be updated.
 
+## Frontend Dependency Audit (2026-09-29)
+
+`cd web && yarn audit` reported 231 high, 115 moderate, and 32 low advisory instances, with zero critical instances. These counts include repeated dependency paths and do not represent unique vulnerabilities. The critical transitive findings in `shell-quote`, `websocket-driver`, `lodash`, and `underscore` were resolved with Yarn resolutions. The legacy `react-file-viewer` package was removed; GIF, audio, and video previews use native browser elements instead. Tiptap and `lodash-es` were updated to versions listed as patched by the registry.
+
+Known remaining risk: the `xlsx` dependency is used by spreadsheet export and remains affected by high-severity advisories for which the npm registry reports no patched version. The CRA/webpack/Jest dependency tree also contains numerous advisories; assess exposure for the actual build and deployment path before release. Do not treat a zero-critical count as evidence that the frontend dependency tree is fully secure.
+
 ## Verification Status (2026-09-24)
 
 The following repository checks currently pass:
